@@ -1,0 +1,138 @@
+CREATE TABLE amministratore
+(
+  id       INT AUTO_INCREMENT
+    PRIMARY KEY,
+  username VARCHAR(35) NOT NULL,
+  nome     VARCHAR(35) NOT NULL,
+  cognome  VARCHAR(35) NOT NULL,
+  password VARCHAR(35) NOT NULL,
+  CONSTRAINT amministratore_username_uindex
+  UNIQUE (username)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE corso
+(
+  id     INT AUTO_INCREMENT
+    PRIMARY KEY,
+  titolo VARCHAR(35) NOT NULL,
+  CONSTRAINT corso_titolo_uindex
+  UNIQUE (titolo)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE insegnamneto
+(
+  id         INT AUTO_INCREMENT
+    PRIMARY KEY,
+  corso      VARCHAR(35) NOT NULL,
+  professore VARCHAR(35) NOT NULL,
+  CONSTRAINT insegnamneto_corso_titolo_fk
+  FOREIGN KEY (corso) REFERENCES corso (titolo)
+)
+  ENGINE = InnoDB;
+
+CREATE INDEX insegnamneto_corso_titolo_fk
+  ON insegnamneto (corso);
+
+CREATE INDEX insegnamneto_professore_username_fk
+  ON insegnamneto (professore);
+
+CREATE TABLE prenotazione
+(
+  id         INT AUTO_INCREMENT
+    PRIMARY KEY,
+  n_slot     SET ('1', '2', '3', '4') NOT NULL,
+  data       DATE                     NOT NULL,
+  corso      VARCHAR(35)              NOT NULL,
+  professore VARCHAR(35)              NOT NULL,
+  studente   VARCHAR(35)              NOT NULL,
+  CONSTRAINT prenotazione_corso_titolo_fk
+  FOREIGN KEY (corso) REFERENCES corso (titolo)
+)
+  ENGINE = InnoDB;
+
+CREATE INDEX prenotazione_corso_titolo_fk
+  ON prenotazione (corso);
+
+CREATE INDEX prenotazione_professore_username_fk
+  ON prenotazione (professore);
+
+CREATE INDEX prenotazione_studente_username_fk
+  ON prenotazione (studente);
+
+CREATE TABLE professore
+(
+  id       INT AUTO_INCREMENT
+    PRIMARY KEY,
+  username VARCHAR(35) NOT NULL,
+  nome     VARCHAR(35) NOT NULL,
+  cognome  VARCHAR(35) NOT NULL,
+  password VARCHAR(35) NOT NULL,
+  CONSTRAINT teacher_username_uindex
+  UNIQUE (username)
+)
+  ENGINE = InnoDB;
+
+ALTER TABLE insegnamneto
+  ADD CONSTRAINT insegnamneto_professore_username_fk
+FOREIGN KEY (professore) REFERENCES professore (username);
+
+ALTER TABLE prenotazione
+  ADD CONSTRAINT prenotazione_professore_username_fk
+FOREIGN KEY (professore) REFERENCES professore (username);
+
+CREATE TABLE studente
+(
+  id       INT AUTO_INCREMENT
+    PRIMARY KEY,
+  username VARCHAR(35) NOT NULL,
+  nome     VARCHAR(35) NOT NULL,
+  cognome  VARCHAR(35) NOT NULL,
+  password VARCHAR(35) NOT NULL,
+  CONSTRAINT username
+  UNIQUE (username)
+)
+  ENGINE = InnoDB;
+
+ALTER TABLE prenotazione
+  ADD CONSTRAINT prenotazione_studente_username_fk
+FOREIGN KEY (studente) REFERENCES studente (username);
+
+
+INSERT INTO professore (username, nome, cognome, password)
+VALUES ('mariolindo', 'mario', 'lindo', 'lapassword'),
+  ('gesualdo', 'gesu', 'alto', 'pizzabianca'),
+  ('ippolito', 'ippo', 'meneghetto', 'menesbatto');
+
+INSERT INTO studente (username, nome, cognome, password)
+VALUES ('gintonik', 'gian maria', 'franzino', 'qwertyuiop'),
+  ('salonicco', 'salvatore', 'arrangiato', 'weicosaguardiii'),
+  ('pelliccio', 'giovanni', 'peluria', 'supersicurezzatop');
+
+INSERT INTO corso (titolo)
+VALUES ('matematica'), ('italiano'), ('storia'), ('scienza'), ('informazione'), ('scienze cognitive'), ('ium'),
+  ('tweb'), ('prog');
+
+INSERT INTO insegnamneto (corso, professore)
+VALUES ('prog', 'mariolindo'),
+  ('ium', 'mariolindo'),
+  ('tweb', 'mariolindo'),
+  ('matematica', 'mariolindo'),
+  ('prog', 'gesualdo'),
+  ('ium', 'gesualdo'),
+  ('tweb', 'gesualdo'),
+  ('matematica', 'gesualdo'),
+  ('italiano', 'ippolito'),
+  ('storia', 'ippolito'),
+  ('scienza', 'ippolito'),
+  ('informazione', 'ippolito');
+
+
+INSERT INTO prenotazione (n_slot, data, corso, professore, studente) VALUES
+  ('1', CURRENT_DATE, 'prog', 'ippolito', 'pelliccio');
+
+  //TODO manca il contraint su prenotazione:  allo stato attuale uno studente puo prenotare una lezione con qualunque professore anche se questo non insegna la materia alla quale lo studente e' interessato
+  ESEMPIO:  POSSO PRENOTARE UNA LEZIONE DI IUM COL MITICO BOTTA
+
+  //TODO allo stato attuale uno studente puo prenotare due o piu lezioni nello stesso giorno anche nello stesso slot orario
