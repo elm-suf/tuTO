@@ -21,7 +21,7 @@ public class CorsoDAO {
         }
     }
 
-    public static void remove(String titolo) throws SQLException {
+    public static void delete(String titolo) throws SQLException {
         String remove = "DELETE FROM corso WHERE titolo = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
