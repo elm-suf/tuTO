@@ -1,8 +1,8 @@
 package dao;
 
+import connection.DBConnection;
 import pojo.Corso;
 import pojo.Professore;
-import util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoProfessore {
+public class DocenteDAO {
 
-    public DaoProfessore() {
+    public DocenteDAO() {
     }
 
     public void insert(Professore user) throws SQLException {
@@ -71,12 +71,11 @@ public class DaoProfessore {
         }
     }
 
-    public void addInsegnamneto(Professore user, Corso corso) throws SQLException {
+    public void addInsegnamento(Professore user, Corso corso) throws SQLException {
 
-        String sql = "INSERT INTO insegnamneto(corso, professore) VALUE (?,?);";
+        String sql = "INSERT INTO insegnamento(corso, professore) VALUE (?,?);";
         Connection conn = DBConnection.getInstance();
         PreparedStatement st = conn.prepareStatement(sql);
-
         try {
             st.setString(1, corso.getTitolo());
             st.setString(2, user.getUsername());
@@ -89,8 +88,8 @@ public class DaoProfessore {
     }
 
     public void deleteInsegnamento(Professore user, Corso corso) throws SQLException {
-        user.removeInsegnamneto(corso);
-        String sql = "DELETE FROM insegnamneto \n" +
+        user.removeInsegnamento(corso);
+        String sql = "DELETE FROM insegnamento \n" +
                 "WHERE corso = ? AND professore = ?;";
         Connection conn = DBConnection.getInstance();
         PreparedStatement st = conn.prepareStatement(sql);
@@ -114,7 +113,7 @@ public class DaoProfessore {
      * @throws SQLException
      */
     public List<Professore> getAllInsegnaMateria(String corso) throws SQLException {
-        String sql = "SELECT p.username, nome, cognome, password FROM professore AS p, insegnamneto AS i WHERE  i.professore = p.username AND i.corso = ?";
+        String sql = "SELECT p.username, nome, cognome, password FROM professore AS p, insegnamento AS i WHERE  i.professore = p.username AND i.corso = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         List<Professore> list = new ArrayList<>();
@@ -139,14 +138,14 @@ public class DaoProfessore {
 
     public static void main(String[] args) throws SQLException {
 
-        DaoProfessore dao = new DaoProfessore();
+        DocenteDAO dao = new DocenteDAO();
         System.out.println(dao.getAllInsegnaMateria("prog"));
 
 //        Professore prof = new Professore("Trinciao", "Paolo", "Rossi", "password");
 //        Corso corso = new Corso("italiano");
 //        Corso corso1 = new Corso("prog");
-//        prof.addInsegnamneto(corso);
-//        prof.addInsegnamneto(corso1);
+//        prof.addInsegnamento(corso);
+//        prof.addInsegnamento(corso1);
 //
 //        try {
 //            dao.insert(prof);
@@ -155,7 +154,7 @@ public class DaoProfessore {
 //        }
 
 //        try {
-//            dao.addInsegnamneto(prof,corso);
+//            dao.addInsegnamento(prof,corso);
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
