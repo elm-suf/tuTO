@@ -53,6 +53,8 @@ id int auto_increment
 primary key,
 corso varchar(35) not null,
 professore varchar(35) not null,
+CONSTRAINT insegnamneto_corso_professore_pk
+UNIQUE (corso, professore),
 constraint insegnamneto_corso_titolo_fk
 foreign key (corso) references corso (titolo)
 )
