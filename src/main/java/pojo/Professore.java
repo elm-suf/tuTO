@@ -1,5 +1,10 @@
 package pojo;
 
+import javafx.scene.control.ListCell;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Professore {
 
     private int id;
@@ -7,17 +12,22 @@ public class Professore {
     private String nome;
     private String cognome;
     private String password;
+    private List<Corso> insegnamento;
 
 
     public Professore(){}
 
     public Professore(String username, String nome, String cognome, String password) {
+        insegnamento = new ArrayList<>();
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
         this.password = password;
     }
 
+    public void addInsegnamneto(Corso corso){
+        insegnamento.add(corso);
+    }
     public int getId() {
         return id;
     }
