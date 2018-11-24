@@ -6,11 +6,15 @@ import util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DaoProfessore {
 
-    public DaoProfessore() {}
+    public DaoProfessore() {
+    }
 
     public void insert(Professore user) throws SQLException {
         String sqlInsertion = "INSERT INTO professore(username, nome, cognome, password) VALUE (?,?,?,?)";
@@ -37,9 +41,9 @@ public class DaoProfessore {
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
 
-        try{
+        try {
             st = conn.prepareStatement(sqlDelete);
-            st.setString(1,user.getUsername());
+            st.setString(1, user.getUsername());
             //todo forse e' meglio usare id dato che li abbiamo usati ???
 
             st.executeUpdate();
@@ -56,14 +60,12 @@ public class DaoProfessore {
 
         try {
             st = conn.prepareStatement(sqlUpdate);
-            st.setString(1,user.getNome());
-            st.setString(2,user.getCognome());
-            st.setString(3,user.getUsername());
+            st.setString(1, user.getNome());
+            st.setString(2, user.getCognome());
+            st.setString(3, user.getUsername());
 
             st.executeUpdate();
-        }
-
-        finally {
+        } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
@@ -76,8 +78,8 @@ public class DaoProfessore {
         PreparedStatement st = conn.prepareStatement(sql);
 
         try {
-            st.setString(1,corso.getTitolo());
-            st.setString(2,user.getUsername());
+            st.setString(1, corso.getTitolo());
+            st.setString(2, user.getUsername());
             System.out.println(st.toString());
             st.executeUpdate();
         } finally {
@@ -93,8 +95,8 @@ public class DaoProfessore {
         Connection conn = DBConnection.getInstance();
         PreparedStatement st = conn.prepareStatement(sql);
         try {
-            st.setString(1,corso.getTitolo());
-            st.setString(2,user.getUsername());
+            st.setString(1, corso.getTitolo());
+            st.setString(2, user.getUsername());
 
             st.executeUpdate();
         } finally {
@@ -104,8 +106,42 @@ public class DaoProfessore {
 
     }
 
-    public static void main(String[] args) {
-//        DaoProfessore dao = new DaoProfessore();
+
+    /**
+     *
+     * @param corso il titolo del corso
+     * @return la lista di professori che insegnano @param corso
+     * @throws SQLException
+     */
+    public List<Professore> getAllInsegnaMateria(String corso) throws SQLException {
+        String sql = "SELECT p.username, nome, cognome, password FROM professore AS p, insegnamneto AS i WHERE  i.professore = p.username AND i.corso = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        List<Professore> list = new ArrayList<>();
+
+
+            st = conn.prepareStatement(sql);
+            st.setString(1, corso);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Professore(rs.getString(1),
+                                        rs.getString(2),
+                                        rs.getString(3),
+                                        rs.getString(4)));
+
+            }
+
+
+
+        return list;
+    }
+
+    public static void main(String[] args) throws SQLException {
+
+        DaoProfessore dao = new DaoProfessore();
+        System.out.println(dao.getAllInsegnaMateria("prog"));
+
 //        Professore prof = new Professore("Trinciao", "Paolo", "Rossi", "password");
 //        Corso corso = new Corso("italiano");
 //        Corso corso1 = new Corso("prog");
