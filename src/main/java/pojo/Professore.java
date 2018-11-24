@@ -1,7 +1,5 @@
 package pojo;
 
-import javafx.scene.control.ListCell;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +26,11 @@ public class Professore {
     public void addInsegnamneto(Corso corso){
         insegnamento.add(corso);
     }
+
+    public List<Corso> getInsegnamenti(){
+        return insegnamento;
+    }
+
     public int getId() {
         return id;
     }
@@ -62,5 +65,9 @@ public class Professore {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void removeInsegnamneto(Corso corso) {
+        insegnamento.remove(corso);
     }
 }
