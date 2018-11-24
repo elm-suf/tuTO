@@ -17,7 +17,27 @@ function displayData() {
         console.log(xmlReq.responseText);
         var json = JSON.parse(xmlReq.responseText);
 
-        document.getElementById('display-lessons').innerHTML = xmlReq.responseText;
+        var div = document.getElementById('display-lessons');
+        var content = document.createElement('div');
+        content.id = 'display-lessons';
+        for (var i in json) {
+            var li = document.createElement('div');
+            // li.innerHTML = "<div class=\"jumbotron jumbotron-fluid\">\n" +
+            //     "  <div class=\"container\">\n" +
+            //     "    <h1 class=\"display-4\">" + json[i].username + "</h1>\n" +
+            //     "    <p class=\"lead\">json[i]</p>\n" +
+            //     "  </div>\n" +
+            //     "</div>";
+
+            li.innerHTML = "<div class='card text-center'>" +
+                                "<div class='card-header'>" + json[i].username + "</div>" +
+                                    "<div class='card-body'>" +
+                                        "<h5 class='card-title'>" + json[i].nome+" "+ json[i].cognome + "</h5>"+
+                                "<a href='#' class='btn btn-primary'>Prenota Ora</a>" +
+                "</h5></div>";
+            content.appendChild(li);
+        }
+        div.parentNode.replaceChild(content, div);
     }
 }
 
