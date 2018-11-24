@@ -1,103 +1,95 @@
-CREATE TABLE amministratore
+create table amministratore
 (
-  id       INT AUTO_INCREMENT
-    PRIMARY KEY,
-  username VARCHAR(35) NOT NULL,
-  nome     VARCHAR(35) NOT NULL,
-  cognome  VARCHAR(35) NOT NULL,
-  password VARCHAR(35) NOT NULL,
-  CONSTRAINT amministratore_username_uindex
-  UNIQUE (username)
+	id int auto_increment
+		primary key,
+	username varchar(35) not null,
+	nome varchar(35) not null,
+	cognome varchar(35) not null,
+	password varchar(35) not null,
+	constraint amministratore_username_uindex
+		unique (username)
 )
-  ENGINE = InnoDB;
+engine=InnoDB;
 
-CREATE TABLE corso
+create table corso
 (
-  id     INT AUTO_INCREMENT
-    PRIMARY KEY,
-  titolo VARCHAR(35) NOT NULL,
-  CONSTRAINT corso_titolo_uindex
-  UNIQUE (titolo)
+	id int auto_increment
+		primary key,
+	titolo varchar(35) not null,
+	constraint corso_titolo_uindex
+		unique (titolo)
 )
-  ENGINE = InnoDB;
+engine=InnoDB;
 
-CREATE TABLE insegnamneto
+create table insegnamneto
 (
-  id         INT AUTO_INCREMENT
-    PRIMARY KEY,
-  corso      VARCHAR(35) NOT NULL,
-  professore VARCHAR(35) NOT NULL,
-  CONSTRAINT insegnamneto_corso_titolo_fk
-  FOREIGN KEY (corso) REFERENCES corso (titolo)
+	id int auto_increment
+		primary key,
+	corso varchar(35) not null,
+	professore varchar(35) not null,
+	constraint insegnamneto_corso_titolo_fk
+		foreign key (corso) references corso (titolo)
 )
-  ENGINE = InnoDB;
+engine=InnoDB;
 
-CREATE INDEX insegnamneto_corso_titolo_fk
-  ON insegnamneto (corso);
+create index insegnamneto_corso_titolo_fk
+	on insegnamneto (corso)
+;
 
-CREATE INDEX insegnamneto_professore_username_fk
-  ON insegnamneto (professore);
+create index insegnamneto_professore_username_fk
+	on insegnamneto (professore)
+;
 
-CREATE TABLE prenotazione
+create table prenotazione
 (
-  id         INT AUTO_INCREMENT
-    PRIMARY KEY,
-  n_slot     SET ('1', '2', '3', '4') NOT NULL,
-  data       DATE                     NOT NULL,
-  corso      VARCHAR(35)              NOT NULL,
-  professore VARCHAR(35)              NOT NULL,
-  studente   VARCHAR(35)              NOT NULL,
-  CONSTRAINT prenotazione_corso_titolo_fk
-  FOREIGN KEY (corso) REFERENCES corso (titolo)
+	id int auto_increment
+		primary key,
+	stato set('attiva', 'effettuata', 'disdetta') null,
+	studente varchar(35) not null,
+	id_insegamento int null,
+	n_slot set('1', '2', '3', '4') not null,
+	data date not null,
+	constraint prenotazione_id_insegamento_n_slot_stato_data_pk
+		unique (id_insegamento, n_slot, stato, data),
+	constraint prenotazione_insegnamneto_id_fk
+		foreign key (id_insegamento) references insegnamneto (id)
 )
-  ENGINE = InnoDB;
+engine=InnoDB;
 
-CREATE INDEX prenotazione_corso_titolo_fk
-  ON prenotazione (corso);
-
-CREATE INDEX prenotazione_professore_username_fk
-  ON prenotazione (professore);
-
-CREATE INDEX prenotazione_studente_username_fk
-  ON prenotazione (studente);
-
-CREATE TABLE professore
+create table professore
 (
-  id       INT AUTO_INCREMENT
-    PRIMARY KEY,
-  username VARCHAR(35) NOT NULL,
-  nome     VARCHAR(35) NOT NULL,
-  cognome  VARCHAR(35) NOT NULL,
-  password VARCHAR(35) NOT NULL,
-  CONSTRAINT teacher_username_uindex
-  UNIQUE (username)
+	id int auto_increment
+		primary key,
+	username varchar(35) not null,
+	nome varchar(35) not null,
+	cognome varchar(35) not null,
+	password varchar(35) not null,
+	constraint teacher_username_uindex
+		unique (username)
 )
-  ENGINE = InnoDB;
+engine=InnoDB;
 
-ALTER TABLE insegnamneto
-  ADD CONSTRAINT insegnamneto_professore_username_fk
-FOREIGN KEY (professore) REFERENCES professore (username);
+alter table insegnamneto
+	add constraint insegnamneto_professore_username_fk
+		foreign key (professore) references professore (username);
 
-ALTER TABLE prenotazione
-  ADD CONSTRAINT prenotazione_professore_username_fk
-FOREIGN KEY (professore) REFERENCES professore (username);
-
-CREATE TABLE studente
+create table studente
 (
-  id       INT AUTO_INCREMENT
-    PRIMARY KEY,
-  username VARCHAR(35) NOT NULL,
-  nome     VARCHAR(35) NOT NULL,
-  cognome  VARCHAR(35) NOT NULL,
-  password VARCHAR(35) NOT NULL,
-  CONSTRAINT username
-  UNIQUE (username)
+	id int auto_increment
+		primary key,
+	username varchar(35) not null,
+	nome varchar(35) not null,
+	cognome varchar(35) not null,
+	password varchar(35) not null,
+	constraint username
+		unique (username)
 )
-  ENGINE = InnoDB;
+engine=InnoDB;
 
-ALTER TABLE prenotazione
-  ADD CONSTRAINT prenotazione_studente_username_fk
-FOREIGN KEY (studente) REFERENCES studente (username);
+alter table prenotazione
+	add constraint prenotazione_studente_username_fk_2
+		foreign key (studente) references studente (username);
+
 
 
 INSERT INTO professore (username, nome, cognome, password)
@@ -132,7 +124,18 @@ VALUES ('prog', 'mariolindo'),
 INSERT INTO prenotazione (n_slot, data, corso, professore, studente) VALUES
   ('1', CURRENT_DATE, 'prog', 'ippolito', 'pelliccio');
 
-  //TODO manca il contraint su prenotazione:  allo stato attuale uno studente puo prenotare una lezione con qualunque professore anche se questo non insegna la materia alla quale lo studente e' interessato
+  //TODO-done manca il contraint su prenotazione:  allo stato attuale uno studente puo prenotare una lezione con qualunque professore anche se questo non insegna la materia alla quale lo studente e' interessato
   ESEMPIO:  POSSO PRENOTARE UNA LEZIONE DI IUM COL MITICO BOTTA
 
-  //TODO allo stato attuale uno studente puo prenotare due o piu lezioni nello stesso giorno anche nello stesso slot orario
+  la soluzione potrebbe essere quella di usare come FK id_insegnamento che identifica univocamente una copia corso-professore.
+  cosi facendo dobbiamo quindi occuparci costruire delle query apposta che ci diano esattamente i
+  campi che vogliamo (passando da insegnamento ci andiamo a prendere i dati del professsore).
+
+
+  //TODO-done allo stato attuale uno studente puo prenotare due o piu lezioni nello stesso giorno anche nello stesso slot orario
+
+  aggiunto una serie di vincoli di chiave sulla tabella prenotazione.
+    ho aggiunto la chiave (INSEGNAMENTO-SLOT-DATA-STATO)
+    ripensandoci pero' mi sa che cosi facendo evito solo che venga prenotata piu di una lezione
+    riguardante lo stesso corso (insegnamento). cosi posso prenotare una lezione nello stesso slot
+    con lo stesso professore ma di corsi diversi.
