@@ -3,7 +3,7 @@ package pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Professore {
+public class Docente {
 
     private int id;
     private String username;
@@ -12,10 +12,9 @@ public class Professore {
     private String password;
     private List<Corso> insegnamento;
 
+    public Docente(){}
 
-    public Professore(){}
-
-    public Professore(String username, String nome, String cognome, String password) {
+    public Docente(String username, String nome, String cognome, String password) {
         insegnamento = new ArrayList<>();
         this.username = username;
         this.nome = nome;

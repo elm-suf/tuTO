@@ -1,4 +1,71 @@
 package dao;
 
+import connection.DBConnection;
+import pojo.Amministratore;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class AmministratoreDAO {
+    public static void insert(Amministratore amm) throws SQLException {
+        String insert = "INSERT INTO amministratore VALUES(?,?)";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(insert);
+            st.setString(1, amm.getUsername());
+            st.setString(2, amm.getPassword());
+            st.executeUpdate();
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+            //todo converrebbe gestire l'eccezione dentro il finally?
+        }
+    }
+
+    public static void delete(Amministratore amm) throws SQLException {
+        String remove = "DELETE FROM amministratore WHERE username = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(remove);
+            st.setString(1, amm.getUsername());
+            st.executeUpdate();
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    public static boolean exists(String username) throws SQLException {
+        String exists = "SELECT nome FROM amministratore WHERE username = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(exists);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    public static boolean checkPassword(String username, String password) throws SQLException {
+        String checkPassword = "SELECT * FROM amministratore WHERE username = ? AND password = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(checkPassword);
+            st.setString(1, username);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
 }

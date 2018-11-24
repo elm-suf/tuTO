@@ -2,8 +2,7 @@ package dao;
 
 import connection.DBConnection;
 import pojo.Corso;
-import pojo.Professore;
-
+import pojo.Docente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +15,8 @@ public class DocenteDAO {
     public DocenteDAO() {
     }
 
-    public void insert(Professore user) throws SQLException {
-        String sqlInsertion = "INSERT INTO professore(username, nome, cognome, password) VALUE (?,?,?,?)";
+    public void insert(Docente user) throws SQLException {
+        String sqlInsertion = "INSERT INTO docente(username, nome, cognome, password) VALUE (?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
 
@@ -36,8 +35,8 @@ public class DocenteDAO {
         }
     }
 
-    public void delete(Professore user) throws SQLException {
-        String sqlDelete = "DELETE FROM professore WHERE username=?";
+    public void delete(Docente user) throws SQLException {
+        String sqlDelete = "DELETE FROM docente WHERE username=?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
 
@@ -53,8 +52,8 @@ public class DocenteDAO {
         }
     }
 
-    public void update(Professore user) throws SQLException {
-        String sqlUpdate = "UPDATE professore SET nome = ?, cognome = ? WHERE username= ?";
+    public void update(Docente user) throws SQLException {
+        String sqlUpdate = "UPDATE docente SET nome = ?, cognome = ? WHERE username= ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
 
@@ -71,9 +70,9 @@ public class DocenteDAO {
         }
     }
 
-    public void addInsegnamento(Professore user, Corso corso) throws SQLException {
+    public void addInsegnamento(Docente user, Corso corso) throws SQLException {
 
-        String sql = "INSERT INTO insegnamento(corso, professore) VALUE (?,?);";
+        String sql = "INSERT INTO insegnamento(corso, docente) VALUE (?,?);";
         Connection conn = DBConnection.getInstance();
         PreparedStatement st = conn.prepareStatement(sql);
         try {
@@ -87,10 +86,10 @@ public class DocenteDAO {
         }
     }
 
-    public void deleteInsegnamento(Professore user, Corso corso) throws SQLException {
+    public void deleteInsegnamento(Docente user, Corso corso) throws SQLException {
         user.removeInsegnamento(corso);
         String sql = "DELETE FROM insegnamento \n" +
-                "WHERE corso = ? AND professore = ?;";
+                "WHERE corso = ? AND docente = ?;";
         Connection conn = DBConnection.getInstance();
         PreparedStatement st = conn.prepareStatement(sql);
         try {
@@ -112,11 +111,11 @@ public class DocenteDAO {
      * @return la lista di professori che insegnano @param corso
      * @throws SQLException
      */
-    public List<Professore> getAllInsegnaMateria(String corso) throws SQLException {
-        String sql = "SELECT p.username, nome, cognome, password FROM professore AS p, insegnamento AS i WHERE  i.professore = p.username AND i.corso = ?";
+    public List<Docente> getAllInsegnaMateria(String corso) throws SQLException {
+        String sql = "SELECT p.username, nome, cognome, password FROM docente AS p, insegnamento AS i WHERE  i.docente = p.username AND i.corso = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
-        List<Professore> list = new ArrayList<>();
+        List<Docente> list = new ArrayList<>();
 
 
             st = conn.prepareStatement(sql);
@@ -124,15 +123,12 @@ public class DocenteDAO {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                list.add(new Professore(rs.getString(1),
+                list.add(new Docente(rs.getString(1),
                                         rs.getString(2),
                                         rs.getString(3),
                                         rs.getString(4)));
 
             }
-
-
-
         return list;
     }
 
@@ -141,7 +137,7 @@ public class DocenteDAO {
         DocenteDAO dao = new DocenteDAO();
         System.out.println(dao.getAllInsegnaMateria("prog"));
 
-//        Professore prof = new Professore("Trinciao", "Paolo", "Rossi", "password");
+//        Docente prof = new Docente("Trinciao", "Paolo", "Rossi", "password");
 //        Corso corso = new Corso("italiano");
 //        Corso corso1 = new Corso("prog");
 //        prof.addInsegnamento(corso);
@@ -172,13 +168,13 @@ public class DocenteDAO {
 //        }
 
 //        try {
-//            dao.update(new Professore("Trinciao", "sassaassa", "altobelli", "password"));
+//            dao.update(new Docente("Trinciao", "sassaassa", "altobelli", "password"));
 //        } catch (SQLException e) {
 //            System.out.println(e.getMessage());
 //        }
 
 //        try {
-//            dao.delete(new Professore("Trinciao", "Paolo", "Rossi", "password"));
+//            dao.delete(new Docente("Trinciao", "Paolo", "Rossi", "password"));
 //        } catch (SQLException e) {
 //            System.out.println(e.getMessage());
 //        }

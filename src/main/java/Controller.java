@@ -1,6 +1,8 @@
 import com.google.gson.Gson;
+import dao.AmministratoreDAO;
 import dao.DocenteDAO;
-import pojo.Professore;
+import dao.StudenteDAO;
+import pojo.Docente;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,9 +24,6 @@ public class Controller extends HttpServlet {
         Gson gson = new Gson();
         HttpSession s = req.getSession(false);
 
-//        String param = req.getParameter("action");
-//        Gson gson = new Gson();
-
         switch(action){
             case "login":
                 String username = req.getParameter("username");
@@ -44,7 +43,7 @@ public class Controller extends HttpServlet {
             case "insegnamenti":
                 DocenteDAO daoProf = new DocenteDAO();
                 try {
-                    List<Professore> list = daoProf.getAllInsegnaMateria
+                    List<Docente> list = daoProf.getAllInsegnaMateria
                             (req.getParameter("subject"));
                     out.println(gson.toJson(list));
                 } catch (SQLException e) {
