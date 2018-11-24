@@ -10,6 +10,10 @@ public class Corso {
         this.titolo = titolo;
     }
 
+    public int getId(){
+        return id;
+    }
+
     public String getTitolo() {
         return titolo;
     }

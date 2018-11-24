@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@SuppressWarnings("ALL")
 public class CorsoDAO {
     public static void insert(String titolo) throws SQLException {
         String insert = "INSERT INTO corso(titolo) VALUES(?)";

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@SuppressWarnings("ALL")
 public class AmministratoreDAO {
     public static void insert(Amministratore amm) throws SQLException {
         String insert = "INSERT INTO amministratore VALUES(?,?)";
