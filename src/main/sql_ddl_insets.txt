@@ -1,95 +1,93 @@
+create table professore
+(
+  id int auto_increment
+    primary key,
+  username varchar(35) not null,
+  nome varchar(35) not null,
+  cognome varchar(35) not null,
+  password varchar(35) not null,
+  constraint teacher_username_uindex
+  unique (username)
+)
+  engine=InnoDB;
+
+create table studente
+(
+  id int auto_increment
+    primary key,
+  username varchar(35) not null,
+  nome varchar(35) not null,
+  cognome varchar(35) not null,
+  password varchar(35) not null,
+  constraint username
+  unique (username)
+)
+  engine=InnoDB;
+
 create table amministratore
 (
-	id int auto_increment
-		primary key,
-	username varchar(35) not null,
-	nome varchar(35) not null,
-	cognome varchar(35) not null,
-	password varchar(35) not null,
-	constraint amministratore_username_uindex
-		unique (username)
+id int auto_increment
+primary key,
+username varchar(35) not null,
+nome varchar(35) not null,
+cognome varchar(35) not null,
+password varchar(35) not null,
+constraint amministratore_username_uindex
+unique (username)
 )
 engine=InnoDB;
 
 create table corso
 (
-	id int auto_increment
-		primary key,
-	titolo varchar(35) not null,
-	constraint corso_titolo_uindex
-		unique (titolo)
+id int auto_increment
+primary key,
+titolo varchar(35) not null,
+constraint corso_titolo_uindex
+unique (titolo)
 )
 engine=InnoDB;
 
 create table insegnamneto
 (
-	id int auto_increment
-		primary key,
-	corso varchar(35) not null,
-	professore varchar(35) not null,
-	constraint insegnamneto_corso_titolo_fk
-		foreign key (corso) references corso (titolo)
+id int auto_increment
+primary key,
+corso varchar(35) not null,
+professore varchar(35) not null,
+constraint insegnamneto_corso_titolo_fk
+foreign key (corso) references corso (titolo)
 )
 engine=InnoDB;
 
 create index insegnamneto_corso_titolo_fk
-	on insegnamneto (corso)
-;
+on insegnamneto (corso);
 
 create index insegnamneto_professore_username_fk
-	on insegnamneto (professore)
-;
+on insegnamneto (professore);
+
+alter table insegnamneto
+  add constraint insegnamneto_professore_username_fk
+foreign key (professore) references professore (username);
 
 create table prenotazione
 (
-	id int auto_increment
-		primary key,
-	stato set('attiva', 'effettuata', 'disdetta') null,
-	studente varchar(35) not null,
-	id_insegamento int null,
-	n_slot set('1', '2', '3', '4') not null,
-	data date not null,
-	constraint prenotazione_id_insegamento_n_slot_stato_data_pk
-		unique (id_insegamento, n_slot, stato, data),
-	constraint prenotazione_insegnamneto_id_fk
-		foreign key (id_insegamento) references insegnamneto (id)
+id int auto_increment
+primary key,
+stato set('attiva', 'effettuata', 'disdetta') null,
+studente varchar(35) not null,
+professore varchar(35) not null,
+id_insegamento int null,
+n_slot set('1', '2', '3', '4') not null,
+data date not null,
+constraint prenotazione_id_insegamento_n_slot_stato_data_pk
+unique (professore, n_slot, stato, data),
+constraint prenotazione_insegnamneto_id_fk
+foreign key (id_insegamento) references insegnamneto (id),
+constraint prenotazione_professore_fk
+foreign key (professore) references professore (username),
+constraint prenotazione_studente_fk
+foreign key (studente) references studente (username)
 )
 engine=InnoDB;
-
-create table professore
-(
-	id int auto_increment
-		primary key,
-	username varchar(35) not null,
-	nome varchar(35) not null,
-	cognome varchar(35) not null,
-	password varchar(35) not null,
-	constraint teacher_username_uindex
-		unique (username)
-)
-engine=InnoDB;
-
-alter table insegnamneto
-	add constraint insegnamneto_professore_username_fk
-		foreign key (professore) references professore (username);
-
-create table studente
-(
-	id int auto_increment
-		primary key,
-	username varchar(35) not null,
-	nome varchar(35) not null,
-	cognome varchar(35) not null,
-	password varchar(35) not null,
-	constraint username
-		unique (username)
-)
-engine=InnoDB;
-
-alter table prenotazione
-	add constraint prenotazione_studente_username_fk_2
-		foreign key (studente) references studente (username);
-
 
 
 INSERT INTO professore (username, nome, cognome, password)
@@ -121,8 +119,9 @@ VALUES ('prog', 'mariolindo'),
   ('informazione', 'ippolito');
 
 
-INSERT INTO prenotazione (n_slot, data, corso, professore, studente) VALUES
-  ('1', CURRENT_DATE, 'prog', 'ippolito', 'pelliccio');
+INSERT INTO prenotazione (stato, studente, professore, id_insegamento, n_slot, data) VALUES
+('attiva', 'gintonik', 'mariolindo', 10, '1',current_date()),('attiva', 'gintonik', 'mariolindo', 10, '2',current_date())
+
 
   //TODO-done manca il contraint su prenotazione:  allo stato attuale uno studente puo prenotare una lezione con qualunque professore anche se questo non insegna la materia alla quale lo studente e' interessato
   ESEMPIO:  POSSO PRENOTARE UNA LEZIONE DI IUM COL MITICO BOTTA
@@ -139,3 +138,8 @@ INSERT INTO prenotazione (n_slot, data, corso, professore, studente) VALUES
     ripensandoci pero' mi sa che cosi facendo evito solo che venga prenotata piu di una lezione
     riguardante lo stesso corso (insegnamento). cosi posso prenotare una lezione nello stesso slot
     con lo stesso professore ma di corsi diversi.
+
+
+    chiave (INSEGNAMENTO-SLOT-DATA-STATO) --diventa--> (PROFESSORE-slot-data-stato);
+
+    TODO non so come fare ad assicurare che professore sia effettivamente lo stesso referenziaro dalla tupal id_insegnamento, per adesso lo lascio cosi.
