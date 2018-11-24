@@ -37,7 +37,7 @@ public class Controller extends HttpServlet {
                         res.sendRedirect("/JSPs/Studente/login_stu.jsp");
                     else
                         res.sendRedirect("/login_failure.jsp");
-                } catch (IOException e) {
+                } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
             case "insegnamenti":
