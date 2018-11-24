@@ -40,6 +40,15 @@ public class Controller extends HttpServlet {
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
+
+            case "elenco_studenti":
+                try{
+                    res.setContentType("text/plain");
+                    gson.toJson(StudenteDAO.getAll(), out);
+                }catch(SQLException e){
+                    System.out.println(e.getMessage());
+                }
+
             case "insegnamenti":
                 DocenteDAO daoProf = new DocenteDAO();
                 try {

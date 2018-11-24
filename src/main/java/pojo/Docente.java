@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Docente {
-
     private int id;
     private String username;
     private String nome;

@@ -7,7 +7,6 @@ public class Studente {
     private String cognome;
     private String password;
 
-
     public Studente(){}
 
     public Studente(String username, String nome, String cognome, String password) {
