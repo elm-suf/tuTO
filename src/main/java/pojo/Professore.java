@@ -23,7 +23,7 @@ public class Professore {
         this.password = password;
     }
 
-    public void addInsegnamneto(Corso corso){
+    public void addInsegnamento(Corso corso){
         insegnamento.add(corso);
     }
 
@@ -67,7 +67,7 @@ public class Professore {
         this.password = password;
     }
 
-    public void removeInsegnamneto(Corso corso) {
+    public void removeInsegnamento(Corso corso) {
         insegnamento.remove(corso);
     }
 }
