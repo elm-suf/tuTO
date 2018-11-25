@@ -16,7 +16,7 @@
         <div id="inner">
             <h1>Form di autenticazione</h1>
             <h1>Inserire i propri dati</h1>
-            <form action="controller" method="post">
+            <form action="/controller" method="post">
                 <div class="form-group">
                     <input name="username" class="form-control" placeholder="Username">
                     <input name="password" type="password" class="form-control" placeholder="Password">

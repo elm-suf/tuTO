@@ -12,8 +12,8 @@ import java.util.ArrayList;
 @SuppressWarnings("ALL")
 public class StudenteDAO {
 
-    public static ArrayList<Studente> getAll() throws SQLException {
-        String getAll = "SELECT * FROM studente";
+    public static ArrayList<Studente> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
+        String getAll = "SELECT username, password, nome, cognome FROM studente";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
