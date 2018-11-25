@@ -166,7 +166,7 @@
 </div>
 
 
-<script src="../../bootstrap/morrisjs/morris.min.js"></script> -->
+<script src="../../bootstrap/morrisjs/morris.min.js"></script>
 <script src="../../bootstrap/raphael/raphael.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
