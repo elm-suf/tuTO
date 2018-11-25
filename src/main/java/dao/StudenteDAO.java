@@ -73,10 +73,22 @@ public class StudenteDAO {
             st.setString(2, stud.getPassword());
             st.setString(3, stud.getNome());
             st.setString(4, stud.getCognome());
-            st.executeUpdate();
+
+            if(st.executeUpdate() == 0)  new SQLException("0 rows affected");
+
+
         } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            StudenteDAO.insert(new Studente("alfaberto", "qwertyuiop","alberto", "feto"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.getMessage();
         }
     }
 

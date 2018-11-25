@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class PrenotazioneDAO {
 
     public static void insert(Prenotazione pren) throws SQLException {
-        String insert = "INSERT INTO prenotazione VALUES (?,?,?,?,?,?)";
+        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegamento, n_slot, data) VALUES (?,?,?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
@@ -23,7 +23,7 @@ public class PrenotazioneDAO {
             st.setInt(4, pren.getIdInsegnamento());
             st.setString(5, pren.getSlot());
             st.setString(6, pren.getData());
-            st.executeUpdate();
+            System.out.println("Insertion " + st.executeUpdate());
         } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
@@ -58,5 +58,17 @@ public class PrenotazioneDAO {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
+    }
+
+    public static void main(String[] args) {
+//        http://localhost:8080/controller?action=prenotazione&slot=1&docente=ippolito&insegnamento=9&corso=italiano&data=2018-11-28
+        Prenotazione p = new Prenotazione("attiva", "gintonik", "ippolito", 9,"1", "2018-11-30");
+
+        try {
+            PrenotazioneDAO.insert(p);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+
     }
 }
