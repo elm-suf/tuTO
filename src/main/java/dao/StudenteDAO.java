@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class StudenteDAO {
 
     public static ArrayList<Studente> getAll() throws SQLException {
-        String getAll = "SELECT * FROM studente";
+        String getAll = "SELECT username, password, nome, cognome FROM studente";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {

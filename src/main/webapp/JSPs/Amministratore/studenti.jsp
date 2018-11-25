@@ -39,6 +39,7 @@
         function buildHtmlTable() {
             if(xhr.readyState === 4 && xhr.status === 200) {
                 selector = '#elenco';
+                console.log(xhr.responseText);
                 myList = JSON.parse(xhr.responseText);
                 console.log(myList);
                 var columns = addAllColumnHeaders(myList, selector);
