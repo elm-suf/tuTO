@@ -44,7 +44,6 @@ public class DocenteDAO {
         try {
             st = conn.prepareStatement(sqlDelete);
             st.setString(1, user.getUsername());
-            //todo forse e' meglio usare id dato che li abbiamo usati ???
 
             st.executeUpdate();
         } finally {

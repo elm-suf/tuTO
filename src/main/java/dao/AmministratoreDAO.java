@@ -28,12 +28,12 @@ public class AmministratoreDAO {
     }
 
     public static void delete(Amministratore amm) throws SQLException {
-        String remove = "DELETE FROM amministratore WHERE username = ?";
+        String remove = "DELETE FROM amministratore WHERE id = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(remove);
-            st.setString(1, amm.getUsername());
+            st.setInt(1, amm.getId());
             st.executeUpdate();
         }finally {
             if (st != null) st.close();

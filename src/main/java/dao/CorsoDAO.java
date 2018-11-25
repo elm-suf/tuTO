@@ -1,6 +1,8 @@
 package dao;
 
 import connection.DBConnection;
+import pojo.Corso;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,13 +10,13 @@ import java.sql.SQLException;
 
 @SuppressWarnings("ALL")
 public class CorsoDAO {
-    public static void insert(String titolo) throws SQLException {
+    public static void insert(Corso c) throws SQLException {
         String insert = "INSERT INTO corso(titolo) VALUES(?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(insert);
-            st.setString(1, titolo);
+            st.setString(1, c.getTitolo());
             st.executeUpdate();
         }finally {
             if (st != null) st.close();
@@ -22,13 +24,13 @@ public class CorsoDAO {
         }
     }
 
-    public static void delete(String titolo) throws SQLException {
-        String remove = "DELETE FROM corso WHERE titolo = ?";
+    public static void delete(Corso c) throws SQLException {
+        String remove = "DELETE FROM corso WHERE id = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(remove);
-            st.setString(1, titolo);
+            st.setInt(1, c.getId());
             st.executeUpdate();
         }finally {
             if (st != null) st.close();
