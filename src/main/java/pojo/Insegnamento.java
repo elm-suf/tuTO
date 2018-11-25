@@ -2,33 +2,34 @@ package pojo;
 
 public class Insegnamento {
     private int id;
-    private int docente;
-    private int corso;
+    private String corso;
+    private String docente;
 
     public Insegnamento(){}
 
-    public Insegnamento(int docente, int corso){
-        this.docente = docente;
+    public Insegnamento(String corso, String docente){
         this.corso = corso;
+        this.docente = docente;
     }
 
     public int getId(){
         return id;
     }
 
-    public int getDocente(){
-        return docente;
-    }
-
-    public int getCorso(){
+    public String getCorso(){
         return corso;
     }
 
-    public void setDocente(int docente){
+    public String getDocente(){
+        return docente;
+    }
+
+    public void setCorso(String corso){
+        this.corso = corso;
+    }
+
+    public void setDocente(String docente){
         this.docente = docente;
     }
 
-    public void setCorso(int corso){
-        this.corso = corso;
-    }
 }

@@ -6,9 +6,9 @@ import java.util.List;
 public class Docente {
     private int id;
     private String username;
+    private String password;
     private String nome;
     private String cognome;
-    private String password;
     private List<Corso> insegnamento;
 
     public Docente(){}

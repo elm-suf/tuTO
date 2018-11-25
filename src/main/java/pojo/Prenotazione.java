@@ -3,35 +3,42 @@ package pojo;
 import java.sql.Date;
 
 public class Prenotazione {
-    private int corso;
-    private int docente;
-    private int studente;
-    private int slot;
+    private int id;
+    private String stato;
+    private String studente;
+    private String docente;
+    private int id_insegnamento;
+    private String slot;
     private Date data;
 
     public Prenotazione(){}
 
-    public Prenotazione(Corso corso, Docente docente, Studente studente, int slot, Date data){
-        this.corso = corso.getId();
-        this.docente = docente.getId();
-        this.studente = studente.getId();
+    public Prenotazione(String stato, Studente studente, Docente docente, int id_ins, String slot, Date data){
+        this.stato = stato;
+        this.studente = studente.getUsername();
+        this.docente = docente.getUsername();
+        this.id_insegnamento = id_ins;
         this.slot = slot;
         this.data = data;
     }
 
-    public int getCorso(){
-        return corso;
+    public String getStato(){
+        return stato;
     }
 
-    public int getDocente(){
-        return docente;
-    }
-
-    public int getStudente(){
+    public String getStudente(){
         return studente;
     }
 
-    public int getSlot(){
+    public String getDocente(){
+        return docente;
+    }
+
+    public int getIdInsegnamento(){
+        return id_insegnamento;
+    }
+
+    public String getSlot(){
         return slot;
     }
 
@@ -39,19 +46,23 @@ public class Prenotazione {
         return data;
     }
 
-    public void setCorso(Corso c){
-        corso = c.getId();
-    }
-
-    public void setDocente(Docente d){
-        docente = d.getId();
+    public void setStato(String s){
+        stato = s;
     }
 
     public void setStudente(Studente s){
-        studente = s.getId();
+        studente = s.getUsername();
     }
 
-    public void setSlot(int s){
+    public void setDocente(Docente d){
+        docente = d.getUsername();
+    }
+
+    public void setIdInsegnamento(int id){
+        id_insegnamento = id;
+    }
+
+    public void setSlot(String s){
         slot = s;
     }
 

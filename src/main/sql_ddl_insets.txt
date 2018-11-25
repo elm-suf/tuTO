@@ -1,11 +1,11 @@
-create table professore
+create table docente
 (
   id int auto_increment
     primary key,
   username varchar(35) not null,
+  password varchar(35) not null,
   nome varchar(35) not null,
   cognome varchar(35) not null,
-  password varchar(35) not null,
   constraint teacher_username_uindex
   unique (username)
 )
@@ -16,9 +16,9 @@ create table studente
   id int auto_increment
     primary key,
   username varchar(35) not null,
+  password varchar(35) not null,
   nome varchar(35) not null,
   cognome varchar(35) not null,
-  password varchar(35) not null,
   constraint username
   unique (username)
 )
@@ -29,9 +29,9 @@ create table amministratore
 id int auto_increment
 primary key,
 username varchar(35) not null,
+password varchar(35) not null,
 nome varchar(35) not null,
 cognome varchar(35) not null,
-password varchar(35) not null,
 constraint amministratore_username_uindex
 unique (username)
 )
@@ -47,28 +47,28 @@ unique (titolo)
 )
 engine=InnoDB;
 
-create table insegnamneto
+create table insegnamento
 (
 id int auto_increment
 primary key,
 corso varchar(35) not null,
-professore varchar(35) not null,
-CONSTRAINT insegnamneto_corso_professore_pk
-UNIQUE (corso, professore),
-constraint insegnamneto_corso_titolo_fk
+docente varchar(35) not null,
+CONSTRAINT insegnamento_corso_docente_pk
+UNIQUE (corso, docente),
+constraint insegnamento_corso_titolo_fk
 foreign key (corso) references corso (titolo)
 )
 engine=InnoDB;
 
-create index insegnamneto_corso_titolo_fk
-on insegnamneto (corso);
+create index insegnamento_corso_titolo_fk
+on insegnamento (corso);
 
-create index insegnamneto_professore_username_fk
-on insegnamneto (professore);
+create index insegnamento_docente_username_fk
+on insegnamento (docente);
 
-alter table insegnamneto
-  add constraint insegnamneto_professore_username_fk
-foreign key (professore) references professore (username);
+alter table insegnamento
+  add constraint insegnamento_docente_username_fk
+foreign key (docente) references docente (username);
 
 create table prenotazione
 (
@@ -76,23 +76,23 @@ id int auto_increment
 primary key,
 stato set('attiva', 'effettuata', 'disdetta') null,
 studente varchar(35) not null,
-professore varchar(35) not null,
-id_insegamento int null,
+docente varchar(35) not null,
+id_insegnamento int null,
 n_slot set('1', '2', '3', '4') not null,
 data date not null,
-constraint prenotazione_id_insegamento_n_slot_stato_data_pk
-unique (professore, n_slot, stato, data),
-constraint prenotazione_insegnamneto_id_fk
-foreign key (id_insegamento) references insegnamneto (id),
-constraint prenotazione_professore_fk
-foreign key (professore) references professore (username),
+constraint prenotazione_id_insegnamento_n_slot_stato_data_pk
+unique (docente, n_slot, stato, data),
+constraint prenotazione_insegnamento_id_fk
+foreign key (id_insegnamento) references insegnamento (id),
+constraint prenotazione_docente_fk
+foreign key (docente) references docente (username),
 constraint prenotazione_studente_fk
 foreign key (studente) references studente (username)
 )
 engine=InnoDB;
 
 
-INSERT INTO professore (username, nome, cognome, password)
+INSERT INTO docente (username, nome, cognome, password)
 VALUES ('mariolindo', 'mario', 'lindo', 'lapassword'),
   ('gesualdo', 'gesu', 'alto', 'pizzabianca'),
   ('ippolito', 'ippo', 'meneghetto', 'menesbatto');
@@ -106,7 +106,7 @@ INSERT INTO corso (titolo)
 VALUES ('matematica'), ('italiano'), ('storia'), ('scienza'), ('informazione'), ('scienze cognitive'), ('ium'),
   ('tweb'), ('prog');
 
-INSERT INTO insegnamneto (corso, professore)
+INSERT INTO insegnamento (corso, docente)
 VALUES ('prog', 'mariolindo'),
   ('ium', 'mariolindo'),
   ('tweb', 'mariolindo'),
@@ -121,16 +121,16 @@ VALUES ('prog', 'mariolindo'),
   ('informazione', 'ippolito');
 
 
-INSERT INTO prenotazione (stato, studente, professore, id_insegamento, n_slot, data) VALUES
+INSERT INTO prenotazione (stato, studente, docente, id_insegnamento, n_slot, data) VALUES
 ('attiva', 'gintonik', 'mariolindo', 10, '1',current_date()),('attiva', 'gintonik', 'mariolindo', 10, '2',current_date())
 
 
-  //TODO-done manca il contraint su prenotazione:  allo stato attuale uno studente puo prenotare una lezione con qualunque professore anche se questo non insegna la materia alla quale lo studente e' interessato
+  //TODO-done manca il contraint su prenotazione:  allo stato attuale uno studente puo prenotare una lezione con qualunque docente anche se questo non insegna la materia alla quale lo studente e' interessato
   ESEMPIO:  POSSO PRENOTARE UNA LEZIONE DI IUM COL MITICO BOTTA
 
-  la soluzione potrebbe essere quella di usare come FK id_insegnamento che identifica univocamente una copia corso-professore.
+  la soluzione potrebbe essere quella di usare come FK id_insegnamento che identifica univocamente una copia corso-docente.
   cosi facendo dobbiamo quindi occuparci costruire delle query apposta che ci diano esattamente i
-  campi che vogliamo (passando da insegnamento ci andiamo a prendere i dati del professsore).
+  campi che vogliamo (passando da insegnamento ci andiamo a prendere i dati del docente).
 
 
   //TODO-done allo stato attuale uno studente puo prenotare due o piu lezioni nello stesso giorno anche nello stesso slot orario
@@ -139,9 +139,9 @@ INSERT INTO prenotazione (stato, studente, professore, id_insegamento, n_slot, d
     ho aggiunto la chiave (INSEGNAMENTO-SLOT-DATA-STATO)
     ripensandoci pero' mi sa che cosi facendo evito solo che venga prenotata piu di una lezione
     riguardante lo stesso corso (insegnamento). cosi posso prenotare una lezione nello stesso slot
-    con lo stesso professore ma di corsi diversi.
+    con lo stesso docente ma di corsi diversi.
 
 
-    chiave (INSEGNAMENTO-SLOT-DATA-STATO) --diventa--> (PROFESSORE-slot-data-stato);
+    chiave (INSEGNAMENTO-SLOT-DATA-STATO) --diventa--> (DOCENTE-slot-data-stato);
 
-    TODO non so come fare ad assicurare che professore sia effettivamente lo stesso referenziaro dalla tupal id_insegnamento, per adesso lo lascio cosi.
+    TODO non so come fare ad assicurare che docente sia effettivamente lo stesso referenziaro dalla tupal id_insegnamento, per adesso lo lascio cosi.
