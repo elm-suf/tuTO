@@ -3,6 +3,7 @@ package dao;
 import connection.DBConnection;
 import pojo.Corso;
 import pojo.Docente;
+import pojo.Insegnamento;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,5 +73,37 @@ public class InsegnamentoDAO {
 
         }
         return list;
+    }
+
+
+    public static int getIdInsegmanto(String corso, String docente) throws SQLException {
+        String sql = "SELECT id FROM insegnamento WHERE corso = ? AND docente = ?;";
+        Connection conn = DBConnection.getInstance();
+        PreparedStatement st = conn.prepareStatement(sql);
+        try {
+            st.setString(1, corso);
+            st.setString(2, docente);
+
+            ResultSet resultSet = st.executeQuery();
+
+            if(resultSet.first()){
+                return resultSet.getInt(1);
+            }
+
+            return -1;
+
+        } finally {
+            if (st != null) st.close();
+            conn.close();
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(InsegnamentoDAO.getIdInsegmanto("asa","mariolindo" ));
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+
     }
 }
