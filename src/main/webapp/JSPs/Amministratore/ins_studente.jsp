@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -28,6 +28,32 @@
     <![endif]-->
 
     <title>Inserisci Studente</title>
+
+    <script>
+        var insertStudentBtn = document.getElementById('insert-student');
+        var xhr = new XMLHttpRequest();
+
+        function insertStudent() {
+            var url = "/controller?action=insert-student&username=" + $('#username').val() + "&nome=" + $('#nome').val() + "&cognome=" + $('#cognome').val() + "&password=" + $('#password').val();
+            console.log(url);
+            console.log("WELCOME INSERT STUDENT");
+            xhr.open("post", url, false);
+            xhr.onreadystatechange = buildHtmlTable;
+            xhr.send(null);
+        }
+
+
+        function buildHtmlTable() {
+            console.log("Building")
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Built");
+
+            }
+        }
+
+
+    </script>
+
 </head>
 <body>
 <div id="wrapper">
@@ -139,22 +165,24 @@
                 <label>Username</label>
                 <div class="form-group input-group">
                     <span class="input-group-addon">@</span>
-                    <input class="form-control" type="text" placeholder="Es. LiliArdi">
+                    <input class="form-control" id="username" type="text" placeholder="Es. LiliArdi">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input class="form-control">
+                    <input class="form-control" id="password">
                 </div>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input class="form-control">
+                    <input class="form-control" id="nome">
                 </div>
                 <div class="form-group">
                     <label>Cognome</label>
-                    <input class="form-control">
+                    <input class="form-control" id="cognome">
                 </div>
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Inserisci</button>
+                    <button id="insert-student" onclick="insertStudent()" type="submit"
+                            class="btn btn-primary btn-lg btn-block">Inserisci
+                    </button>
                 </div>
             </form>
             <div class="col-sm-6 col-md-7 col-lg-8 text-center d-none d-lg-none d-xl-block">

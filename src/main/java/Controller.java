@@ -1,8 +1,9 @@
 import com.google.gson.Gson;
-import dao.AmministratoreDAO;
-import dao.DocenteDAO;
-import dao.StudenteDAO;
+import dao.*;
 import pojo.Docente;
+import pojo.Insegnamento;
+import pojo.Prenotazione;
+import pojo.Studente;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +25,7 @@ public class Controller extends HttpServlet {
         Gson gson = new Gson();
         HttpSession s = req.getSession(false);
 
-        switch(action){
+        switch (action) {
             case "login":
                 String username = req.getParameter("username");
                 String password = req.getParameter("password");
@@ -40,14 +41,16 @@ public class Controller extends HttpServlet {
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
+                break;
 
             case "elenco_studenti":
-                try{
+                try {
                     res.setContentType("text/plain");
                     gson.toJson(StudenteDAO.getAll(), out);
-                }catch(SQLException e){
+                } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
+                break;
 
             case "insegnamenti":
                 DocenteDAO daoProf = new DocenteDAO();
@@ -58,11 +61,30 @@ public class Controller extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
+                break;
+
+            case "insert-student":
+                username = req.getParameter("username");
+                String nome = req.getParameter("nome");
+                String cognome = req.getParameter("cognome");
+                password = req.getParameter("password");
+
+                try {
+                    StudenteDAO.insert(new Studente(username,nome,cognome,password));
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+
+            case "prenotazione":
+//              //todo next up
+                break;
+        }
 
     }
 
-    public void doGet(HttpServletRequest req, HttpServletResponse res){
+    public void doGet(HttpServletRequest req, HttpServletResponse res) {
         try {
             processRequest(req, res);
         } catch (IOException e) {
@@ -70,7 +92,7 @@ public class Controller extends HttpServlet {
         }
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse res){
+    public void doPost(HttpServletRequest req, HttpServletResponse res) {
         try {
             processRequest(req, res);
         } catch (IOException e) {
