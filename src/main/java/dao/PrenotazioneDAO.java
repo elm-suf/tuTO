@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class PrenotazioneDAO {
 
     public static void insert(Prenotazione pren) throws SQLException {
-        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegamento, n_slot, data) VALUES (?,?,?,?,?,?)";
+        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegamento, slot, data) VALUES (?,?,?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {

@@ -9,11 +9,11 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="../../bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../../bootstrap/css/style.css">
-    <script src="../../bootstrap/js/jquery-slim.min.js"></script>
-    <script src="../../bootstrap/js/popper.min.js"></script>
-    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../bootstrap/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../bootstrap/mine/style.css">
+    <script src="../../bootstrap/bootstrap/js/jquery-slim.min.js"></script>
+    <script src="../../bootstrap/bootstrap/js/popper.min.js"></script>
+    <script src="../../bootstrap/bootstrap/js/bootstrap.min.js"></script>
     <title>Studente <% out.print(session.getAttribute("username"));%></title>
 </head>
 <body>
