@@ -10,13 +10,15 @@ import java.sql.SQLException;
 @SuppressWarnings("ALL")
 public class AmministratoreDAO {
     public static void insert(Amministratore amm) throws SQLException {
-        String insert = "INSERT INTO amministratore VALUES(?,?)";
+        String insert = "INSERT INTO amministratore VALUES(?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(insert);
             st.setString(1, amm.getUsername());
             st.setString(2, amm.getPassword());
+            st.setString(3, amm.getNome());
+            st.setString(4, amm.getCognome());
             st.executeUpdate();
         }finally {
             if (st != null) st.close();
