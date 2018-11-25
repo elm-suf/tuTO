@@ -63,7 +63,7 @@ public class StudenteDAO {
         }
     }
 
-    public static void insert(Studente stud) throws SQLException {
+    public static int insert(Studente stud) throws SQLException {
         String insert = "INSERT INTO studente(username, password, nome, cognome)" + "VALUES(?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -74,23 +74,17 @@ public class StudenteDAO {
             st.setString(3, stud.getNome());
             st.setString(4, stud.getCognome());
 
-            if(st.executeUpdate() == 0)  new SQLException("0 rows affected");
+            return st.executeUpdate();
 
-
+        }catch (Exception e){
+            //catturo l'eccezione che potrebbe essere generata e ritorno immediatamente -1 error.
+            return -1;
         } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            StudenteDAO.insert(new Studente("alfaberto", "qwertyuiop","alberto", "feto"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            e.getMessage();
-        }
-    }
 
     public static void remove(Studente stud) throws SQLException {
         String remove = "DELETE FROM studente WHERE username = ?";
@@ -134,6 +128,15 @@ public class StudenteDAO {
         } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(StudenteDAO.insert(new Studente("qwqwqqweq", "qwertyuiop", "alberto", "feto")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.getMessage();
         }
     }
 }

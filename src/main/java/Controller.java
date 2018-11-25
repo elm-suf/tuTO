@@ -70,7 +70,8 @@ public class Controller extends HttpServlet {
                 password = req.getParameter("password");
 
                 try {
-                    StudenteDAO.insert(new Studente(username,nome,cognome,password));
+                    int status = StudenteDAO.insert(new Studente(username,password, nome, cognome));
+                    if (status < 1) res.sendError(500, "0 rows affected");
                 } catch (SQLException e) {
                     e.getMessage();
                 }
@@ -78,7 +79,24 @@ public class Controller extends HttpServlet {
 
 
             case "prenotazione":
-//              //todo next up
+//                    String stato, Studente studente, Docente docente, int id_ins, String slot, Date data
+                String slot = req.getParameter("slot");
+                String docente = req.getParameter("docente");
+                String studente = req.getParameter("studente");
+                int insegnamento = Integer.parseInt(req.getParameter("insegnamento"));
+                String corso = req.getParameter("corso");
+                String data = req.getParameter("data");
+
+                try {
+                    int idInsegmanto = InsegnamentoDAO.getIdInsegmanto(corso, docente);
+                    Prenotazione p = new Prenotazione("attiva", studente, docente, insegnamento, slot, data);
+
+                    out.println(gson.toJson(p));
+                    out.println("params = "+slot+"|"+docente+"|"+studente+"|"+insegnamento+"|"+corso+"|"+data);
+                    PrenotazioneDAO.insert(p);
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
                 break;
         }
 

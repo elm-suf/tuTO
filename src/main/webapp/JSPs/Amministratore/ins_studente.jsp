@@ -39,19 +39,20 @@
             console.log("WELCOME INSERT STUDENT");
             xhr.open("post", url, false);
             xhr.onreadystatechange = buildHtmlTable;
-            xhr.send(null);
+            xhr.send();
         }
 
 
         function buildHtmlTable() {
-            console.log("Building")
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log("Built");
-
+            //quando la response e' ready posso controllare lo status della response 200 -> success else -> error
+            if (xhr.readyState === 4) {
+                if (xhr.status !== 200) {
+                    alert('error status ' + xhr.status);
+                } else {
+                    alert("success");
+                }
             }
         }
-
-
     </script>
 
 </head>
