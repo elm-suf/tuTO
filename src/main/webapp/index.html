@@ -17,6 +17,53 @@
 </head>
 
 <body>
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <!-- <a class="navbar-brand">Navbar</a>
+<form action="index.jsp" class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <a href="login.jsp" class="btn btn-outline-success my-2 my-sm-0">Login</a></form> -->
+
+    <button id="hideall" onclick="hideall()">HideAll</button>
+</nav>
+<div class="jumbotron">
+    <h1 class="display-8   ">Ciao #, impara quello che vuoi!</h1>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8 mb-4">
+            <input type="text" name="subject" class="form-control" id="subject-input" placeholder="Scegli materia: ">
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <button onclick="sendQuery();" name="action" value="query" type="submit" class="btn btn-primary btn-block">
+                Cerca
+            </button>
+        </div>
+    </div>
+
+    <div class="lead" id="display-lessons">
+
+    </div>
+
+
+</div>
+<div class="input-group date" data-provide="datepicker">
+    <input type="text" class="form-control">
+    <div class="input-group-addon">
+        <span class="glyphicon glyphicon-th"></span>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <p class="lead">
+        <button onclick="showAllUsers()">Show all users</button>
+    </p>
+    <p class="lead" id="display-users">
+        Display all_users #display
+    </p>
+</div>
+
 </body>
 
 </html>
