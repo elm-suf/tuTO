@@ -22,7 +22,7 @@ public class PrenotazioneDAO {
             st.setString(3, pren.getDocente());
             st.setInt(4, pren.getIdInsegnamento());
             st.setString(5, pren.getSlot());
-            st.setDate(6, pren.getData());
+            st.setString(6, pren.getData());
             st.executeUpdate();
         } finally {
             if (st != null) st.close();
@@ -37,7 +37,7 @@ public class PrenotazioneDAO {
         try {
             st = conn.prepareStatement(remove);
             st.setString(1, pren.getSlot());
-            st.setDate(2, pren.getData());
+            st.setString(2, pren.getData());
             st.executeUpdate();
         }finally {
             if (st != null) st.close();
