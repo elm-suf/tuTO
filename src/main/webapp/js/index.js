@@ -1,0 +1,1 @@
+// todo script per funzioni ajax riguardanti la pagina index.html

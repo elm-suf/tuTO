@@ -3,6 +3,7 @@ package dao;
 import connection.DBConnection;
 import pojo.Corso;
 import pojo.Docente;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,6 +71,48 @@ public class DocenteDAO {
         }
     }
 
+
+    public static int getN() throws SQLException {
+        String getN = "SELECT count(*) FROM docente";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(getN);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+
+    /**
+     * @param corso il titolo del corso
+     * @return la lista di professori che insegnano @param corso
+     * @throws SQLException
+     */
+    public List<Docente> getAllInsegnaMateria(String corso) throws SQLException {
+        String sql = "SELECT p.username, nome, cognome, password FROM docente AS p, insegnamento AS i WHERE  i.docente = p.username AND i.corso = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        List<Docente> list = new ArrayList<>();
+
+
+        st = conn.prepareStatement(sql);
+        st.setString(1, corso);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            list.add(new Docente(rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4)));
+
+        }
+        return list;
+    }
 
     public static void main(String[] args) throws SQLException {
 
