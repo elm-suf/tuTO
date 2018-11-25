@@ -75,7 +75,7 @@ public class DocenteDAO {
     public static void main(String[] args) throws SQLException {
 
         DocenteDAO dao = new DocenteDAO();
-        System.out.println(dao.getAllInsegnaMateria("prog"));
+        //System.out.println(dao.getAllInsegnaMateria("prog"));
 
 //        Docente prof = new Docente("Trinciao", "Paolo", "Rossi", "password");
 //        Corso corso = new Corso("italiano");
