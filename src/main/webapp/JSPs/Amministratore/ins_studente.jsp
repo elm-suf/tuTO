@@ -186,7 +186,7 @@
                     </button>
                 </div>
             </form>
-            <div class="col-sm-6 col-md-7 col-lg-8 text-center d-none d-lg-none d-xl-block">
+            <div class="col-lg-8 center-block text-center d-none d-md-none d-lg-block">
                 <i class="fa fa-user fa-17x "></i>
             </div>
         </div>
