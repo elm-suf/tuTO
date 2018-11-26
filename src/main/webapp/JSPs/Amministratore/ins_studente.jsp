@@ -161,8 +161,8 @@
     </nav>
     <div id="page-wrapper">
         <h1 class="page-header">Inserisci Studente</h1>
-        <div class="row vertical-center">
-            <form class="col-xs-12 col-sm-6 col-md-5 col-lg-4" role="form">
+        <div class="row vertical-center ">
+            <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
                 <label>Username</label>
                 <div class="form-group input-group">
                     <span class="input-group-addon">@</span>

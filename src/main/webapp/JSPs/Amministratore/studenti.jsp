@@ -23,6 +23,7 @@
     <!-- Custom Fonts -->
     <link href="../../bootstrap/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
     <!-- jQuery -->
     <script src="../../bootstrap/jquery/jquery.min.js"></script>
     <![endif]-->
@@ -135,13 +136,13 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="login_amm.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="login_amm.jsp"><i class="fa fa-dashboard fa-fw" ></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-user fa-fw"></i> Studenti<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level in">
                             <li>
-                                <a href="#" class="active">Elenco Studenti</a>
+                                <a href="#" class="active" >Elenco Studenti</a>
                             </li>
                             <li>
                                 <a href="ins_studente.jsp">Inserisci Studente</a>
