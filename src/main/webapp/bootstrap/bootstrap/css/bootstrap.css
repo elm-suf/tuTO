@@ -34,6 +34,15 @@ video {
   display: inline-block;
   vertical-align: baseline;
 }
+
+.float-right {
+  float: right !important;
+}
+
+.float-left {
+  float: left !important;
+}
+
 audio:not([controls]) {
   display: none;
   height: 0;
