@@ -39,13 +39,13 @@
         function buildHtmlTable() {
             if(xhr.readyState === 4 && xhr.status === 200) {
                 selector = '#elenco';
-                console.log(xhr.responseText); //todo se vedi torna anche l'id e dà errore
+                console.log(xhr.responseText);
                 myList = JSON.parse(xhr.responseText);
                 console.log(myList);
                 var columns = addAllColumnHeaders(myList, selector);
                 for (var i = 0; i < myList.length; i++) {
                     var row$ = $('<tr/>');
-                    var th$ = ($('<th scope="row"/>').html(i))
+                    var th$ = ($('<th scope="row"/>').html(i));
                     row$.append(th$);
                     for (var colIndex = 0; colIndex < columns.length; colIndex++) {
                         var cellValue = myList[i][columns[colIndex]];
@@ -69,7 +69,7 @@
             for (var i = 0; i < myList.length; i++) {
                 var rowHash = myList[i];
                 for (var key in rowHash) {
-                    if ($.inArray(key, columnSet) === -1) {
+                    if (key !== 'id' && $.inArray(key, columnSet) === -1) {
                         columnSet.push(key);
                         headerTr$.append($('<th scope="col"/>').html(key));
                     }
