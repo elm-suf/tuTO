@@ -105,7 +105,7 @@
                 <br>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">
-                        <button class="btn btn-transparent"><i class="fa fa-users fa-5x"></i></button>
+                        <button onclick="location.href='studenti.jsp';" class="btn btn-transparent"><i class="fa fa-users fa-5x"></i></button>
                         <p><%out.print(StudenteDAO.getN());%> Studenti</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">
