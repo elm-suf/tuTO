@@ -57,7 +57,7 @@
                 </div>
 
                 <ul class="list-unstyled components">
-                    <li class="active">
+                    <li>
                         <a href="dashboard.jsp">Dashboard</a>
                     </li>
                     <li>
@@ -66,7 +66,7 @@
                             <li>
                                 <a href="studenti.jsp">Elenco studenti</a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="#">Inserisci studente</a>
                             </li>
                         </ul>
@@ -75,10 +75,10 @@
                         <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
                         <ul class="collapse list-unstyled" id="docenti">
                             <li>
-                                <a href="#">Elenco docenti</a>
+                                <a href="docenti.jsp">Elenco docenti</a>
                             </li>
                             <li>
-                                <a href="#">Inserisci docente</a>
+                                <a href="ins_docente.jsp">Inserisci docente</a>
                             </li>
                         </ul>
                     </li>

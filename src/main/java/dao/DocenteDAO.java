@@ -14,10 +14,28 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class DocenteDAO {
 
-    public DocenteDAO() {
+    public DocenteDAO() {}
+
+    public static ArrayList<Docente> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
+        String getAll = "SELECT username, password, nome, cognome FROM studente";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(getAll);
+            ArrayList<Docente> stud = new ArrayList<>();
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Docente s = new Docente(rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
+                stud.add(s);
+            }
+            return stud;
+        } finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
     }
 
-    public void insert(Docente user) throws SQLException {
+    public static int insert(Docente user) throws SQLException {
         String sqlInsertion = "INSERT INTO docente(username, nome, cognome, password) VALUE (?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -29,15 +47,18 @@ public class DocenteDAO {
             st.setString(3, user.getCognome());
             st.setString(4, user.getPassword());
 
-            st.executeUpdate();
+            return st.executeUpdate();
 
+        }catch (Exception e){
+            //catturo l'eccezione che potrebbe essere generata e ritorno immediatamente -1 error.
+            return -1;
         } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
     }
 
-    public void delete(Docente user) throws SQLException {
+    public static void delete(Docente user) throws SQLException {
         String sqlDelete = "DELETE FROM docente WHERE username=?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -53,7 +74,7 @@ public class DocenteDAO {
         }
     }
 
-    public void update(Docente user) throws SQLException {
+    public static void update(Docente user) throws SQLException {
         String sqlUpdate = "UPDATE docente SET nome = ?, cognome = ? WHERE username= ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -93,7 +114,7 @@ public class DocenteDAO {
      * @return la lista di professori che insegnano @param corso
      * @throws SQLException
      */
-    public List<Docente> getAllInsegnaMateria(String corso) throws SQLException {
+    public static List<Docente> getAllInsegnaMateria(String corso) throws SQLException {
         String sql = "SELECT p.username, nome, cognome, password FROM docente AS p, insegnamento AS i WHERE  i.docente = p.username AND i.corso = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();

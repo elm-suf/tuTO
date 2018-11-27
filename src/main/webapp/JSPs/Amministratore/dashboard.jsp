@@ -29,7 +29,7 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
+                <a href="#"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -51,10 +51,10 @@
                     <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
                     <ul class="collapse list-unstyled" id="docenti">
                         <li>
-                            <a href="#">Elenco docenti</a>
+                            <a href="docenti.jsp">Elenco docenti</a>
                         </li>
                         <li>
-                            <a href="#">Inserisci docente</a>
+                            <a href="ins_docente.jsp">Inserisci docente</a>
                         </li>
                     </ul>
                 </li>
@@ -109,7 +109,7 @@
                         <p><%out.print(StudenteDAO.getN());%> Studenti</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">
-                        <button class="btn btn-transparent"><i class="fa fa-chalkboard-teacher fa-5x"></i></button>
+                        <button onclick="location.href='docenti.jsp';" class="btn btn-transparent"><i class="fa fa-chalkboard-teacher fa-5x"></i></button>
                         <p><%out.print(DocenteDAO.getN());%> Docenti</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">

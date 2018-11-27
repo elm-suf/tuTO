@@ -23,10 +23,11 @@ public class Controller extends HttpServlet {
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
-        HttpSession s = req.getSession(false);
+        String nome, cognome;
 
         switch (action) {
             case "login":
+                HttpSession s = req.getSession(true);
                 String username = req.getParameter("username");
                 String password = req.getParameter("password");
                 s.setAttribute("username", username);
@@ -51,6 +52,14 @@ public class Controller extends HttpServlet {
                     System.out.println(e.getMessage());
                 }
                 break;
+            case "elenco_docenti":
+                try {
+                    res.setContentType("text/plain");
+                    gson.toJson(DocenteDAO.getAll(), out);
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
 
             case "insegnamenti":
                 DocenteDAO daoProf = new DocenteDAO();
@@ -65,12 +74,26 @@ public class Controller extends HttpServlet {
 
             case "insert-student":
                 username = req.getParameter("username");
-                String nome = req.getParameter("nome");
-                String cognome = req.getParameter("cognome");
+                nome = req.getParameter("nome");
+                cognome = req.getParameter("cognome");
                 password = req.getParameter("password");
 
                 try {
                     int status = StudenteDAO.insert(new Studente(username,password, nome, cognome));
+                    if (status < 1) res.sendError(500, "0 rows affected");
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "insert-docente":
+                username = req.getParameter("username");
+                nome = req.getParameter("nome");
+                cognome = req.getParameter("cognome");
+                password = req.getParameter("password");
+
+                try {
+                    int status = DocenteDAO.insert(new Docente(username,password, nome, cognome));
                     if (status < 1) res.sendError(500, "0 rows affected");
                 } catch (SQLException e) {
                     e.getMessage();

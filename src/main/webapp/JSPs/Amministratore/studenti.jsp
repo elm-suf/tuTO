@@ -102,13 +102,13 @@
                 </div>
 
                 <ul class="list-unstyled components">
-                    <li class="active">
+                    <li>
                         <a href="dashboard.jsp">Dashboard</a>
                     </li>
                     <li>
                         <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti</a>
                         <ul class="collapse list-unstyled" id="studenti">
-                            <li>
+                            <li class="active">
                                 <a href="#">Elenco studenti</a>
                             </li>
                             <li>
@@ -120,10 +120,10 @@
                         <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
                         <ul class="collapse list-unstyled" id="docenti">
                             <li>
-                                <a href="#">Elenco docenti</a>
+                                <a href="docenti.jsp">Elenco docenti</a>
                             </li>
                             <li>
-                                <a href="#">Inserisci docente</a>
+                                <a href="ins_docente.jsp">Inserisci docente</a>
                             </li>
                         </ul>
                     </li>
@@ -169,8 +169,25 @@
                     </div>
                 </nav>
                 <div class="container">
-                    <h1 class="page-header">Elenco Studenti</h1>
-                    <hr>
+                    <div class="row">
+                        <div class="col-sm-8 col-md-7 col-lg-9">
+                            <h1 class="page-header">Elenco Studenti</h1>
+                        </div>
+                        <div class="col-sm-4 col-md-5 col-lg-3 my-auto float-right align-bottom">
+                            <button style="width:100%; margin-bottom:1em" class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Rimuovi studente
+                            </button>
+                            <div class="collapse" id="collapseExample">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 0;">
                     <br>
                     <table class="table table-striped table-bordered table-hover" id = "elenco"></table>
                 </div>
