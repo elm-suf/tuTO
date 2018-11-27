@@ -7,8 +7,9 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="text/html" charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../bootstrap/mine/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../bootstrap/mine/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
     <title>LOGIN DATABASE</title>
 </head>
 <body>

@@ -1,4 +1,7 @@
-<%--
+<%@ page import="dao.StudenteDAO" %>
+<%@ page import="dao.DocenteDAO" %>
+<%@ page import="dao.CorsoDAO" %>
+<%@ page import="dao.PrenotazioneDAO" %><%--
   Created by IntelliJ IDEA.
   User: Lorenzo
   Date: 04/11/2018
@@ -12,21 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Bootstrap Core CSS -->
-    <link href="../../bootstrap/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- MetisMenu CSS -->
-    <link href="../../bootstrap/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="../../bootstrap/dist/css/sb-admin-2.css" rel="stylesheet">
-    <!-- Morris Charts CSS -->
-    <link href="../../bootstrap/morrisjs/morris.css" rel="stylesheet">
-    <!-- Custom Fonts -->
-    <link href="../../bootstrap/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
-    <!-- jQuery -->
-    <script src="../../bootstrap/jquery/jquery.min.js"></script>
-    <![endif]-->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap/bootstrap.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="../../css/fontawesome.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
 
     <script>
         var xhr = new XMLHttpRequest();
@@ -97,127 +91,115 @@
     <title>Elenco Studenti</title>
 </head>
 <body onload="elenco_studenti()">
-<div id="wrapper">
+    <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Benvenuto <% out.print(session.getAttribute("username"));%>!</a>
-        </div>
-        <ul class="nav navbar-top-links navbar-left">
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-left">
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-user fa-fw"></i> Profilo Utente</a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Impostazioni</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-        </ul>
-        <!-- /.navbar-top-links -->
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="login_amm.jsp"><i class="fa fa-dashboard fa-fw" ></i> Dashboard</a>
+        <!-- Navigation -->
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a href="dashboard.jsp">Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-user fa-fw"></i> Studenti<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level in">
+                        <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti</a>
+                        <ul class="collapse list-unstyled" id="studenti">
                             <li>
-                                <a href="#" class="active" >Elenco Studenti</a>
+                                <a href="#">Elenco studenti</a>
                             </li>
                             <li>
-                                <a href="ins_studente.jsp">Inserisci Studente</a>
-                            </li>
-                            <li>
-                                <a href="#">Rimuovi Studente</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-user fa-fw"></i> Docenti<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Elenco Docenti</a>
-                            </li>
-                            <li>
-                                <a href="#">Inserisci Docente</a>
-                            </li>
-                            <li>
-                                <a href="#">Rimuovi Docente</a>
+                                <a href="ins_studente.jsp">Inserisci studente</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-book fa-fw"></i> Corsi<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+                        <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
+                        <ul class="collapse list-unstyled" id="docenti">
                             <li>
-                                <a href="#">Elenco Corsi</a>
+                                <a href="#">Elenco docenti</a>
                             </li>
                             <li>
-                                <a href="#">Inserisci Corso</a>
-                            </li>
-                            <li>
-                                <a href="#">Rimuovi Corso</a>
+                                <a href="#">Inserisci docente</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-clock-o fa-fw"></i> Prenotazioni<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+                        <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi</a>
+                        <ul class="collapse list-unstyled" id="corsi">
                             <li>
-                                <a href="#">Elenco Prenotazioni</a>
+                                <a href="#">Elenco corsi</a>
                             </li>
                             <li>
-                                <a href="#">Inserisci Prenotazione</a>
+                                <a href="#">Inserisci corso</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni</a>
+                        <ul class="collapse list-unstyled" id="prenotazioni">
+                            <li>
+                                <a href="#">Elenco prenotazioni</a>
                             </li>
                             <li>
-                                <a href="#">Rimuovi Prenotazione</a>
+                                <a href="#">Inserisci prenotazione</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="navbar-btn">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+                        <!-- Aggiungere icona omino -->
+                    </div>
+                </nav>
+                <div class="container">
+                    <h1 class="page-header">Elenco Studenti</h1>
+                    <hr>
+                    <br>
+                    <table class="table table-striped table-bordered table-hover" id = "elenco"></table>
+                </div>
             </div>
         </div>
-    </nav>
-    <div id="page-wrapper">
-        <h1 class="page-header">Elenco Studenti</h1>
-        <table class="table table-striped table-bordered table-hover" id = "elenco"></table>
+        </div>
+
     </div>
+    <!-- Font Awesome JS -->
+    <script src="../../js/fontawesome.min.js"></script>
 
-</div>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
 
-
-<script src="../../bootstrap/morrisjs/morris.min.js"></script>
-<script src="../../bootstrap/raphael/raphael.min.js"></script>
-
-
-<!-- Bootstrap Core JavaScript -->
-<script src="../../bootstrap/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="../../bootstrap/metisMenu/metisMenu.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="../../bootstrap/dist/js/sb-admin-2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
 </body>
 </html>

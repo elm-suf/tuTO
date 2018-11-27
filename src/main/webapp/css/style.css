@@ -210,6 +210,11 @@ a.article, a.article:hover {
     font-size: 15em;
 }
 
+.btn-theme{
+    color: #fff;
+    background-color: #6d7fcc;
+    border-color: #6d7fcc;
+}
 
 /* ---------------------------------------------------
     MEDIAQUERIES
