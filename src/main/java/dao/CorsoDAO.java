@@ -7,18 +7,43 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @SuppressWarnings("ALL")
 public class CorsoDAO {
-    public static void insert(Corso c) throws SQLException {
+
+    public static ArrayList<Corso> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
+        String getAll = "SELECT titolo FROM corso";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(getAll);
+            ArrayList<Corso> c = new ArrayList<>();
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Corso s = new Corso(rs.getString("titolo"));
+                c.add(s);
+            }
+            return c;
+        } finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    public static int insert(Corso c) throws SQLException {
         String insert = "INSERT INTO corso(titolo) VALUES(?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(insert);
             st.setString(1, c.getTitolo());
-            st.executeUpdate();
-        }finally {
+            return st.executeUpdate();
+
+        }catch (Exception e){
+            //catturo l'eccezione che potrebbe essere generata e ritorno immediatamente -1 error.
+            return -1;
+        } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }

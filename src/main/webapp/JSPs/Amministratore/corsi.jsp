@@ -24,8 +24,8 @@
 
     <script>
         var xhr = new XMLHttpRequest();
-        function elenco_docenti() {
-            var url = "/controller?action=elenco_docenti";
+        function elenco_corsi() {
+            var url = "/controller?action=elenco_corsi";
             xhr.open("GET", url, true);
             xhr.onreadystatechange = buildHtmlTable;
             xhr.send(null);
@@ -88,9 +88,9 @@
 
 
     </script>
-    <title>Elenco Docenti</title>
+    <title>Elenco Corsi</title>
 </head>
-<body onload="elenco_docenti()">
+<body onload="elenco_corsi()">
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -119,8 +119,8 @@
                 <li>
                     <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
                     <ul class="collapse list-unstyled" id="docenti">
-                        <li class="active">
-                            <a href="#">Elenco docenti</a>
+                        <li>
+                            <a href="studenti.jsp">Elenco docenti</a>
                         </li>
                         <li>
                             <a href="ins_docente.jsp">Inserisci docente</a>
@@ -130,8 +130,8 @@
                 <li>
                     <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi</a>
                     <ul class="collapse list-unstyled" id="corsi">
-                        <li>
-                            <a href="corsi.jsp">Elenco corsi</a>
+                        <li class="active">
+                            <a href="#">Elenco corsi</a>
                         </li>
                         <li>
                             <a href="ins_corso.jsp">Inserisci corso</a>
@@ -171,15 +171,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-7 col-lg-9">
-                        <h1 class="page-header">Elenco Docenti</h1>
+                        <h1 class="page-header">Elenco Corsi</h1>
                     </div>
                     <div class="col-sm-4 col-md-5 col-lg-3 my-auto float-right align-bottom">
                         <button style="width:100%; margin-bottom:1em" class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Rimuovi docente
+                            Rimuovi corso
                         </button>
                         <div class="collapse" id="collapseExample">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" placeholder="Titolo" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button">OK</button>
                                 </div>

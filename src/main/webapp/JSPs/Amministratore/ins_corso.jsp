@@ -24,15 +24,14 @@
     <script>
         var xhr = new XMLHttpRequest();
 
-        function insertDocente() {
-            var url = "/controller?action=insert-docente&username=" + $('#username').val() + "&nome=" + $('#nome').val() + "&cognome=" + $('#cognome').val() + "&password=" + $('#password').val();
+        function insertCorso() {
+            var url = "/controller?action=insert-corso&titolo=" + $('#titolo').val();
             console.log(url);
             console.log("WELCOME INSERT STUDENT");
             xhr.open("post", url, false);
             xhr.onreadystatechange = check;
             xhr.send();
         }
-
 
         function check() {
             //quando la response e' ready posso controllare lo status della response 200 -> success else -> error
@@ -77,7 +76,7 @@
                         <a href="docenti.jsp">Elenco docenti</a>
                     </li>
                     <li class="active">
-                        <a href="#">Inserisci docente</a>
+                        <a href="ins_docente.jsp">Inserisci docente</a>
                     </li>
                 </ul>
             </li>
@@ -88,7 +87,7 @@
                         <a href="corsi.jsp">Elenco corsi</a>
                     </li>
                     <li>
-                        <a href="ins_corso.jsp">Inserisci corso</a>
+                        <a href="#">Inserisci corso</a>
                     </li>
                 </ul>
             </li>
@@ -127,34 +126,18 @@
         <br>
         <div class="row">
             <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
-                <label>Username</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Es: LiliArdi" aria-label="Username" aria-describedby="basic-addon1">
-                </div>
-
                 <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" id="password">
-                </div>
-                <div class="form-group">
-                    <label>Nome</label>
-                    <input class="form-control" id="nome">
-                </div>
-                <div class="form-group">
-                    <label>Cognome</label>
-                    <input class="form-control" id="cognome">
+                    <label>Titolo</label>
+                    <input class="form-control">
                 </div>
                 <div class="form-group text-center">
-                    <button id="insert-student" onclick="insertDocente()" type="submit"
+                    <button id="insert-student" onclick="insertCorso()" type="submit"
                             class="btn btn-theme btn-lg btn-block">Inserisci
                     </button>
                 </div>
             </form>
             <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
-                <i class="fa fa-chalkboard-teacher big-icon d-block mx-auto"></i>
+                <i class="fa fa-book big-icon d-block mx-auto"></i>
             </div>
         </div>
     </div>
@@ -184,38 +167,3 @@
 </script>
 </body>
 </html>
-
-<!--
-<div id="page-wrapper">
-<h1 class="page-header">Inserisci Studente</h1>
-<div class="row vertical-center ">
-<form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
-<label>Username</label>
-<div class="form-group input-group">
-<span class="input-group-addon">@</span>
-<input class="form-control" id="username" type="text" placeholder="Es. LiliArdi">
-</div>
-<div class="form-group">
-<label>Password</label>
-<input class="form-control" id="password">
-</div>
-<div class="form-group">
-<label>Nome</label>
-<input class="form-control" id="nome">
-</div>
-<div class="form-group">
-<label>Cognome</label>
-<input class="form-control" id="cognome">
-</div>
-<div class="form-group text-center">
-<button id="insert-student" onclick="insertStudent()" type="submit"
-class="btn btn-primary btn-lg btn-block">Inserisci
-</button>
-</div>
-</form>
-<div class="col-lg-8 center-block text-center d-none d-md-none d-lg-block">
-<i class="fa fa-user fa-17x "></i>
-</div>
-</div>
-</div>
--->

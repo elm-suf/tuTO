@@ -62,10 +62,10 @@
                     <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi</a>
                     <ul class="collapse list-unstyled" id="corsi">
                         <li>
-                            <a href="#">Elenco corsi</a>
+                            <a href="corsi.jsp">Elenco corsi</a>
                         </li>
                         <li>
-                            <a href="#">Inserisci corso</a>
+                            <a href="ins_corso.jsp">Inserisci corso</a>
                         </li>
                     </ul>
                 </li>
@@ -113,7 +113,7 @@
                         <p><%out.print(DocenteDAO.getN());%> Docenti</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">
-                        <button class="btn btn-transparent"><i class="fa fa-book fa-5x"></i></button>
+                        <button onclick="location.href='corsi.jsp';" class="btn btn-transparent"><i class="fa fa-book fa-5x"></i></button>
                         <p><%out.print(CorsoDAO.getN());%> Corsi</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">

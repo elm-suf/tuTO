@@ -131,10 +131,10 @@
                         <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi</a>
                         <ul class="collapse list-unstyled" id="corsi">
                             <li>
-                                <a href="#">Elenco corsi</a>
+                                <a href="corsi.jsp">Elenco corsi</a>
                             </li>
                             <li>
-                                <a href="#">Inserisci corso</a>
+                                <a href="ins_corso.jsp">Inserisci corso</a>
                             </li>
                         </ul>
                     </li>

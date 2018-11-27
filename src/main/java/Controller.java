@@ -1,9 +1,6 @@
 import com.google.gson.Gson;
 import dao.*;
-import pojo.Docente;
-import pojo.Insegnamento;
-import pojo.Prenotazione;
-import pojo.Studente;
+import pojo.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +20,7 @@ public class Controller extends HttpServlet {
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
-        String nome, cognome;
+        String nome, cognome, titolo;
 
         switch (action) {
             case "login":
@@ -56,6 +53,15 @@ public class Controller extends HttpServlet {
                 try {
                     res.setContentType("text/plain");
                     gson.toJson(DocenteDAO.getAll(), out);
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+
+            case "elenco_corsi":
+                try {
+                    res.setContentType("text/plain");
+                    gson.toJson(CorsoDAO.getAll(), out);
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
@@ -94,6 +100,17 @@ public class Controller extends HttpServlet {
 
                 try {
                     int status = DocenteDAO.insert(new Docente(username,password, nome, cognome));
+                    if (status < 1) res.sendError(500, "0 rows affected");
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "insert-corso":
+                titolo = req.getParameter("titolo");
+
+                try {
+                    int status = CorsoDAO.insert(new Corso(titolo));
                     if (status < 1) res.sendError(500, "0 rows affected");
                 } catch (SQLException e) {
                     e.getMessage();
