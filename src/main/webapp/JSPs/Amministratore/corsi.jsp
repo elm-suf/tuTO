@@ -30,67 +30,11 @@
             xhr.onreadystatechange = buildHtmlTable;
             xhr.send(null);
         }
-
-        function buildHtmlTable() {
-            if(xhr.readyState === 4 && xhr.status === 200) {
-                selector = '#elenco';
-                console.log(xhr.responseText);
-                myList = JSON.parse(xhr.responseText);
-                console.log(myList);
-                var columns = addAllColumnHeaders(myList, selector);
-                for (var i = 0; i < myList.length; i++) {
-                    var row$ = $('<tr/>');
-                    var th$ = ($('<th scope="row"/>').html(i));
-                    row$.append(th$);
-                    for (var colIndex = 0; colIndex < columns.length; colIndex++) {
-                        var cellValue = myList[i][columns[colIndex]];
-                        if (cellValue == null) cellValue = "";
-                        row$.append($('<td/>').html(cellValue));
-                    }
-                    $(selector).append(row$);
-                }
-            }
-        }
-
-        // Adds a header row to the table and returns the set of columns.
-        // Need to do union of keys from all records as some records may not contain
-        // all records.
-        function addAllColumnHeaders(myList, selector) {
-            var columnSet = [];
-            var headerTr$ = $('<thead/>');
-            var tbody$ = $('<tbody/>');
-            headerTr$.append($('<th scope="col"/>').html('#'));
-
-            for (var i = 0; i < myList.length; i++) {
-                var rowHash = myList[i];
-                for (var key in rowHash) {
-                    if (key !== 'id' && $.inArray(key, columnSet) === -1) {
-                        columnSet.push(key);
-                        headerTr$.append($('<th scope="col"/>').html(key));
-                    }
-                }
-            }
-            $(selector).append(headerTr$);
-            $(selector).append(tbody$);
-
-            return columnSet;
-        }
-
-        /*$(document).ready(function(){
-            $.ajax({
-                url: '/controller?action=elenco_studenti',
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                }
-            });
-        });*/
-
-
     </script>
+
     <title>Elenco Corsi</title>
 </head>
-<body onload="elenco_corsi()">
+<body>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -168,34 +112,41 @@
                     <!-- Aggiungere icona omino -->
                 </div>
             </nav>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8 col-md-7 col-lg-9">
-                        <h1 class="page-header">Elenco Corsi</h1>
-                    </div>
-                    <div class="col-sm-4 col-md-5 col-lg-3 my-auto float-right align-bottom">
-                        <button style="width:100%; margin-bottom:1em" class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Rimuovi corso
-                        </button>
-                        <div class="collapse" id="collapseExample">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Titolo" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button">OK</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="container" ng-app="myApp" ng-controller="myCtrl">
+                <h1 class="page-header">Elenco Corsi</h1>
                 <hr style="margin-top: 0;">
                 <br>
-                <table class="table table-striped table-bordered table-hover" id = "elenco"></table>
+
+                <ul>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Titolo</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in tabella" ng-init="index=1">
+                                <th scope="row">{{tabella.indexOf(x)}}</th>
+                                <td>{{x.titolo}}</td>
+                                <td><button class="btn btn-danger" ng-click="elimina(x)">Elimina</button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
-</div>
+<!-- Angular JS -->
+<script src="../../js/angular.js"></script>
+
+<!-- Custom JS -->
+<script src="../../js/custom.js"></script>
+
 <!-- Font Awesome JS -->
 <script src="../../js/fontawesome.min.js"></script>
 

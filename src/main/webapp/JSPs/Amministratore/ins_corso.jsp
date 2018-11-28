@@ -121,14 +121,14 @@
 
             </div>
         </nav>
-        <h1 class="page-header">Inserisci Docente</h1>
+        <h1 class="page-header">Inserisci Corso</h1>
         <hr>
         <br>
         <div class="row">
             <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
                 <div class="form-group">
                     <label>Titolo</label>
-                    <input class="form-control">
+                    <input class="form-control" id="titolo">
                 </div>
                 <div class="form-group text-center">
                     <button id="insert-student" onclick="insertCorso()" type="submit"

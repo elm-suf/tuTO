@@ -133,7 +133,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Es: LiliArdi" aria-label="Username" aria-describedby="basic-addon1">
+                            <input id="username" type="text" class="form-control" placeholder="Es: LiliArdi" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
 
                         <div class="form-group">
