@@ -12,57 +12,98 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="js/index.js"></script>
     <title>Landing page</title>
 </head>
 
 <body>
-
 <nav class="navbar navbar-light bg-light justify-content-between">
-    <!-- <a class="navbar-brand">Navbar</a>
-<form action="index.jsp" class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <a href="login.jsp" class="btn btn-outline-success my-2 my-sm-0">Login</a></form> -->
-
-    <button id="hideall" onclick="hideall()">HideAll</button>
+    <a class="navbar-brand">Navbar</a>
+    <form action="index.jsp" class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <a href="login.jsp" class="btn btn-outline-success my-2 my-sm-0">Login</a></form>
 </nav>
-<div class="jumbotron">
-    <h1 class="display-8   ">Ciao #, impara quello che vuoi!</h1>
+<hr class="my-4">
 
-    <hr class="my-4">
 
-    <div class="row">
-        <div class="col-sm-12 col-md-8 mb-4">
-            <input type="text" name="subject" class="form-control" id="subject-input" placeholder="Scegli materia: ">
+<div ng-app="moduloCeraMateria" class="jumbotron">
+
+    <div class="jumbotron" ng-controller="cercaMateriaCtrl">
+
+        <div class="row">
+            <input class="form-control col-8" ng-model="inputcorso" type="text" placeholder="corso di interesse">
+            <input class="form-control col-4" type="button" ng-click="getInseganti()" value="OK!">
         </div>
-        <div class="col-sm-12 col-md-4">
-            <button onclick="sendQuery();" name="action" value="query" type="submit" class="btn btn-primary btn-block">
-                Cerca
-            </button>
+
+
+        <div class="bd-example" ng-repeat="docente in elenco" ng-controller="prenotaCtrl">
+
+            <div class="card">
+                <h5 class="card-header">{{docente.username}}</h5>
+                <div class="card-body">
+                    <   input ng-model="inputdata" type="date">
+                    <button class="btn btn-primary float-right" ng-click="mostraDisponibilita(docente)">Mostra
+                        disponibilita
+                    </button>
+                </div>
+            </div>
+
+            <div ng-repeat="item in disponibili">
+
+                <div class="row">
+                    <p>{{inputdata}}</p>
+                    <p>{{item}}</p>
+                    <button class="btn btn-success" ng-click="effettuaPrenotazione(item)">Prenota ora</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <div class="lead" id="display-lessons">
-
-    </div>
-
-
-</div>
-<div class="input-group date" data-provide="datepicker">
-    <input type="text" class="form-control">
-    <div class="input-group-addon">
-        <span class="glyphicon glyphicon-th"></span>
-    </div>
 </div>
 
-<div class="jumbotron">
-    <p class="lead">
-        <button onclick="showAllUsers()">Show all users</button>
-    </p>
-    <p class="lead" id="display-users">
-        Display all_users #display
-    </p>
-</div>
+
+<hr class="my-4">
+
+
+<!--<div class="jumbotron">-->
+    <!--<h1 class="display-8   ">Ciao #, impara quello che vuoi!</h1>-->
+
+    <!--<hr class="my-4">-->
+
+    <!--<div class="row">-->
+        <!--<div class="col-sm-12 col-md-8 mb-4">-->
+            <!--<input type="text" name="subject" class="form-control" id="subject-input" placeholder="Scegli materia: ">-->
+        <!--</div>-->
+        <!--<div class="col-sm-12 col-md-4">-->
+            <!--<button onclick="sendQuery();" name="action" value="query" type="submit" class="btn btn-primary btn-block">-->
+                <!--Cerca-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="lead" id="display-lessons">-->
+
+    <!--</div>-->
+
+
+<!--</div>-->
+<!--<div class="input-group date" data-provide="datepicker">-->
+    <!--<input type="text" class="form-control">-->
+    <!--<div class="input-group-addon">-->
+        <!--<span class="glyphicon glyphicon-th"></span>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="jumbotron">-->
+    <!--<p class="lead">-->
+        <!--<button onclick="showAllUsers()">Show all users</button>-->
+    <!--</p>-->
+    <!--<p class="lead" id="display-users">-->
+        <!--Display all_users #display-->
+    <!--</p>-->
+<!--</div>-->
 
 </body>
 

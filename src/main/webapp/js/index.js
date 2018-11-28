@@ -1,66 +1,72 @@
-// todo script per funzioni ajax riguardanti la pagina index.html
+var cercaMateria = angular.module("moduloCeraMateria", []);
 
-var xmlReq = new XMLHttpRequest();
+cercaMateria.controller("cercaMateriaCtrl", CercaMateria);
+cercaMateria.controller("prenotaCtrl", prenotaCtrl);
 
-function sendQuery() {
-    console.log('send query()');
-    xmlReq.open('get', '/controller?subject=' + document.getElementById('subject-input').value + '&action=insegnamenti', true);
-    console.log('send query() open');
-    xmlReq.onreadystatechange = displayData;
-    console.log('send query() onready');
-    xmlReq.send();
-// console.log('/controller?subject=' + document.getElementById('subject-input').value + '&action=query');
+function CercaMateria($scope, $http) {
+
+    //essenzialmente aggiorno il valore di elenco su cui faccio li
+    $scope.getInseganti = function () {
+        console.log("fammi vedere gli insegnanti che insegnano " + $scope.inputcorso);
+
+        $http({
+            method: 'GET',
+            url: '/controller',
+            params: {
+                'action': 'insegnamenti',
+                'subject': $scope.inputcorso
+            }
+        }).then(function (response) {
+            $scope.elenco = response.data;
+            console.log(response.data);
+        });
+    };
 }
 
-function displayData() {
-    console.log("console status redystate" + xmlReq.status + xmlReq.readyState);
-    if (xmlReq.status == 200 && xmlReq.readyState == 4) {
-        console.log('got response displayData()');
-        console.log(xmlReq.responseText);
-        var json = JSON.parse(xmlReq.responseText);
+function prenotaCtrl($scope, $http) {
 
-        var div = document.getElementById('display-lessons');
-        var content = document.createElement('div');
-        content.id = 'display-lessons';
-        for (var i in json) {
-            var li = document.createElement('div');
-// li.innerHTML = "<div class=\"jumbotron jumbotron-fluid\">\n" +
-//     "  <div class=\"container\">\n" +
-            //     "    <h1 class=\"display-4\">" + json[i].username + "</h1>\n" +
-            //     "    <p class=\"lead\">json[i]</p>\n" +
-            //     "  </div>\n" +
-//     "</div>";
+    $scope.mostraDisponibilita = function (docente) {
+        console.log("mostro disponibilita input ");
+        console.log($scope.inputdata);
 
-            li.innerHTML = "<div class='card text-center'>" +
-                "<div class='card-header'>" + json[i].username + "</div>" +
-                "<div class='card-body'>" +
-                "<h5 class='card-title'>" + json[i].nome+" "+ json[i].cognome + "</h5>"+
-                "<button id='prenota' onclick='prenota()'>Prenota Ora</button>" +
-                "</h5></div>";
-            content.appendChild(li);
-        }
-        div.parentNode.replaceChild(content, div);
+        var date = $scope.inputdata.getFullYear() + '-' + ($scope.inputdata.getMonth()+1) + '-' + $scope.inputdata.getDate();
+        console.log('date = ' + date);
+        $http({
+            method: 'GET',
+            url: '/controller',
+            params: {
+                'action': 'disponibilita',
+                'docente': docente.username,
+                'data': date
+            }
+        }).then(function (response) {
+            // $scope.elenco = response.data;
+            document.getElementById('display-lessons').innerHTML = response.data;
+            console.log(response.data);
+            $scope.disponibili = response.data;
+        });
+    };
+
+
+
+    $scope.effettuaPrenotazione = function (slot) {
+        console.log(slot);
+        console.log($scope.inputcorso);
+
+        var date = $scope.inputdata.getFullYear() + '-' + ($scope.inputdata.getMonth()+1) + '-' + $scope.inputdata.getDate();
+
+        $http({
+            method : 'get',
+            url : '/controller',
+            params : {
+                'action' : 'prenotazione',
+                'slot' : slot,
+                'docente' : $scope.docente.username,  //todo-done sistemare qui
+                'corso' : $scope.inputcorso,      //todo sistema qui
+                'data' : date,
+                'stato' : 'attiva'
+             }
+
+        });
     }
-}
-
-function showAllUsers() {
-    console.log("Show users;");
-    xmlReq.open('get', '/controller?action=allstudents', true);
-    console.log('/controller?action=allstudents');
-    xmlReq.onreadystatechange = myFunction;
-    xmlReq.send(null);
-}
-
-function myFunction() {
-    console.log("console status redystate" + xmlReq.status + ' ' + xmlReq.readyState);
-    console.log('DENTRO FUNCTION');
-    if (xmlReq.status == 200 && xmlReq.readyState == 4) {
-        console.log('got response myFunction!');
-        console.log(xmlReq.responseText);
-        document.getElementById('display-users').innerHTML = xmlReq.responseText;
-    }
-}
-
-function hideall() {
-    $(".jumbotron").toggle();
 }
