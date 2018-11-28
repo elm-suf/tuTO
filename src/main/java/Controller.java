@@ -20,11 +20,12 @@ public class Controller extends HttpServlet {
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
-        String nome, cognome, titolo;
+        String nome, cognome, titolo, docente, data;
+        HttpSession s = req.getSession();
 
         switch (action) {
             case "login":
-                HttpSession s = req.getSession(true);
+                s = req.getSession(true);
                 String username = req.getParameter("username");
                 String password = req.getParameter("password");
                 s.setAttribute("username", username);
@@ -33,7 +34,7 @@ public class Controller extends HttpServlet {
                     if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password))
                         res.sendRedirect("/JSPs/Amministratore/dashboard.jsp");
                     else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password))
-                        res.sendRedirect("/JSPs/Studente/login_stu.jsp");
+                        res.sendRedirect("/index.html");
                     else
                         res.sendRedirect("/login_failure.jsp");
                 } catch (SQLException e) {
@@ -85,7 +86,7 @@ public class Controller extends HttpServlet {
                 password = req.getParameter("password");
 
                 try {
-                    int status = StudenteDAO.insert(new Studente(username,password, nome, cognome));
+                    int status = StudenteDAO.insert(new Studente(username, password, nome, cognome));
                     if (status < 1) res.sendError(500, "0 rows affected");
                 } catch (SQLException e) {
                     e.getMessage();
@@ -117,26 +118,49 @@ public class Controller extends HttpServlet {
                 }
                 break;
 
-
             case "prenotazione":
-//                    String stato, Studente studente, Docente docente, int id_ins, String slot, Date data
-                String slot = req.getParameter("slot");
-                String docente = req.getParameter("docente");
-                String studente = req.getParameter("studente");
-                int insegnamento = Integer.parseInt(req.getParameter("insegnamento"));
-                String corso = req.getParameter("corso");
-                String data = req.getParameter("data");
+//INSERT INTO prenotazione(stato, studente, docente, id_insegamento, n_slot, data, corso) VALUES ('attiva','gintonik','ippolito',9,'1',current_date,'italiano')
+///controller?action=prenotazione&stato=attiva&studente=gintonik&docente=ippolito&slot=4&corso=italiano&data=2018-12-26
+                String studente = (String) s.getAttribute("username");
+                if (studente == null || studente.isEmpty() ) {
+                    System.out.println("studente is null");
+                    res.sendRedirect("/JSPs/home.jsp");
+//                    System.out.println();
+// todo da sistemare; quando session non ha un utente ridirigere verso login
+                } else {
+                    res.setContentType("application/json");
+                    String slot = req.getParameter("slot");
+                    docente = req.getParameter("docente");
+                    String corso = req.getParameter("corso");
+                    data = req.getParameter("data");
+                    String stato = req.getParameter("stato");
 
-                try {
-                    int idInsegmanto = InsegnamentoDAO.getIdInsegmanto(corso, docente);
-                    Prenotazione p = new Prenotazione("attiva", studente, docente, insegnamento, slot, data);
+                    try {
+                        int idInsegmanto = InsegnamentoDAO.getIdInsegmanto(corso, docente);
+                        Prenotazione p = new Prenotazione(studente, docente, corso, InsegnamentoDAO.getIdInsegmanto(corso, docente), slot, stato, data);
 
-                    out.println(gson.toJson(p));
-                    out.println("params = "+slot+"|"+docente+"|"+studente+"|"+insegnamento+"|"+corso+"|"+data);
-                    PrenotazioneDAO.insert(p);
-                } catch (SQLException e) {
-                    e.getMessage();
+                        out.println(gson.toJson(p));
+
+                        int status = PrenotazioneDAO.insert(p);
+                        if (status < 1) res.sendError(500, "0 rows affected");
+                    } catch (SQLException e) {
+                        e.getMessage();
+                    }
                 }
+                break;
+
+            case "disponibilita":
+//                res.setContentType("application/json"); //todo riguardare
+
+                //todo query: mostra professori disponibili in @param:data
+                //select * from prenotazione where docente = @param and data = @param
+                //questo mi dovrebbe restituire l'elenco di slot occupati per @docente
+                docente = req.getParameter("docente");
+                data = req.getParameter("data");
+                List list = PrenotazioneDAO.getSlotDisponibili(docente, data);
+                //ritorna lista di slot disponibili
+                out.println(gson.toJson(list));
+                System.out.println(gson.toJson(list));
                 break;
         }
 
