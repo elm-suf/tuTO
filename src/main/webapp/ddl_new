@@ -1,0 +1,87 @@
+-- we don't know how to generate schema ripetizioni (class Schema) :(
+create table amministratore
+(
+	id int auto_increment
+		primary key,
+	username varchar(35) not null,
+	password varchar(35) not null,
+	nome varchar(35) not null,
+	cognome varchar(35) not null,
+	constraint amministratore_username_uindex
+		unique (username)
+)
+;
+
+create table corso
+(
+	id int auto_increment
+		primary key,
+	titolo varchar(35) not null,
+	constraint corso_titolo_uindex
+		unique (titolo)
+)
+;
+
+create table docente
+(
+	id int auto_increment
+		primary key,
+	username varchar(35) not null,
+	password varchar(35) not null,
+	nome varchar(35) not null,
+	cognome varchar(35) not null,
+	constraint teacher_username_uindex
+		unique (username)
+)
+;
+
+create table insegnamento
+(
+	id int auto_increment
+		primary key,
+	corso varchar(35) not null,
+	docente varchar(35) not null,
+	constraint insegnamento_corso_docente_pk
+		unique (corso, docente),
+	constraint insegnamento_corso_titolo_fk
+		foreign key (corso) references corso (titolo)
+			on update cascade on delete cascade,
+	constraint insegnamento_docente_username_fk
+		foreign key (docente) references docente (username)
+)
+;
+
+create table studente
+(
+	id int auto_increment
+		primary key,
+	username varchar(35) not null,
+	password varchar(35) not null,
+	nome varchar(35) not null,
+	cognome varchar(35) not null,
+	constraint username
+		unique (username)
+)
+;
+
+create table prenotazione
+(
+	id int auto_increment
+		primary key,
+	stato set('attiva', 'effettuata', 'disdetta') null,
+	studente varchar(35) not null,
+	docente varchar(35) not null,
+	id_insegnamento int null,
+	slot set('1', '2', '3', '4') not null,
+	data date not null,
+	constraint prenotazione_id_insegnamento_n_slot_stato_data_pk
+		unique (docente, slot, stato, data),
+	constraint prenotazione_docente_fk
+		foreign key (docente) references docente (username),
+	constraint prenotazione_insegnamento_id_fk
+		foreign key (id_insegnamento) references insegnamento (id),
+	constraint prenotazione_studente_fk
+		foreign key (studente) references studente (username)
+)
+;
+
