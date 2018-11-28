@@ -1,18 +1,21 @@
 package dao;
 
 import connection.DBConnection;
+import javafx.util.Pair;
 import pojo.Prenotazione;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("ALL")
 public class PrenotazioneDAO {
 
-    public static void insert(Prenotazione pren) throws SQLException {
-        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegamento, slot, data) VALUES (?,?,?,?,?,?)";
+    public static int insert(Prenotazione pren) throws SQLException {
+        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegamento, slot, data, corso) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
@@ -23,7 +26,12 @@ public class PrenotazioneDAO {
             st.setInt(4, pren.getIdInsegnamento());
             st.setString(5, pren.getSlot());
             st.setString(6, pren.getData());
-            System.out.println("Insertion " + st.executeUpdate());
+            st.setString(7, pren.getCorso());
+            System.out.println("Query : " + st.toString());
+            return st.executeUpdate();
+
+        } catch (SQLException e) {
+            return -1;
         } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
@@ -31,6 +39,7 @@ public class PrenotazioneDAO {
     }
 
     public static void delete(Prenotazione pren) throws SQLException {
+        //todo sistema err pre ddl
         String remove = "DELETE FROM prenotazione WHERE slot = ? AND data = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -39,7 +48,7 @@ public class PrenotazioneDAO {
             st.setString(1, pren.getSlot());
             st.setString(2, pren.getData());
             st.executeUpdate();
-        }finally {
+        } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
@@ -54,21 +63,64 @@ public class PrenotazioneDAO {
             ResultSet rs = st.executeQuery();
             rs.next();
             return rs.getInt(1);
-        }finally {
+        } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
     }
+    public static List getSlotDisponibili(String docente, String data) {
+        //todo in realta' mi serve solo slot e lo stato
+        String sql = "SELECT slot,stato FROM prenotazione WHERE docente = ? and data = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        List list = new ArrayList<Prenotazione>();
+        List<String> active = new ArrayList<>(); //todo forse e' meglio usare int
+        active.add("1");
+        active.add("2");
+        active.add("3");
+        active.add("4");
+
+
+        try {
+
+            st = conn.prepareStatement(sql);
+            st.setString(1, docente);
+            st.setString(2, data);
+            ResultSet rs = st.executeQuery();
+            System.out.println("executing following query\n" + st.toString());
+
+//            studente, docente,  corso, id_ins, slot, stato, data
+
+            while (rs.next()) {
+                String stato = rs.getString("stato");
+//                String studente = rs.getString("studente");
+//                docente = rs.getString("docente");
+//                String corso = rs.getString("corso");
+//                int id_insegamento = rs.getInt("id_insegamento");
+                String slot = rs.getString("slot");
+//                data = rs.getString("data");
+
+                if(stato.equals("attiva")){
+                    active.remove(slot );
+                }
+            }
+//            ArrayList<Pair> pairs = new ArrayList<>();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return active;
+    }
 
     public static void main(String[] args) {
 //        http://localhost:8080/controller?action=prenotazione&slot=1&docente=ippolito&insegnamento=9&corso=italiano&data=2018-11-28
-        Prenotazione p = new Prenotazione("attiva", "gintonik", "ippolito", 9,"1", "2018-11-30");
+//        Prenotazione p = new Prenotazione("gintonik", "ippolito", "italiano", 9, "2", "attiva", "current");
 
-        try {
-            PrenotazioneDAO.insert(p);
-        } catch (SQLException e) {
-            e.getMessage();
-        }
+        List docente = PrenotazioneDAO.getSlotDisponibili("docente", "2018-11-27");
+
+        docente.forEach(System.out::println);
 
     }
 }
