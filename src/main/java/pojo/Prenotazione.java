@@ -7,19 +7,21 @@ public class Prenotazione {
     private String stato;
     private String studente;
     private String docente;
+    private String corso;
     private int id_insegnamento;
     private String slot;
     private String data;
 
     public Prenotazione(){}
 
-    public Prenotazione(String stato, String studente, String docente, int id_ins, String slot, String data){
+    public Prenotazione(String studente, String docente, String corso, int id_ins, String slot, String stato, String data){
         this.stato = stato;
         this.studente = studente;
         this.docente = docente;
         this.id_insegnamento = id_ins;
         this.slot = slot;
         this.data = data;
+        this.corso = corso;
     }
 
     public String getStato(){
@@ -70,4 +72,11 @@ public class Prenotazione {
         data = d;
     }
 
+    public String getCorso() {
+        return corso;
+    }
+
+    public void setCorso(String corso) {
+        this.corso = corso;
+    }
 }
