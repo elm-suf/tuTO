@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class InsegnamentoDAO {
     public void addInsegnamento(Docente user, Corso corso) throws SQLException {
 
@@ -76,7 +77,7 @@ public class InsegnamentoDAO {
     }
 
 
-    public static int getIdInsegmanto(String corso, String docente) throws SQLException {
+    public static int getIdInsegnamento(String corso, String docente) throws SQLException {
         String sql = "SELECT id FROM insegnamento WHERE corso = ? AND docente = ?;";
         Connection conn = DBConnection.getInstance();
         PreparedStatement st = conn.prepareStatement(sql);
@@ -100,7 +101,7 @@ public class InsegnamentoDAO {
 
     public static void main(String[] args) {
         try {
-            System.out.println(InsegnamentoDAO.getIdInsegmanto("asa","mariolindo" ));
+            System.out.println(InsegnamentoDAO.getIdInsegnamento("asa","mariolindo" ));
         } catch (SQLException e) {
             e.getMessage();
         }

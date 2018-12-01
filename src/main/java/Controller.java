@@ -15,12 +15,12 @@ import java.util.List;
 @WebServlet(name = "Controller", urlPatterns = {"/controller"})
 public class Controller extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    private void processRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
         res.setContentType("text/html;charset=UTF-8");
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
-        String nome, cognome, titolo, docente, data;
+        String nome, cognome, titolo, docente, data, stato, slot, corso;
         HttpSession s = req.getSession();
 
         switch (action) {
@@ -68,10 +68,17 @@ public class Controller extends HttpServlet {
                 }
                 break;
 
-            case "insegnamenti":
-                DocenteDAO daoProf = new DocenteDAO();
+            case "elenco_prenotazioni":
                 try {
-                    List<Docente> list = daoProf.getAllInsegnaMateria
+                    res.setContentType("text/plain");
+                    gson.toJson(PrenotazioneDAO.getAll(), out);
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+
+            case "insegnamenti":
+                try {
+                    List<Docente> list = DocenteDAO.getAllInsegnaMateria
                             (req.getParameter("subject"));
                     out.println(gson.toJson(list));
                 } catch (SQLException e) {
@@ -79,7 +86,7 @@ public class Controller extends HttpServlet {
                 }
                 break;
 
-            case "insert-student":
+            case "insert_student":
                 username = req.getParameter("username");
                 nome = req.getParameter("nome");
                 cognome = req.getParameter("cognome");
@@ -93,21 +100,21 @@ public class Controller extends HttpServlet {
                 }
                 break;
 
-            case "insert-docente":
+            case "insert_docente":
                 username = req.getParameter("username");
                 nome = req.getParameter("nome");
                 cognome = req.getParameter("cognome");
                 password = req.getParameter("password");
 
                 try {
-                    int status = DocenteDAO.insert(new Docente(username,password, nome, cognome));
+                    int status = DocenteDAO.insert(new Docente(username, password, nome, cognome));
                     if (status < 1) res.sendError(500, "0 rows affected");
                 } catch (SQLException e) {
                     e.getMessage();
                 }
                 break;
 
-            case "insert-corso":
+            case "insert_corso":
                 titolo = req.getParameter("titolo");
 
                 try {
@@ -119,25 +126,25 @@ public class Controller extends HttpServlet {
                 break;
 
             case "prenotazione":
-//INSERT INTO prenotazione(stato, studente, docente, id_insegamento, n_slot, data, corso) VALUES ('attiva','gintonik','ippolito',9,'1',current_date,'italiano')
-///controller?action=prenotazione&stato=attiva&studente=gintonik&docente=ippolito&slot=4&corso=italiano&data=2018-12-26
+                //INSERT INTO prenotazione(stato, studente, docente, id_insegamento, n_slot, data, corso) VALUES ('attiva','gintonik','ippolito',9,'1',current_date,'italiano')
+                //controller?action=prenotazione&stato=attiva&studente=gintonik&docente=ippolito&slot=4&corso=italiano&data=2018-12-26
                 String studente = (String) s.getAttribute("username");
-                if (studente == null || studente.isEmpty() ) {
+                if (studente == null || studente.isEmpty()) {
                     System.out.println("studente is null");
                     res.sendRedirect("/JSPs/home.jsp");
-//                    System.out.println();
-// todo da sistemare; quando session non ha un utente ridirigere verso login
+                    //System.out.println();
+                    // todo da sistemare; quando session non ha un utente ridirigere verso login
                 } else {
                     res.setContentType("application/json");
-                    String slot = req.getParameter("slot");
+                    slot = req.getParameter("slot");
                     docente = req.getParameter("docente");
-                    String corso = req.getParameter("corso");
+                    corso = req.getParameter("corso");
                     data = req.getParameter("data");
-                    String stato = req.getParameter("stato");
+                    stato = req.getParameter("stato");
 
                     try {
-                        int idInsegmanto = InsegnamentoDAO.getIdInsegmanto(corso, docente);
-                        Prenotazione p = new Prenotazione(studente, docente, corso, InsegnamentoDAO.getIdInsegmanto(corso, docente), slot, stato, data);
+                        int idInsegnamento = InsegnamentoDAO.getIdInsegnamento(corso, docente);
+                        Prenotazione p = new Prenotazione(studente, docente, corso, idInsegnamento, slot, stato, data);
 
                         out.println(gson.toJson(p));
 
@@ -146,6 +153,59 @@ public class Controller extends HttpServlet {
                     } catch (SQLException e) {
                         e.getMessage();
                     }
+                }
+                break;
+
+            case "insert_prenotazione":
+                studente = req.getParameter("studente");
+                slot = req.getParameter("slot");
+                docente = req.getParameter("docente");
+                corso = req.getParameter("corso");
+                data = req.getParameter("data");
+                stato = req.getParameter("stato");
+
+                try {
+                    int idInsegnamento = InsegnamentoDAO.getIdInsegnamento(corso, docente);
+                    int status = PrenotazioneDAO.insert(new Prenotazione(studente, docente, corso, idInsegnamento, slot, stato, data));
+                    if (status < 1) res.sendError(500, "0 rows affected");
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "remove_corso":
+                titolo = req.getParameter("titolo");
+
+                try {
+                    CorsoDAO.delete(new Corso(titolo));
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "remove_studente":
+                username = req.getParameter("username");
+                password = req.getParameter("password");
+                nome = req.getParameter("nome");
+                cognome = req.getParameter("cognome");
+
+                try {
+                    StudenteDAO.delete(new Studente(username, password, nome, cognome));
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "remove_docente":
+                username = req.getParameter("username");
+                password = req.getParameter("password");
+                nome = req.getParameter("nome");
+                cognome = req.getParameter("cognome");
+
+                try {
+                    DocenteDAO.delete(new Docente(username, password, nome, cognome));
+                } catch (SQLException e) {
+                    e.getMessage();
                 }
                 break;
 
