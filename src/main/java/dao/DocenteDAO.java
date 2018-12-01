@@ -16,13 +16,13 @@ public class DocenteDAO {
 
     public DocenteDAO() {}
 
-    public static ArrayList<Docente> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
-        String getAll = "SELECT username, password, nome, cognome FROM studente";
+    public static List<Docente> getAll() throws SQLException {
+        String getAll = "SELECT username, password, nome, cognome FROM docente";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(getAll);
-            ArrayList<Docente> stud = new ArrayList<>();
+            List<Docente> stud = new ArrayList<>();
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Docente s = new Docente(rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));

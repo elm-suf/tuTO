@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../css/bootstrap/bootstrap.min.css">
     <!-- Fontawesome CSS -->
@@ -32,11 +31,9 @@
     <!-- Angular Material Javascript now available via Google CDN; version 0.8 used here -->
     <script src="../../js/angular-material.js"></script>
 
-
-    <title>Elenco Docenti</title>
+    <title>Elenco Prenotazioni</title>
 </head>
-<body ng-app="mySite">
-
+<body>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -52,8 +49,8 @@
                     <a href="dashboard.jsp">Dashboard <i class="fa fa-chart-pie"></i></a>
                 </li>
                 <li>
-                    <a href="#studenti" data-toggle="collapse" aria-expanded="false"
-                       class="dropdown-toggle">Studenti <i class="fa fa-user"></i></a>
+                    <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti <i
+                            class="fa fa-user"></i></a>
                     <ul class="collapse list-unstyled" id="studenti">
                         <li>
                             <a href="studenti.jsp">Elenco studenti</a>
@@ -67,7 +64,7 @@
                     <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti <i
                             class="fa fa-chalkboard-teacher"></i></a>
                     <ul class="collapse list-unstyled" id="docenti">
-                        <li class="active">
+                        <li>
                             <a href="#">Elenco docenti</a>
                         </li>
                         <li>
@@ -91,8 +88,8 @@
                     <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni
                         <i class="fa fa-clock"></i></a>
                     <ul class="collapse list-unstyled" id="prenotazioni">
-                        <li>
-                            <a href="prenotazioni.jsp">Elenco prenotazioni</a>
+                        <li class="active">
+                            <a href="#">Elenco prenotazioni</a>
                         </li>
                         <li>
                             <a href="ins_prenotazione.jsp">Inserisci prenotazione</a>
@@ -120,46 +117,53 @@
                     <!-- Aggiungere icona omino -->
                 </div>
             </nav>
-            <div class="container" ng-app="mySite" ng-controller="docenti_ctrl" ng-cloak>
-                <h1 class="page-header">Elenco Docenti</h1>
+            <div class="container" ng-app="mySite" ng-controller="prenotazioni_ctrl" ng-cloak>
+                <h1 class="page-header">Elenco Prenotazioni</h1>
                 <hr style="margin-top: 0;">
                 <br>
+                <ul>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Stato</th>
+                            <th scope="col">Studente</th>
+                            <th scope="col">Docente</th>
+                            <th scope="col">Slot</th>
+                            <th scope="col">Data</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="x in tabella" ng-init="index=1">
+                            <th scope="row">{{tabella.indexOf(x)}}</th>
+                            <td>{{x.stato}}</td>
+                            <td>{{x.studente}}</td>
+                            <td>{{x.docente}}</td>
+                            <td>{{x.slot}}</td>
+                            <td>{{x.data}}</td>
+                            <td>
+                                <button class="btn btn-danger md-button" ng-click="elimina(x, $event)">Elimina</button>
+                            </td>
+                        </tr>
+                        </tbody>
 
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Cognome</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="x in tabella" ng-init="index=1">
-                        <th scope="row">{{tabella.indexOf(x)}}</th>
-                        <td>{{x.username}}</td>
-                        <td>{{x.password}}</td>
-                        <td>{{x.nome}}</td>
-                        <td>{{x.cognome}}</td>
-                        <td>
-                            <md-button class="md-raised md-warn" ng-click="elimina(x, $event)">
-                                Elimina
-                            </md-button>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
-
+                    </table>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
+</div>
 <!-- Font Awesome JS -->
 <script src="../../js/fontawesome.min.js"></script>
+
+<!-- Angular JS -->
+<script src="../../js/angular.js"></script>
+
+<!-- Custom JS -->
+<script src="../../js/custom.js"></script>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -173,7 +177,6 @@
 <script src="../../js/bootstrap/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');

@@ -50,12 +50,13 @@ public class CorsoDAO {
     }
 
     public static void delete(Corso c) throws SQLException {
-        String remove = "DELETE FROM corso WHERE id = ?";
+        String remove = "DELETE FROM corso WHERE titolo = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(remove);
-            st.setInt(1, c.getId());
+            st.setString(1, c.getTitolo());
+            System.out.println(st.toString());
             st.executeUpdate();
         }finally {
             if (st != null) st.close();

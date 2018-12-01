@@ -21,23 +21,28 @@
         <link rel="stylesheet" href="../../css/fontawesome.css">
         <!-- Our Custom CSS -->
         <link rel="stylesheet" href="../../css/style.css">
-
+        <!-- Angular CSS -->
+        <link rel="stylesheet" href="../../css/angular-material.min.css">
+        <script src="../../js/angular.js"></script>
+        <script src="../../js/angular-animate.js"></script>
+        <script src="../../js/angular-aria.js"></script>
         <title>Admin Dashboard</title>
     </head>
     <body>
+
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <a href="#"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
+                <a href="#"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
             </div>
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="#">Dashboard</a>
+                    <a href="#">Dashboard <i class="fa fa-chart-pie"></i></a>
                 </li>
                 <li>
-                    <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti</a>
+                    <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti <i class="fa fa-user"></i></a>
                     <ul class="collapse list-unstyled" id="studenti">
                         <li>
                             <a href="studenti.jsp">Elenco studenti</a>
@@ -48,7 +53,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
+                    <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti <i class="fa fa-chalkboard-teacher"></i></a>
                     <ul class="collapse list-unstyled" id="docenti">
                         <li>
                             <a href="docenti.jsp">Elenco docenti</a>
@@ -59,7 +64,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi</a>
+                    <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi <i class="fa fa-book"></i></a>
                     <ul class="collapse list-unstyled" id="corsi">
                         <li>
                             <a href="corsi.jsp">Elenco corsi</a>
@@ -70,13 +75,13 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni</a>
+                    <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni <i class="fa fa-clock"></i></a>
                     <ul class="collapse list-unstyled" id="prenotazioni">
                         <li>
-                            <a href="#">Elenco prenotazioni</a>
+                            <a href="prenotazioni.jsp">Elenco prenotazioni</a>
                         </li>
                         <li>
-                            <a href="#">Inserisci prenotazione</a>
+                            <a href="ins_prenotazione.jsp">Inserisci prenotazione</a>
                         </li>
                     </ul>
                 </li>
@@ -117,7 +122,7 @@
                         <p><%out.print(CorsoDAO.getN());%> Corsi</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">
-                        <button class="btn btn-transparent"><i class="fa fa-clock fa-5x"></i></button>
+                        <button onclick="location.href='corsi.jsp';" class="btn btn-transparent"><i class="fa fa-clock fa-5x"></i></button>
                         <p><%out.print(PrenotazioneDAO.getN());%> Prenotazioni</p>
                     </div>
                 </div>

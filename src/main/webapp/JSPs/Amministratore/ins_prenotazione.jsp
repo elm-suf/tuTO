@@ -17,26 +17,16 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="../../css/angular-material.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
-    <script src="../../js/custom.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-aria.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-messages.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.js"></script>
-    <!-- Angular Material Javascript now available via Google CDN; version 0.8 used here -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.js"></script>
 
-    <title>Inserisci Docente</title>
+    <title>Inserisci Prenotazione</title>
 
     <script>
         var xhr = new XMLHttpRequest();
 
-        function insertDocente() {
-            var url = "/controller?action=insert_docente&username=" + $('#username').val() + "&nome=" + $('#nome').val() + "&cognome=" + $('#cognome').val() + "&password=" + $('#password').val();
+        function insertPrenotazione() {
+            var url = "/controller?action=insert_prenotazione&stato=" + $('#stato').val() + "&studente=" + $('#studente').val() + "&docente=" + $('#docente').val() + "&slot=" + $('slot').val() + "&data=" + $('data').val();
             console.log(url);
-            console.log("WELCOME INSERT STUDENT");
             xhr.open("post", url, false);
             xhr.onreadystatechange = check;
             xhr.send();
@@ -66,7 +56,7 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="dashboard.jsp">Dashboard</a>
+                <a href="dashboard.jsp">Dashboard <i class="fa fa-chart-pie"></i></a>
             </li>
             <li>
                 <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti <i
@@ -87,7 +77,7 @@
                     <li>
                         <a href="docenti.jsp">Elenco docenti</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="#">Inserisci docente</a>
                     </li>
                 </ul>
@@ -108,11 +98,11 @@
                 <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni
                     <i class="fa fa-clock"></i></a>
                 <ul class="collapse list-unstyled" id="prenotazioni">
-                    <li>
+                    <li class="active">
                         <a href="prenotazioni.jsp">Elenco prenotazioni</a>
                     </li>
                     <li>
-                        <a href="ins_prenotazione.jsp">Inserisci prenotazione</a>
+                        <a href="#">Inserisci prenotazione</a>
                     </li>
                 </ul>
             </li>
@@ -137,40 +127,45 @@
 
             </div>
         </nav>
-        <h1 class="page-header">Inserisci Docente</h1>
+        <h1 class="page-header">Inserisci Prenotazione</h1>
         <hr>
         <br>
         <div class="row">
             <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
-                <label>Username</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <input id="username" type="text" class="form-control" placeholder="Es: LiliArdi"
-                           aria-label="Username" aria-describedby="basic-addon1">
+
+                <div class="form-group">
+                    <label for="stato">Stato</label>
+                    <input id="stato" type="text" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" id="password">
+                    <label for="studente">Studente</label>
+                    <input class="form-control" id="studente">
                 </div>
+
                 <div class="form-group">
-                    <label>Nome</label>
-                    <input class="form-control" id="nome">
+                    <label for="docente">Docente</label>
+                    <input class="form-control" id="docente">
                 </div>
+
                 <div class="form-group">
-                    <label>Cognome</label>
-                    <input class="form-control" id="cognome">
+                    <label for="slot">Slot</label>
+                    <input class="form-control" id="slot">
                 </div>
+
+                <div class="form-group">
+                    <label for="data">Data</label>
+                    <input class="form-control" id="data">
+                </div>
+
                 <div class="form-group text-center">
-                    <button id="insert-docente" onclick="insertDocente()" type="submit"
+                    <button id="insert-prenotazione" onclick="insertPrenotazione()" type="submit"
                             class="btn btn-theme btn-lg btn-block">Inserisci
                     </button>
                 </div>
             </form>
             <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
-                <i class="fa fa-chalkboard-teacher big-icon d-block mx-auto"></i>
+                <i class="fa fa-clock big-icon d-block mx-auto"></i>
             </div>
         </div>
     </div>

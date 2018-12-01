@@ -86,7 +86,7 @@ public class StudenteDAO {
     }
 
 
-    public static void remove(Studente stud) throws SQLException {
+    public static void delete(Studente stud) throws SQLException {
         String remove = "DELETE FROM studente WHERE username = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();

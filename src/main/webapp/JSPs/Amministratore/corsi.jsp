@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -20,17 +20,16 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <!-- Our Custom CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-
-    <script>
-        var xhr = new XMLHttpRequest();
-        function elenco_corsi() {
-            var url = "/controller?action=elenco_corsi";
-            xhr.open("GET", url, true);
-            xhr.onreadystatechange = buildHtmlTable;
-            xhr.send(null);
-        }
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="../../js/custom.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-aria.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-messages.js"></script>
+    <!-- Angular Material Javascript now available via Google CDN; version 0.8 used here -->
+    <script src="../../js/angular-material.js"></script>
 
     <title>Elenco Corsi</title>
 </head>
@@ -47,10 +46,11 @@
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="dashboard.jsp">Dashboard</a>
+                    <a href="dashboard.jsp">Dashboard <i class="fa fa-chart-pie"></i></a>
                 </li>
                 <li>
-                    <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti</a>
+                    <a href="#studenti" data-toggle="collapse" aria-expanded="false"
+                       class="dropdown-toggle">Studenti <i class="fa fa-user"></i></a>
                     <ul class="collapse list-unstyled" id="studenti">
                         <li>
                             <a href="studenti.jsp">Elenco studenti</a>
@@ -61,7 +61,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti</a>
+                    <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti <i
+                            class="fa fa-chalkboard-teacher"></i></a>
                     <ul class="collapse list-unstyled" id="docenti">
                         <li>
                             <a href="studenti.jsp">Elenco docenti</a>
@@ -72,7 +73,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi</a>
+                    <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi <i
+                            class="fa fa-book"></i></a>
                     <ul class="collapse list-unstyled" id="corsi">
                         <li class="active">
                             <a href="#">Elenco corsi</a>
@@ -83,13 +85,14 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni</a>
+                    <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni
+                        <i class="fa fa-clock"></i></a>
                     <ul class="collapse list-unstyled" id="prenotazioni">
                         <li>
-                            <a href="#">Elenco prenotazioni</a>
+                            <a href="prenotazioni.jsp">Elenco prenotazioni</a>
                         </li>
                         <li>
-                            <a href="#">Inserisci prenotazione</a>
+                            <a href="ins_prenotazione.jsp">Inserisci prenotazione</a>
                         </li>
                     </ul>
                 </li>
@@ -106,36 +109,40 @@
                         <span></span>
                         <span></span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
                     <!-- Aggiungere icona omino -->
                 </div>
             </nav>
-            <div class="container" ng-app="myApp" ng-controller="myCtrl">
+            <div class="container" style="overflow: auto" ng-app="mySite" ng-controller="corsi_ctrl" ng-cloak>
                 <h1 class="page-header">Elenco Corsi</h1>
                 <hr style="margin-top: 0;">
                 <br>
 
-                <ul>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Titolo</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="x in tabella" ng-init="index=1">
-                                <th scope="row">{{tabella.indexOf(x)}}</th>
-                                <td>{{x.titolo}}</td>
-                                <td><button class="btn btn-danger" ng-click="elimina(x)">Elimina</button></td>
-                            </tr>
-                        </tbody>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titolo</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in tabella" ng-init="index=1">
+                        <th scope="row">{{tabella.indexOf(x)}}</th>
+                        <td>{{x.titolo}}</td>
+                        <td>
+                            <md-button class="md-raised md-warn" ng-click="elimina(x, $event)">
+                                Elimina
+                            </md-button>
+                        </td>
+                    </tr>
+                    </tbody>
 
-                    </table>
-                </ul>
+                </table>
             </div>
         </div>
     </div>
