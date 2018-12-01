@@ -56,11 +56,11 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="dashboard.jsp">Dashboard <i class="fa fa-chart-pie"></i></a>
+                <a href="dashboard.jsp"><i class="fa fa-chart-pie"></i> Dashboard</a>
             </li>
             <li>
-                <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Studenti <i
-                        class="fa fa-user"></i></a>
+                <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="fa fa-user"></i> Studenti</a>
                 <ul class="collapse list-unstyled" id="studenti">
                     <li>
                         <a href="studenti.jsp">Elenco studenti</a>
@@ -71,8 +71,8 @@
                 </ul>
             </li>
             <li>
-                <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Docenti <i
-                        class="fa fa-chalkboard-teacher"></i></a>
+                <a href="#docenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="fa fa-chalkboard-teacher"></i> Docenti</a>
                 <ul class="collapse list-unstyled" id="docenti">
                     <li>
                         <a href="docenti.jsp">Elenco docenti</a>
@@ -83,8 +83,8 @@
                 </ul>
             </li>
             <li>
-                <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Corsi <i
-                        class="fa fa-book"></i></a>
+                <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="fa fa-book"></i> Corsi</a>
                 <ul class="collapse list-unstyled" id="corsi">
                     <li>
                         <a href="corsi.jsp">Elenco corsi</a>
@@ -95,8 +95,8 @@
                 </ul>
             </li>
             <li>
-                <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Prenotazioni
-                    <i class="fa fa-clock"></i></a>
+                <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="fa fa-clock"></i> Prenotazioni</a>
                 <ul class="collapse list-unstyled" id="prenotazioni">
                     <li class="active">
                         <a href="prenotazioni.jsp">Elenco prenotazioni</a>
@@ -124,6 +124,17 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Profilo <i class="fa fa-user"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index.html">Logout <i class="fas fa-sign-out-alt"></i></a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
         </nav>
