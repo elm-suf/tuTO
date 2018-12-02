@@ -21,12 +21,14 @@
 </header>
 
 <div class="row">
-    <div class="col-sm-12 col-md-5 my-auto float-right">
+    <div class="col-sm-12 col-md-5 float-left">
+        <h1 class="page-header text-center">Login</h1>
+        <br>
         <div class="container mt-auto">
             <div id="main_login" class="card card-body bg-light m-2">
                 <form action="/controller" method="post">
-                    <input name="username" required type="text" class="form-control mt-3" placeholder="Username">
-                    <input name="password" required type="password" class="form-control my-4" placeholder="Password">
+                    <input name="username" required="" type="text" class="form-control mt-3" placeholder="Username">
+                    <input name="password" required="" type="password" class="form-control my-4" placeholder="Password">
                     <button type="submit" name="action" value="login" class="btn btn-primary bg-success form-control">
                         Login
                     </button>
@@ -34,7 +36,9 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 col-md-7 m-auto">
+    <div class="col-sm-12 col-md-7 m-auto float-right">
+        <h1 class="page-header text-center">Registrazione</h1>
+        <br>
         <div class="container mt-auto ">
             <div id="main_register" class="card card-body bg-secondary m-2">
                 <form action="/controller" method="post">

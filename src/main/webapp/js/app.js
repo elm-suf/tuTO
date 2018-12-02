@@ -1,6 +1,5 @@
 //++++++++++++++++++++++++MODULE++++++++++++++++++++++++++++++++++++++++++++++++++//
-var app = angular.module("myApp", ['ngRoute']);
-
+var app = angular.module("myApp", ['ngRoute', 'ngMaterial']);
 app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider) {
         $routeProvider
@@ -20,21 +19,25 @@ app.config(['$routeProvider', '$locationProvider',
 
 app.controller("tabellaCtrl", tabellaCtrl);
 app.controller("main", main);
+app.controller('studenti_ctrl', studenti_ctrl);
+app.controller('docenti_ctrl', docenti_ctrl);
+app.controller('corsi_ctrl', corsi_ctrl);
+app.controller('prenotazioni_ctrl', prenotazioni_ctrl);
 
-function main ($scope, $http) {
+function main($scope, $http) {
 
     $scope.logout = function () {
 
         console.log("logout");
 
         $http({
-            method : 'POST',
-            url : '/controller',
-            params : {
-                action : 'logout'
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'logout'
             }
         }).then(function (value) {
-            console.log("value = "+value);
+            console.log("value = " + value);
         })
 
     }
@@ -174,4 +177,165 @@ function prenotaCtrl($scope, $http) {
             window.location = '/views/login-register.html'
         });
     };
+}
+
+function studenti_ctrl($scope, $http, $mdDialog) {
+    $http.get("/controller", {params: {'action': 'elenco_studenti'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.tabella = response.data;
+        });
+
+    $scope.elimina = function (x, ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Sei sicuro?')
+            .targetEvent(ev)
+            .ok('OK!')
+            .cancel('Chiudi');
+
+        $mdDialog.show(confirm).then(function () {
+            $http({
+                method: 'GET',
+                url: "/controller",
+                params: {
+                    'action': 'remove_studente', 'username': x.username
+                }
+            }).then(function () {
+                $http({
+                    method: 'GET',
+                    url: "/controller",
+                    params: {
+                        'action': 'elenco_studenti'
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    $scope.tabella = response.data;
+                })
+            });
+        }, function () {
+            console.log("Errore caricamento")
+        });
+    };
+
+}
+
+function docenti_ctrl($scope, $http, $mdDialog) {
+    $http.get("/controller", {params: {'action': 'elenco_docenti'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.tabella = response.data;
+        });
+
+    $scope.elimina = function (x, ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Sei sicuro?')
+            .targetEvent(ev)
+            .ok('OK!')
+            .cancel('Chiudi');
+
+        $mdDialog.show(confirm).then(function () {
+            $http({
+                method: 'GET',
+                url: "/controller",
+                params: {
+                    'action': 'remove_docente', 'username': x.username
+                }
+            }).then(function () {
+                $http({
+                    method: 'GET',
+                    url: "/controller",
+                    params: {
+                        'action': 'elenco_docenti'
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    $scope.tabella = response.data;
+                })
+            });
+        }, function () {
+            console.log("Errore caricamento")
+        });
+    };
+}
+
+function corsi_ctrl($scope, $http, $mdDialog) {
+    $http.get("/controller", {params: {'action': 'elenco_corsi'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.tabella = response.data;
+        });
+
+    $scope.elimina = function (x, ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Sei sicuro?')
+            .targetEvent(ev)
+            .ok('OK!')
+            .cancel('Chiudi');
+
+        $mdDialog.show(confirm).then(function () {
+            $http({
+                method: 'GET',
+                url: "/controller",
+                params: {
+                    'action': 'remove_corso', 'titolo': x.titolo
+                }
+            }).then(function () {
+                $http({
+                    method: 'GET',
+                    url: "/controller",
+                    params: {
+                        'action': 'elenco_corsi'
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    $scope.tabella = response.data;
+                })
+            });
+        }, function () {
+            console.log("Errore caricamento")
+        });
+    }
+}
+
+function prenotazioni_ctrl($scope, $http) {
+    $http.get("/controller", {params: {'action': 'elenco_prenotazioni'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.tabella = response.data;
+        });
+
+    $scope.elimina = function (x, ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Sei sicuro?')
+            .targetEvent(ev)
+            .ok('OK!')
+            .cancel('Chiudi');
+
+        $mdDialog.show(confirm).then(function () {
+            $http({
+                method: 'GET',
+                url: "/controller",
+                params: {
+                    'action': 'remove_prenotazione',
+                    'docente': x.docente,
+                    'studente': x.studente,
+                    'slot': x.slot,
+                    'data': x.data
+                }
+            }).then(function () {
+                $http({
+                    method: 'GET',
+                    url: "/controller",
+                    params: {
+                        'action': 'elenco_prenotazioni'
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    $scope.tabella = response.data;
+                })
+            });
+        }, function () {
+            console.log("Errore caricamento")
+        });
+    }
 }
