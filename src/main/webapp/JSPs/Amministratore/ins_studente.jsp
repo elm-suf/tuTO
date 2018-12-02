@@ -107,7 +107,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent" ng-controller="main">
-                    <ul class="nav navbar-nav ml-auto">
+                    <ul class="nav navbar-nav ml-auto text-center">
                         <li class="nav-item">
                             <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
                         </li>
