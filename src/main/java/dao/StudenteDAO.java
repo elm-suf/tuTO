@@ -74,6 +74,8 @@ public class StudenteDAO {
             st.setString(3, stud.getNome());
             st.setString(4, stud.getCognome());
 
+            System.out.println("executing query : " + st.toString());
+
             return st.executeUpdate();
 
         }catch (Exception e){

@@ -33,7 +33,7 @@ public class PrenotazioneDAO {
     }
 
     public static int insert(Prenotazione pren) throws SQLException {
-        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegnamento, slot, data) VALUES (?,?,?,?,?,?)";
+        String insert = "INSERT INTO prenotazione(stato, studente, docente, id_insegnamento, slot, data, corso) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
@@ -44,10 +44,12 @@ public class PrenotazioneDAO {
             st.setInt(4, pren.getIdInsegnamento());
             st.setString(5, pren.getSlot());
             st.setString(6, pren.getData());
+            //todo non capisco perche hai rimosso corso
+            st.setString(7, pren.getCorso());
+            System.out.println("Query : " + st.toString());
             return st.executeUpdate();
 
-        } catch (Exception e) {
-            //catturo l'eccezione che potrebbe essere generata e ritorno immediatamente -1 error.
+        } catch (SQLException e) {
             return -1;
         } finally {
             if (st != null) st.close();
@@ -55,20 +57,47 @@ public class PrenotazioneDAO {
         }
     }
 
-    public static void delete(Prenotazione pren) throws SQLException {
-        String remove = "DELETE FROM prenotazione WHERE slot = ? AND data = ?";
+
+    public static int delete(String docente, String data, String slot) throws SQLException {
+        String remove = "DELETE FROM prenotazione WHERE docente = ? AND slot = ? AND data = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(remove);
-            st.setString(1, pren.getSlot());
-            st.setString(2, pren.getData());
-            st.executeUpdate();
-        } finally {
+            st.setString(1, docente);
+            st.setString(2, slot);
+            st.setString(3, data);
+            System.out.println(st.toString());
+            return st.executeUpdate();
+        } catch (SQLException e){
+               e.getMessage();
+               return -1;
+        }finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }
     }
+
+    public static int disdisci(String docente, String data, String slot) throws SQLException {
+        String remove = "UPDATE prenotazione SET stato = 'disdetta' WHERE docente=? AND data = ? AND slot =?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(remove);
+            st.setString(1, docente);
+            st.setString(2, data);
+            st.setString(3, slot);
+            System.out.println(st.toString());
+            return st.executeUpdate();
+        } catch (SQLException e){
+            e.getMessage();
+            return -1;
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
 
     public static int getN() throws SQLException {
         String getN = "SELECT count(id) FROM prenotazione";
@@ -102,24 +131,63 @@ public class PrenotazioneDAO {
             st.setString(2, data);
             ResultSet rs = st.executeQuery();
             System.out.println("executing following query\n" + st.toString());
-            //studente, docente,  corso, id_ins, slot, stato, data
             while (rs.next()) {
                 String stato = rs.getString("stato");
-                //String studente = rs.getString("studente");
-                //docente = rs.getString("docente");
-                //String corso = rs.getString("corso");
-                //int id_insegamento = rs.getInt("id_insegamento");
                 String slot = rs.getString("slot");
-                //data = rs.getString("data");
 
-                if(stato.equals("attiva")){
-                    active.remove(slot );
+                if (stato.equals("attiva")) {
+                    active.remove(slot);
                 }
             }
-            //ArrayList<Pair> pairs = new ArrayList<>();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return active;
+    }
+
+    public static List<Prenotazione> getAllPrenotazioniUtente(String studente) {
+        String sql = "SELECT docente,corso,slot,stato,data FROM prenotazione where studente = ?";
+        Connection conn = DBConnection.getInstance();
+        List<Prenotazione> list = new ArrayList<>();
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, studente);
+
+            System.out.println(st.toString());
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                String docente = rs.getString("docente");
+                String corso = rs.getString("corso");
+                String slot = rs.getString("slot");
+                String stato = rs.getString("stato");
+                String data = rs.getString("data");
+
+                list.add(new Prenotazione(studente, docente, corso, 0000, slot, stato, data));
+            }
+
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+
+        return list.isEmpty() ? null : list;
+    }
+
+    public static void main(String[] args) {
+//        http://localhost:8080/controller?action=prenotazione&slot=1&docente=ippolito&insegnamento=9&corso=italiano&data=2018-11-28
+//        Prenotazione p = new Prenotazione("gintonik", "ippolito", "italiano", 9, "2", "attiva", "current");
+
+        try {
+            System.out.println(PrenotazioneDAO.delete("docente","2018-11-27", "1"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//        List docente = PrenotazioneDAO.getAllPrenotazioniUtente("studente");
+//        System.out.println(docente);
+//
+
+//        docente.forEach(System.out::println);
+
     }
 }

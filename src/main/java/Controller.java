@@ -16,7 +16,7 @@ import java.util.List;
 public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        res.setContentType("text/html;charset=UTF-8");
+//        res.setContentType("text/html;charset=UTF-8");
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
                     else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password))
                         res.sendRedirect("/index.html");
                     else
-                        res.sendRedirect("/login_failure.jsp");
+                        res.sendRedirect("/views/login-register.html");
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
@@ -50,6 +50,7 @@ public class Controller extends HttpServlet {
                     System.out.println(e.getMessage());
                 }
                 break;
+
             case "elenco_docenti":
                 try {
                     res.setContentType("text/plain");
@@ -126,16 +127,13 @@ public class Controller extends HttpServlet {
                 break;
 
             case "prenotazione":
-                //INSERT INTO prenotazione(stato, studente, docente, id_insegamento, n_slot, data, corso) VALUES ('attiva','gintonik','ippolito',9,'1',current_date,'italiano')
-                //controller?action=prenotazione&stato=attiva&studente=gintonik&docente=ippolito&slot=4&corso=italiano&data=2018-12-26
+
                 String studente = (String) s.getAttribute("username");
                 if (studente == null || studente.isEmpty()) {
-                    System.out.println("studente is null");
-                    res.sendRedirect("/JSPs/home.jsp");
-                    //System.out.println();
-                    // todo da sistemare; quando session non ha un utente ridirigere verso login
+                    System.out.println("studente is null:: non e possibile prenotare");
+                    res.sendError(503, "not logged in");
+                    return;
                 } else {
-                    res.setContentType("application/json");
                     slot = req.getParameter("slot");
                     docente = req.getParameter("docente");
                     corso = req.getParameter("corso");
@@ -146,7 +144,7 @@ public class Controller extends HttpServlet {
                         int idInsegnamento = InsegnamentoDAO.getIdInsegnamento(corso, docente);
                         Prenotazione p = new Prenotazione(studente, docente, corso, idInsegnamento, slot, stato, data);
 
-                        out.println(gson.toJson(p));
+//                        out.println(gson.toJson(p));
 
                         int status = PrenotazioneDAO.insert(p);
                         if (status < 1) res.sendError(500, "0 rows affected");
@@ -210,17 +208,78 @@ public class Controller extends HttpServlet {
                 break;
 
             case "disponibilita":
-//                res.setContentType("application/json"); //todo riguardare
-
-                //todo query: mostra professori disponibili in @param:data
-                //select * from prenotazione where docente = @param and data = @param
-                //questo mi dovrebbe restituire l'elenco di slot occupati per @docente
+                res.setContentType("application/json"); //todo riguardare
                 docente = req.getParameter("docente");
                 data = req.getParameter("data");
                 List list = PrenotazioneDAO.getSlotDisponibili(docente, data);
-                //ritorna lista di slot disponibili
                 out.println(gson.toJson(list));
                 System.out.println(gson.toJson(list));
+                break;
+
+            case "lista-prenotazioni":
+//                studente = req.getParameter("studente");
+//                String sessionUname = s.getAttribute("username").toString();
+//                System.out.println("session user name = " + sessionUname);
+                //todo prendere dato da sessione utente
+                studente = (String) s.getAttribute("username");
+
+                if (studente == null || studente.isEmpty()) {
+                    System.out.println("studente is null:: non e possibile prenotare");
+                    res.sendError(503, "not logged in");
+                    return;
+                } else {
+                    List result = PrenotazioneDAO.getAllPrenotazioniUtente(studente);
+                    res.setContentType("application/json");
+                    out.println(gson.toJson(result));
+                    System.out.println(gson.toJson(result));
+                }
+                break;
+
+            case "disdisci":
+                int status = 0;
+                docente = req.getParameter("docente");
+                data = req.getParameter("data");
+                slot = req.getParameter("slot");
+//                String sessionUname = s.getAttribute("username").toString();
+//                System.out.println("session user name = " + sessionUname);
+                try {
+                    status = PrenotazioneDAO.disdisci(docente, data, slot);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("action disdisci terminata con status " + status);
+
+                if (status > 0) {
+                    res.setStatus(200);
+                    out.println("OK");
+                } else {
+                    //todo redirect to login page
+                    out.println("NOT OK");
+                    res.setStatus(500);
+                    res.sendRedirect("/login-register.html");
+                }
+                break;
+
+            case "logout":
+                s.invalidate();
+                System.out.println("session = " + s);
+                break;
+
+            case "register":
+                System.out.println("registraaaaaaaa");
+                username = req.getParameter("username");
+                password = req.getParameter("password");
+                nome = req.getParameter("nome");
+                cognome = req.getParameter("cognome");
+                try {
+                    if(StudenteDAO.insert(new Studente(username,password,nome,cognome))>0){
+                        res.sendRedirect("/index.html");
+                    } else {
+                        res.sendError(503, "try again");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 
