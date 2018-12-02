@@ -41,6 +41,38 @@ public class AmministratoreDAO {
         }
     }
 
+    public static String getName(String username) throws SQLException {
+        String exists = "SELECT nome FROM amministratore WHERE username = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(exists);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getString(1);
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    public static String getSurname(String username) throws SQLException {
+        String exists = "SELECT cognome FROM amministratore WHERE username = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(exists);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getString(1);
+        }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
     public static boolean exists(String username) throws SQLException {
         String exists = "SELECT nome FROM amministratore WHERE username = ?";
         PreparedStatement st = null;

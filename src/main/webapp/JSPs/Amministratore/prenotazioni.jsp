@@ -65,7 +65,7 @@
                             class="fa fa-chalkboard-teacher"></i> Docenti</a>
                     <ul class="collapse list-unstyled" id="docenti">
                         <li>
-                            <a href="#">Elenco docenti</a>
+                            <a href="docenti.jsp">Elenco docenti</a>
                         </li>
                         <li>
                             <a href="ins_docente.jsp">Inserisci docente</a>
@@ -118,7 +118,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Profilo <i class="fa fa-user"></i></a>
+                                <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/index.html">Logout <i class="fas fa-sign-out-alt"></i></a>
@@ -128,7 +128,7 @@
 
                 </div>
             </nav>
-            <div class="container" ng-app="mySite" ng-controller="prenotazioni_ctrl" ng-cloak>
+            <div class="container" style="overflow: auto" ng-app="mySite" ng-controller="prenotazioni_ctrl" ng-cloak>
                 <h1 class="page-header">Elenco Prenotazioni</h1>
                 <hr style="margin-top: 0;">
                 <br>

@@ -31,9 +31,11 @@ public class Controller extends HttpServlet {
                 s.setAttribute("username", username);
                 s.setAttribute("password", password);
                 try {
-                    if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password))
+                    if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password)) {
                         res.sendRedirect("/JSPs/Amministratore/dashboard.jsp");
-                    else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password))
+                        s.setAttribute("nome", AmministratoreDAO.getName(username));
+                        s.setAttribute("cognome", AmministratoreDAO.getSurname(username));
+                    }else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password))
                         res.sendRedirect("/index.html");
                     else
                         res.sendRedirect("/views/login-register.html");

@@ -1,11 +1,8 @@
-<%@ page import="dao.StudenteDAO" %>
-<%@ page import="dao.DocenteDAO" %>
-<%@ page import="dao.CorsoDAO" %>
-<%@ page import="dao.PrenotazioneDAO" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Lorenzo
-  Date: 04/11/2018
-  Time: 12:06
+  Date: 12/1/2018
+  Time: 9:44 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -30,8 +27,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-messages.js"></script>
     <!-- Angular Material Javascript now available via Google CDN; version 0.8 used here -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.js"></script>
-
-    <title>Elenco Corsi</title>
+    <title>Profilo Utente</title>
 </head>
 <body>
 <div id="wrapper">
@@ -41,22 +37,22 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <a href="dashboard.jsp"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
+                <h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
             </div>
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="dashboard.jsp"><i class="fa fa-chart-pie"></i> Dashboard</a>
+                    <a href="Amministratore/dashboard.jsp"><i class="fa fa-chart-pie"></i> Dashboard</a>
                 </li>
                 <li>
                     <a href="#studenti" data-toggle="collapse" aria-expanded="false"
                        class="dropdown-toggle"><i class="fa fa-user"></i> Studenti</a>
                     <ul class="collapse list-unstyled" id="studenti">
-                        <li>
-                            <a href="studenti.jsp">Elenco studenti</a>
+                        <li class="active">
+                            <a href="Amministratore/studenti.jsp">Elenco studenti</a>
                         </li>
                         <li>
-                            <a href="ins_studente.jsp">Inserisci studente</a>
+                            <a href="Amministratore/ins_studente.jsp">Inserisci studente</a>
                         </li>
                     </ul>
                 </li>
@@ -65,10 +61,10 @@
                             class="fa fa-chalkboard-teacher"></i> Docenti</a>
                     <ul class="collapse list-unstyled" id="docenti">
                         <li>
-                            <a href="studenti.jsp">Elenco docenti</a>
+                            <a href="Amministratore/docenti.jsp">Elenco docenti</a>
                         </li>
                         <li>
-                            <a href="ins_docente.jsp">Inserisci docente</a>
+                            <a href="Amministratore/ins_docente.jsp">Inserisci docente</a>
                         </li>
                     </ul>
                 </li>
@@ -76,11 +72,11 @@
                     <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                             class="fa fa-book"></i> Corsi</a>
                     <ul class="collapse list-unstyled" id="corsi">
-                        <li class="active">
-                            <a href="#">Elenco corsi</a>
+                        <li>
+                            <a href="Amministratore/corsi.jsp">Elenco corsi</a>
                         </li>
                         <li>
-                            <a href="ins_corso.jsp">Inserisci corso</a>
+                            <a href="Amministratore/ins_corso.jsp">Inserisci corso</a>
                         </li>
                     </ul>
                 </li>
@@ -89,10 +85,10 @@
                             class="fa fa-clock"></i> Prenotazioni</a>
                     <ul class="collapse list-unstyled" id="prenotazioni">
                         <li>
-                            <a href="prenotazioni.jsp">Elenco prenotazioni</a>
+                            <a href="Amministratore/prenotazioni.jsp">Elenco prenotazioni</a>
                         </li>
                         <li>
-                            <a href="ins_prenotazione.jsp">Inserisci prenotazione</a>
+                            <a href="Amministratore/ins_prenotazione.jsp">Inserisci prenotazione</a>
                         </li>
                     </ul>
                 </li>
@@ -118,51 +114,49 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
+                                <a class="nav-link" href="#">Profilo <i class="fa fa-user"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/index.html">Logout <i class="fas fa-sign-out-alt"></i></a>
                             </li>
                         </ul>
                     </div>
-
                 </div>
             </nav>
-            <div class="container" style="overflow: auto" ng-app="mySite" ng-controller="corsi_ctrl" ng-cloak>
-                <h1 class="page-header">Elenco Corsi</h1>
-                <hr style="margin-top: 0;">
-                <br>
-
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Titolo</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="x in tabella" ng-init="index=1">
-                        <th scope="row">{{tabella.indexOf(x)}}</th>
-                        <td>{{x.titolo}}</td>
-                        <td>
-                            <md-button class="md-raised md-warn" ng-click="elimina(x, $event)">
-                                Elimina
-                            </md-button>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
+            <div class="card text-center">
+                <div class="card-header">Informazioni di profilo</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6 my-auto d-none d-md-none d-lg-block">
+                            <img class="mx-auto" src="https://bit.ly/2lI5e4Z" alt="">
+                        </div>
+                        <form class="col-lg-6">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control text-center" id="username"
+                                   value="<% out.print(session.getAttribute("username"));%>" readonly><br>
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control text-center" id="password"
+                                   value="<% out.print(session.getAttribute("password"));%>" readonly><br>
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control text-center" id="nome"
+                                   value="<% out.print(session.getAttribute("nome"));%>" readonly><br>
+                            <label for="cognome">Cognome</label>
+                            <input type="text" class="form-control text-center" id="cognome"
+                                   value="<% out.print(session.getAttribute("cognome"));%>" readonly>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-footer text-muted"></div>
             </div>
+
         </div>
     </div>
 </div>
-<!-- Custom JS -->
-<script src="../../js/custom.js"></script>
-
 <!-- Font Awesome JS -->
-<script src="../../js/fontawesome.min.js"></script>
+<script src="../js/fontawesome.min.js"></script>
+
+<!-- Custom JS -->
+<script src="../js/custom.js"></script>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

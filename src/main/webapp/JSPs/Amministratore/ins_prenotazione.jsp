@@ -128,7 +128,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profilo <i class="fa fa-user"></i></a>
+                            <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/index.html">Logout <i class="fas fa-sign-out-alt"></i></a>
@@ -138,45 +138,47 @@
 
             </div>
         </nav>
-        <h1 class="page-header">Inserisci Prenotazione</h1>
-        <hr>
-        <br>
-        <div class="row">
-            <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
+        <div class="container" style="overflow: auto">
+            <h1 class="page-header">Inserisci Prenotazione</h1>
+            <hr>
+            <br>
+            <div class="row">
+                <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
 
-                <div class="form-group">
-                    <label for="stato">Stato</label>
-                    <input id="stato" type="text" class="form-control">
-                </div>
+                    <div class="form-group">
+                        <label for="stato">Stato</label>
+                        <input id="stato" type="text" class="form-control">
+                    </div>
 
-                <div class="form-group">
-                    <label for="studente">Studente</label>
-                    <input class="form-control" id="studente">
-                </div>
+                    <div class="form-group">
+                        <label for="studente">Studente</label>
+                        <input class="form-control" id="studente">
+                    </div>
 
-                <div class="form-group">
-                    <label for="docente">Docente</label>
-                    <input class="form-control" id="docente">
-                </div>
+                    <div class="form-group">
+                        <label for="docente">Docente</label>
+                        <input class="form-control" id="docente">
+                    </div>
 
-                <div class="form-group">
-                    <label for="slot">Slot</label>
-                    <input class="form-control" id="slot">
-                </div>
+                    <div class="form-group">
+                        <label for="slot">Slot</label>
+                        <input class="form-control" id="slot">
+                    </div>
 
-                <div class="form-group">
-                    <label for="data">Data</label>
-                    <input class="form-control" id="data">
-                </div>
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <input class="form-control" id="data">
+                    </div>
 
-                <div class="form-group text-center">
-                    <button id="insert-prenotazione" onclick="insertPrenotazione()" type="submit"
-                            class="btn btn-theme btn-lg btn-block">Inserisci
-                    </button>
+                    <div class="form-group text-center">
+                        <button id="insert-prenotazione" onclick="insertPrenotazione()" type="submit"
+                                class="btn btn-theme btn-lg btn-block">Inserisci
+                        </button>
+                    </div>
+                </form>
+                <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
+                    <i class="fa fa-clock big-icon d-block mx-auto"></i>
                 </div>
-            </form>
-            <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
-                <i class="fa fa-clock big-icon d-block mx-auto"></i>
             </div>
         </div>
     </div>

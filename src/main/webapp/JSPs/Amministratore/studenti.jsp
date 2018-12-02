@@ -118,7 +118,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Profilo <i class="fa fa-user"></i></a>
+                                <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/index.html">Logout <i class="fas fa-sign-out-alt"></i></a>
@@ -128,7 +128,7 @@
 
                 </div>
             </nav>
-            <div class="container" ng-app="mySite" ng-controller="studenti_ctrl" ng-cloak>
+            <div class="container" style="overflow: auto" ng-app="mySite" ng-controller="studenti_ctrl" ng-cloak>
                 <h1 class="page-header">Elenco Studenti</h1>
                 <hr style="margin-top: 0;">
                 <br>
