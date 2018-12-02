@@ -25,7 +25,8 @@
 
     <title>Profilo Utente</title>
 </head>
-<body>
+<body ng-app="myApp">
+    <% if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -107,13 +108,13 @@
                         <i class="fas fa-align-justify"></i>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent" ng-controller="main">
                         <ul class="nav navbar-nav ml-auto text-center">
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Profilo <i class="fa fa-user"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/index.html">Logout <i class="fas fa-sign-out-alt"></i></a>
+                                <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i class="fas fa-sign-out-alt"></i></a>
                             </li>
                         </ul>
                     </div>

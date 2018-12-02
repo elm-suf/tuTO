@@ -30,6 +30,7 @@
     <title>Elenco Docenti</title>
 </head>
 <body ng-app="myApp">
+<% if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 
 <div id="wrapper">
 
