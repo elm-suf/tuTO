@@ -126,7 +126,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 my-auto d-none d-md-none d-lg-block">
-                            <img class="mx-auto" src="https://bit.ly/2lI5e4Z" alt="">
+                            <img class="mx-auto" src="/img/user.png" alt="">
                         </div>
                         <form class="col-lg-6">
                             <label for="username">Username</label>
