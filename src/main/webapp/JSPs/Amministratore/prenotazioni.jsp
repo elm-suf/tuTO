@@ -128,7 +128,7 @@
                 <h1 class="page-header">Elenco Prenotazioni</h1>
                 <hr style="margin-top: 0;">
                 <br>
-                <ul>
+                <ul style="padding-left: 0">
                     <table class="table table-striped">
                         <thead>
                         <tr>

@@ -1,7 +1,4 @@
-<%@ page import="dao.StudenteDAO" %>
-<%@ page import="dao.DocenteDAO" %>
-<%@ page import="dao.CorsoDAO" %>
-<%@ page import="dao.PrenotazioneDAO" %><%--
+<%@ page import="dao.*" %><%--
   Created by IntelliJ IDEA.
   User: Lorenzo
   Date: 04/11/2018
@@ -30,7 +27,9 @@
 </head>
 <body ng-app="myApp">
 <%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+    if(session.getAttribute("username") == null)
+        response.sendRedirect("/views/login-register.html");
+%>
 <div id="wrapper">
 
     <!-- Navigation -->

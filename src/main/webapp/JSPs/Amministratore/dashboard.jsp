@@ -26,7 +26,7 @@
     </head>
     <body ng-app = "myApp">
     <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        if(session.getAttribute("username") == null)
+        if(session.getAttribute("username") == null /*|| !AmministratoreDAO.exists(session.getAttribute("username").toString())*/)
             response.sendRedirect("/views/login-register.html");
     %>
 
