@@ -142,6 +142,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="corso">Corso</label>
+                        <input class="form-control" id="corso">
+                    </div>
+
+                    <div class="form-group">
                         <label for="slot">Slot</label>
                         <input class="form-control" id="slot">
                     </div>
@@ -184,8 +189,8 @@
 <script>
     var xhr = new XMLHttpRequest();
 
-    function insertPrenotazione() {
-        var url = "/controller?action=insert_prenotazione&stato=" + $('#stato').val() + "&studente=" + $('#studente').val() + "&docente=" + $('#docente').val() + "&slot=" + $('slot').val() + "&data=" + $('data').val();
+    function insertPrenotazione(){
+        var url = "/controller?action=insert_prenotazione&stato=" + $('#stato').val() + "&studente=" + $('#studente').val() + "&corso=" + $('#corso').val() + "&docente=" + $('#docente').val() + "&slot=" + $('#slot').val() + "&data=" + $('#data').val();
         console.log(url);
         xhr.open("post", url, false);
         xhr.onreadystatechange = check;

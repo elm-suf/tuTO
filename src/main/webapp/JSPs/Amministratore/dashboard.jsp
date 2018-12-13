@@ -25,7 +25,10 @@
         <title>Admin Dashboard</title>
     </head>
     <body ng-app = "myApp">
-    <% if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+    <% if(session.getAttribute("username") == null){
+        response.sendRedirect("/views/login-register.html");
+
+    } %>
 
     <div class="wrapper">
         <!-- Sidebar -->

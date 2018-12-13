@@ -163,6 +163,7 @@ public class Controller extends HttpServlet {
                 corso = req.getParameter("corso");
                 data = req.getParameter("data");
                 stato = req.getParameter("stato");
+                System.out.println("slot: " +slot+ " data: " +data);
 
                 try {
                     int idInsegnamento = InsegnamentoDAO.getIdInsegnamento(corso, docente);

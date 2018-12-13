@@ -19,6 +19,7 @@ app.config(['$routeProvider', '$locationProvider',
 
 app.controller("tabellaCtrl", tabellaCtrl);
 app.controller("main", main);
+
 app.controller('studenti_ctrl', studenti_ctrl);
 app.controller('docenti_ctrl', docenti_ctrl);
 app.controller('corsi_ctrl', corsi_ctrl);
