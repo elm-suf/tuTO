@@ -35,7 +35,10 @@ function main($scope, $http) {
             method: 'POST',
             url: '/controller',
             params: {
-                action: 'logout'
+                action: ' '
+            },
+            headers: {
+                'Cache-Control': 'must-revalidate, no-cache, no-store'
             }
         }).then(function (value) {
             console.log("value = " + value);
@@ -170,8 +173,9 @@ function prenotaCtrl($scope, $http) {
                 'stato': 'attiva'
             }
         }).then(function (response) {
-            console.log("&&&&&&&&&&&&&&&&&ok");
-            console.log(response)
+            console.log(response);
+            console.log("splice " + $scope.disponibili.indexOf(slot));
+            $scope.disponibili.splice($scope.disponibili.indexOf(slot),1);
         }, function (reason) {
             console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
