@@ -73,11 +73,14 @@ public class Controller extends HttpServlet {
 
             case "elenco_prenotazioni":
                 try {
-                    res.setContentType("text/plain");
-                    gson.toJson(PrenotazioneDAO.getAll(), out);
+                    res.setContentType("application/json");
+                    String s1 = gson.toJson(PrenotazioneDAO.getAll());
+                    out.println(s1);
+                    System.out.println(s1);
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
+                break;
 
             case "insegnamenti":
                 try {
@@ -205,6 +208,21 @@ public class Controller extends HttpServlet {
 
                 try {
                     DocenteDAO.delete(new Docente(username, password, nome, cognome));
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "remove_prenotazione":
+                stato = req.getParameter("stato");
+                studente = req.getParameter("studente");
+                docente = req.getParameter("docente");
+                corso = req.getParameter("corso");
+                slot = req.getParameter("slot");
+                data = req.getParameter("data");
+
+                try {
+                    PrenotazioneDAO.delete(new Prenotazione(studente, docente, corso, InsegnamentoDAO.getIdInsegnamento(corso, docente), slot, stato, data));
                 } catch (SQLException e) {
                     e.getMessage();
                 }

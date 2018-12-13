@@ -28,7 +28,8 @@
     <title>Elenco Prenotazioni</title>
 </head>
 <body ng-app="myApp">
-<% if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+<%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -128,13 +129,14 @@
                 <hr style="margin-top: 0;">
                 <br>
                 <ul>
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Stato</th>
                             <th scope="col">Studente</th>
                             <th scope="col">Docente</th>
+                            <th scope="col">Corso</th>
                             <th scope="col">Slot</th>
                             <th scope="col">Data</th>
                             <th scope="col"></th>
@@ -146,10 +148,13 @@
                             <td>{{x.stato}}</td>
                             <td>{{x.studente}}</td>
                             <td>{{x.docente}}</td>
+                            <td>{{x.corso}}</td>
                             <td>{{x.slot}}</td>
                             <td>{{x.data}}</td>
                             <td>
-                                <button class="btn btn-danger md-button" ng-click="elimina(x, $event)">Elimina</button>
+                                <md-button class="md-raised md-warn" style="background-color: red" ng-click="elimina(x, $event)">
+                                    Elimina
+                                </md-button>
                             </td>
                         </tr>
                         </tbody>

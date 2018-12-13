@@ -1,7 +1,5 @@
 package pojo;
 
-import java.sql.Date;
-
 public class Prenotazione {
     private int id;
     private String studente;

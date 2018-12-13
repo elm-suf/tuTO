@@ -26,7 +26,8 @@
     <title>Profilo Utente</title>
 </head>
 <body ng-app="myApp">
-    <% if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+    <%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 <div id="wrapper">
 
     <!-- Navigation -->

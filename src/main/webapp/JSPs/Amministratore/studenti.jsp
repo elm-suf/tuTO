@@ -28,7 +28,8 @@
     <title>Elenco Studenti</title>
 </head>
 <body ng-app="myApp">
-<% if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+<%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -36,7 +37,7 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
+                <a href="dashboard.jsp"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
             </div>
 
             <ul class="list-unstyled components">
@@ -147,7 +148,7 @@
                         <td>{{x.nome}}</td>
                         <td>{{x.cognome}}</td>
                         <td>
-                            <md-button class="md-raised md-warn" ng-click="elimina(x, $event)">
+                            <md-button class="md-raised md-warn" style="background-color: red" ng-click="elimina(x, $event)">
                                 Elimina
                             </md-button>
                         </td>

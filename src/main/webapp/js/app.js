@@ -199,7 +199,8 @@ function studenti_ctrl($scope, $http, $mdDialog) {
                 method: 'GET',
                 url: "/controller",
                 params: {
-                    'action': 'remove_studente', 'username': x.username
+                    'action': 'remove_studente',
+                    'username': x.username
                 }
             }).then(function () {
                 $http({
@@ -239,7 +240,8 @@ function docenti_ctrl($scope, $http, $mdDialog) {
                 method: 'GET',
                 url: "/controller",
                 params: {
-                    'action': 'remove_docente', 'username': x.username
+                    'action': 'remove_docente',
+                    'username': x.username
                 }
             }).then(function () {
                 $http({
@@ -278,7 +280,8 @@ function corsi_ctrl($scope, $http, $mdDialog) {
                 method: 'GET',
                 url: "/controller",
                 params: {
-                    'action': 'remove_corso', 'titolo': x.titolo
+                    'action': 'remove_corso',
+                    'titolo': x.titolo
                 }
             }).then(function () {
                 $http({
@@ -298,7 +301,7 @@ function corsi_ctrl($scope, $http, $mdDialog) {
     }
 }
 
-function prenotazioni_ctrl($scope, $http) {
+function prenotazioni_ctrl($scope, $http, $mdDialog) {
     $http.get("/controller", {params: {'action': 'elenco_prenotazioni'}})
         .then(function (response) {
             console.log(response.data);
@@ -318,8 +321,10 @@ function prenotazioni_ctrl($scope, $http) {
                 url: "/controller",
                 params: {
                     'action': 'remove_prenotazione',
-                    'docente': x.docente,
+                    'stato': x.stato,
                     'studente': x.studente,
+                    'docente': x.docente,
+                    'corso': x.corso,
                     'slot': x.slot,
                     'data': x.data
                 }

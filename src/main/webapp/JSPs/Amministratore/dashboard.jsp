@@ -25,10 +25,10 @@
         <title>Admin Dashboard</title>
     </head>
     <body ng-app = "myApp">
-    <% if(session.getAttribute("username") == null){
-        response.sendRedirect("/views/login-register.html");
-
-    } %>
+    <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        if(session.getAttribute("username") == null)
+            response.sendRedirect("/views/login-register.html");
+    %>
 
     <div class="wrapper">
         <!-- Sidebar -->
@@ -133,7 +133,7 @@
                         <p><%out.print(CorsoDAO.getN());%> Corsi</p>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-3 jumbotron jumbotron-no-radius text-center">
-                        <button onclick="location.href='corsi.jsp';" class="btn btn-transparent"><i class="fa fa-clock fa-5x"></i></button>
+                        <button onclick="location.href='prenotazioni.jsp';" class="btn btn-transparent"><i class="fa fa-clock fa-5x"></i></button>
                         <p><%out.print(PrenotazioneDAO.getN());%> Prenotazioni</p>
                     </div>
                 </div>

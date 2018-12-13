@@ -13,7 +13,7 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class PrenotazioneDAO {
 
-    public static ArrayList<Prenotazione> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
+    public static ArrayList<Prenotazione> getAll() throws SQLException {
         String getAll = "SELECT * FROM prenotazione";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -22,7 +22,7 @@ public class PrenotazioneDAO {
             ArrayList<Prenotazione> pren = new ArrayList<>();
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Prenotazione s = new Prenotazione(rs.getString("studente"), rs.getString("docente"), rs.getString("corso"), rs.getInt("idInsegnamento"), rs.getString("slot"), rs.getString("stato"), rs.getString("data"));
+                Prenotazione s = new Prenotazione(rs.getString("studente"), rs.getString("docente"), rs.getString("corso"), rs.getInt("id_insegnamento"), rs.getString("slot"), rs.getString("stato"), rs.getString("data"));
                 pren.add(s);
             }
             return pren;
@@ -58,16 +58,19 @@ public class PrenotazioneDAO {
     }
 
 
-    public static int delete(String docente, String data, String slot) throws SQLException {
-        String remove = "DELETE FROM prenotazione WHERE docente = ? AND slot = ? AND data = ?";
+    public static int delete(Prenotazione pren) throws SQLException {
+        String remove = "DELETE FROM prenotazione WHERE stato = ? AND studente = ? AND docente = ? AND id_insegnamento = ? AND slot = ? AND data = ? AND corso = ?";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
         try {
             st = conn.prepareStatement(remove);
-            st.setString(1, docente);
-            st.setString(2, slot);
-            st.setString(3, data);
-            System.out.println(st.toString());
+            st.setString(1, pren.getStato());
+            st.setString(2, pren.getStudente());
+            st.setString(3, pren.getDocente());
+            st.setInt(4, pren.getIdInsegnamento());
+            st.setString(5, pren.getSlot());
+            st.setString(6, pren.getData());
+            st.setString(7, pren.getCorso());
             return st.executeUpdate();
         } catch (SQLException e){
                e.getMessage();
@@ -171,23 +174,5 @@ public class PrenotazioneDAO {
         }
 
         return list.isEmpty() ? null : list;
-    }
-
-    public static void main(String[] args) {
-//        http://localhost:8080/controller?action=prenotazione&slot=1&docente=ippolito&insegnamento=9&corso=italiano&data=2018-11-28
-//        Prenotazione p = new Prenotazione("gintonik", "ippolito", "italiano", 9, "2", "attiva", "current");
-
-        try {
-            System.out.println(PrenotazioneDAO.delete("docente","2018-11-27", "1"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-//        List docente = PrenotazioneDAO.getAllPrenotazioniUtente("studente");
-//        System.out.println(docente);
-//
-
-//        docente.forEach(System.out::println);
-
     }
 }
