@@ -24,6 +24,7 @@ app.controller('studenti_ctrl', studenti_ctrl);
 app.controller('docenti_ctrl', docenti_ctrl);
 app.controller('corsi_ctrl', corsi_ctrl);
 app.controller('prenotazioni_ctrl', prenotazioni_ctrl);
+app.controller('insegnamenti_ctrl', insegnamenti_ctrl);
 
 function main($scope, $http) {
 
@@ -338,6 +339,47 @@ function prenotazioni_ctrl($scope, $http, $mdDialog) {
                     url: "/controller",
                     params: {
                         'action': 'elenco_prenotazioni'
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    $scope.tabella = response.data;
+                })
+            });
+        }, function () {
+            console.log("Errore caricamento")
+        });
+    }
+}
+
+function insegnamenti_ctrl($scope, $http, $mdDialog) {
+    $http.get("/controller", {params: {'action': 'elenco_insegnamenti'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.tabella = response.data;
+        });
+
+    $scope.elimina = function (x, ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Sei sicuro?')
+            .targetEvent(ev)
+            .ok('OK!')
+            .cancel('Chiudi');
+
+        $mdDialog.show(confirm).then(function () {
+            $http({
+                method: 'GET',
+                url: "/controller",
+                params: {
+                    'action': 'remove_insegnamento',
+                    'corso': x.corso,
+                    'docente': x.docente
+                }
+            }).then(function () {
+                $http({
+                    method: 'GET',
+                    url: "/controller",
+                    params: {
+                        'action': 'elenco_insegnamenti'
                     }
                 }).then(function (response) {
                     console.log(response.data);

@@ -1,4 +1,4 @@
-<%@ page import="dao.*" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Lorenzo
   Date: 04/11/2018
@@ -8,6 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" href="../../css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <link rel="stylesheet" href="../../css/style.css">
@@ -17,36 +21,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-aria.js"></script>
-    <script src="/js/app.js"></script>
+    <script src="../../js/app.js"></script>
 
-    <title>Admin Dashboard</title>
+    <title>Inserisci Studente</title>
+
 </head>
 <body ng-app="myApp">
-<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    if (session.getAttribute("username") == null /*|| !AmministratoreDAO.exists(session.getAttribute("username").toString())*/)
-        response.sendRedirect("/views/login-register.html");
-%>
-
+<%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 <div class="wrapper">
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <a href="#"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
+            <a href="dashboard.jsp"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
         </div>
 
         <ul class="list-unstyled components">
-            <li class="active">
-                <a href="#"><i class="fa fa-chart-pie"></i> Dashboard</a>
+            <li>
+                <a href="dashboard.jsp"><i class="fa fa-chart-pie"></i> Dashboard</a>
             </li>
             <li>
                 <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                        class="fa fa-user"></i> Studenti</a>
+                        class="fa fa-user"></i> Studenti
+                </a>
                 <ul class="collapse list-unstyled" id="studenti">
                     <li>
                         <a href="studenti.jsp">Elenco studenti</a>
                     </li>
                     <li>
-                        <a href="ins_studente.jsp">Inserisci studente</a>
+                        <a href="#">Inserisci studente</a>
                     </li>
                 </ul>
             </li>
@@ -69,8 +72,8 @@
                     <li>
                         <a href="insegnamenti.jsp">Elenco insegnamenti</a>
                     </li>
-                    <li>
-                        <a href="ins_insegnamento.jsp">Inserisci insegnamento</a>
+                    <li class="active">
+                        <a href="#">Inserisci insegnamento</a>
                     </li>
                 </ul>
             </li>
@@ -123,51 +126,43 @@
                             <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i
-                                    class="fas fa-sign-out-alt"></i></a>
+                            <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i class="fas fa-sign-out-alt"></i></a>
                         </li>
                     </ul>
                 </div>
 
             </div>
         </nav>
-        <div class="container" style="overflow: auto">
-            <h1 class="page-header">Dashboard</h1>
-            <hr>
-            <br>
-            <div class="container py-3">
-                <div class="row">
-                    <div class="col jumbotron jumbotron-no-radius text-center">
-                        <button onclick="location.href='studenti.jsp';" class="btn btn-transparent"><i
-                                class="fa fa-users fa-5x"></i></button>
-                        <p style="white-space: nowrap"><%out.print(StudenteDAO.getN());%> Studenti</p>
+        <h1 class="page-header">Inserisci Insegnamento</h1>
+        <hr>
+        <br>
+        <div class="row">
+            <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
+                <label>Corso</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">@</span>
                     </div>
-                    <div class="col jumbotron jumbotron-no-radius text-center">
-                        <button onclick="location.href='docenti.jsp';" class="btn btn-transparent"><i
-                                class="fa fa-chalkboard-teacher fa-5x"></i></button>
-                        <p style="white-space: nowrap"><%out.print(DocenteDAO.getN());%> Docenti</p>
-                    </div>
-                    <div class="col jumbotron jumbotron-no-radius text-center">
-                        <button onclick="location.href='insegnamenti.jsp';" class="btn btn-transparent"><i
-                                class="fas fa-graduation-cap fa-5x"></i></button>
-                        <p style="white-space: nowrap"><%out.print(InsegnamentoDAO.getN());%> Insegnamenti</p>
-                    </div>
-                    <div class="col jumbotron jumbotron-no-radius text-center">
-                        <button onclick="location.href='corsi.jsp';" class="btn btn-transparent"><i
-                                class="fa fa-book-open fa-5x"></i></button>
-                        <p style="white-space: nowrap"><%out.print(CorsoDAO.getN());%> Corsi</p>
-                    </div>
-                    <div class="col jumbotron jumbotron-no-radius text-center">
-                        <button onclick="location.href='prenotazioni.jsp';" class="btn btn-transparent"><i
-                                class="fa fa-clock fa-5x"></i></button>
-                        <p style="white-space: nowrap"><%out.print(PrenotazioneDAO.getN());%> Prenotazioni</p>
-                    </div>
+                    <input id="corso" type="text" class="form-control" placeholder="Es: Logica"
+                           aria-label="Logica" aria-describedby="basic-addon1">
                 </div>
+
+                <div class="form-group">
+                    <label>Docente</label>
+                    <input class="form-control" id="docente">
+                </div>
+                <div class="form-group text-center">
+                    <button id="insert-insegnamento" onclick="insertInsegnamento()" type="submit"
+                            class="btn btn-theme btn-lg btn-block">Inserisci
+                    </button>
+                </div>
+            </form>
+            <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
+                <i class="fas fa-graduation-cap big-icon d-block mx-auto"></i>
             </div>
         </div>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -184,6 +179,30 @@
             $(this).toggleClass('active');
         });
     });
+</script>
+<script>
+    var xhr = new XMLHttpRequest();
+
+    function insertInsegnamento() {
+        var url = "/controller?action=insert_insegnamento&corso=" + $('#corso').val() + "&docente=" + $('#docente').val();
+        console.log(url);
+        console.log("WELCOME INSERT INSEGNAMENTO");
+        xhr.open("post", url, false);
+        xhr.onreadystatechange = buildHtmlTable;
+        xhr.send();
+    }
+
+
+    function buildHtmlTable() {
+        //quando la response e' ready posso controllare lo status della response 200 -> success else -> error
+        if (xhr.readyState === 4) {
+            if (xhr.status !== 200) {
+                alert('error status ' + xhr.status);
+            } else {
+                alert("success");
+            }
+        }
+    }
 </script>
 </body>
 </html>

@@ -84,6 +84,17 @@ public class Controller extends HttpServlet {
                 }
                 break;
 
+            case "elenco_insegnamenti":
+                try {
+                    res.setContentType("application/json");
+                    String s1 = gson.toJson(InsegnamentoDAO.getAll());
+                    out.println(s1);
+                    System.out.println(s1);
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+
             case "insegnamenti":
                 try {
                     List<Docente> list = DocenteDAO.getAllInsegnaMateria
@@ -127,6 +138,18 @@ public class Controller extends HttpServlet {
 
                 try {
                     int status = CorsoDAO.insert(new Corso(titolo));
+                    if (status < 1) res.sendError(500, "0 rows affected");
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "insert_insegnamento":
+                corso = req.getParameter("corso");
+                docente = req.getParameter("docente");
+
+                try {
+                    int status = InsegnamentoDAO.insert(new Insegnamento(corso, docente));
                     if (status < 1) res.sendError(500, "0 rows affected");
                 } catch (SQLException e) {
                     e.getMessage();
@@ -225,6 +248,17 @@ public class Controller extends HttpServlet {
 
                 try {
                     PrenotazioneDAO.delete(new Prenotazione(studente, docente, corso, InsegnamentoDAO.getIdInsegnamento(corso, docente), slot, stato, data));
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "remove_insegnamento":
+                corso = req.getParameter("corso");
+                docente = req.getParameter("docente");
+
+                try {
+                    InsegnamentoDAO.delete(new Insegnamento(corso, docente));
                 } catch (SQLException e) {
                     e.getMessage();
                 }

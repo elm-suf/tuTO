@@ -44,7 +44,6 @@ public class PrenotazioneDAO {
             st.setInt(4, pren.getIdInsegnamento());
             st.setString(5, pren.getSlot());
             st.setString(6, pren.getData());
-            //todo non capisco perche hai rimosso corso
             st.setString(7, pren.getCorso());
             System.out.println("Query : " + st.toString());
             return st.executeUpdate();

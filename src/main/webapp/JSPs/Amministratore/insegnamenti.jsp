@@ -1,7 +1,4 @@
-<%@ page import="dao.StudenteDAO" %>
-<%@ page import="dao.DocenteDAO" %>
-<%@ page import="dao.CorsoDAO" %>
-<%@ page import="dao.PrenotazioneDAO" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Lorenzo
   Date: 04/11/2018
@@ -24,11 +21,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-aria.js"></script>
-    <title>Elenco Prenotazioni</title>
+    <title>Elenco Insegnamenti</title>
 </head>
 <body ng-app="myApp">
-<%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    if (session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -71,8 +68,8 @@
                     <a href="#insegnamenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                             class="fas fa-graduation-cap"></i> Insegnamenti</a>
                     <ul class="collapse list-unstyled" id="insegnamenti">
-                        <li>
-                            <a href="insegnamenti.jsp">Elenco insegnamenti</a>
+                        <li class="active">
+                            <a href="#">Elenco insegnamenti</a>
                         </li>
                         <li>
                             <a href="ins_insegnamento.jsp">Inserisci insegnamento</a>
@@ -95,7 +92,7 @@
                     <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                             class="fa fa-clock"></i> Prenotazioni</a>
                     <ul class="collapse list-unstyled" id="prenotazioni">
-                        <li class="active">
+                        <li>
                             <a href="#">Elenco prenotazioni</a>
                         </li>
                         <li>
@@ -128,55 +125,47 @@
                                 <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i class="fas fa-sign-out-alt"></i></a>
+                                <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i
+                                        class="fas fa-sign-out-alt"></i></a>
                             </li>
                         </ul>
                     </div>
 
                 </div>
             </nav>
-            <div class="container" style="overflow: auto" ng-controller="prenotazioni_ctrl" ng-cloak>
-                <h1 class="page-header">Elenco Prenotazioni</h1>
+            <div class="container" style="overflow: auto" ng-controller="insegnamenti_ctrl" ng-cloak>
+                <h1 class="page-header">Elenco Insegnamenti</h1>
                 <hr style="margin-top: 0;">
                 <br>
                 <ul style="padding-left: 0">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Stato</th>
-                            <th scope="col">Studente</th>
-                            <th scope="col">Docente</th>
-                            <th scope="col">Corso</th>
-                            <th scope="col">Slot</th>
-                            <th scope="col">Data</th>
-                            <th scope="col"></th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Corso</th>
+                                <th scope="col">Docente</th>
+                                <th scope="col"></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="x in tabella" ng-init="index=1">
-                            <th scope="row">{{tabella.indexOf(x)}}</th>
-                            <td>{{x.stato}}</td>
-                            <td>{{x.studente}}</td>
-                            <td>{{x.docente}}</td>
-                            <td>{{x.corso}}</td>
-                            <td>{{x.slot}}</td>
-                            <td>{{x.data}}</td>
-                            <td>
-                                <md-button class="md-raised md-warn" style="background-color: red" ng-click="elimina(x, $event)">
-                                    Elimina
-                                </md-button>
-                            </td>
-                        </tr>
+                            <tr ng-repeat="x in tabella" ng-init="index=1">
+                                <th scope="row">{{tabella.indexOf(x)}}</th>
+                                <td>{{x.corso}}</td>
+                                <td>{{x.docente}}</td>
+                                <td>
+                                    <md-button class="md-raised md-warn" style="background-color: red"
+                                               ng-click="elimina(x, $event)">
+                                        Elimina
+                                    </md-button>
+                                </td>
+                            </tr>
                         </tbody>
-
                     </table>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-
 <script src="../../js/app.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

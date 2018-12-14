@@ -35,7 +35,7 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3>
+                <a href="Amministratore/dashboard.jsp"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
             </div>
 
             <ul class="list-unstyled components">
