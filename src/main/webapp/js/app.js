@@ -36,7 +36,7 @@ function main($scope, $http) {
             method: 'POST',
             url: '/controller',
             params: {
-                action: ' '
+                action: 'logout'
             },
             headers: {
                 'Cache-Control': 'must-revalidate, no-cache, no-store'

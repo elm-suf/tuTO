@@ -138,13 +138,9 @@
         <br>
         <div class="row">
             <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
-                <label>Corso</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <input id="corso" type="text" class="form-control" placeholder="Es: Logica"
-                           aria-label="Logica" aria-describedby="basic-addon1">
+                <div class="form-group">
+                    <label>Corso</label>
+                    <input class="form-control" id="corso">
                 </div>
 
                 <div class="form-group">
