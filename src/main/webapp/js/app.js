@@ -112,7 +112,7 @@ app.controller("prenotaCtrl", prenotaCtrl);
 function cercaMateriaCtrl($scope, $http) {
 
     //essenzialmente aggiorno il valore di elenco su cui faccio li
-    $scope.getInseganti = function () {
+    $scope.getInsegnanti = function () {
         console.log("fammi vedere gli insegnanti che insegnano " + $scope.inputcorso);
 
         $http({

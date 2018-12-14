@@ -166,7 +166,7 @@
 
                     <div class="form-group">
                         <label for="data">Data</label>
-                        <input class="form-control" id="data">
+                        <input class="form-control" id="data" type="date">
                     </div>
 
                     <div class="form-group text-center">
