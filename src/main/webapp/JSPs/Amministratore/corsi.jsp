@@ -82,7 +82,7 @@
                 </li>
                 <li>
                     <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                            class="fa fa-book"></i> Corsi</a>
+                            class="fa fa-book-open"></i> Corsi</a>
                     <ul class="collapse list-unstyled" id="corsi">
                         <li class="active">
                             <a href="#">Elenco corsi</a>

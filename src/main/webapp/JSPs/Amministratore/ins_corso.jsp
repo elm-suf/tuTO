@@ -78,7 +78,7 @@
             </li>
             <li>
                 <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                        class="fa fa-book"></i> Corsi</a>
+                        class="fa fa-book-open"></i> Corsi</a>
                 <ul class="collapse list-unstyled" id="corsi">
                     <li>
                         <a href="corsi.jsp">Elenco corsi</a>
@@ -148,7 +148,7 @@
                 </div>
             </form>
             <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
-                <i class="fa fa-book big-icon d-block mx-auto"></i>
+                <i class="fa fa-book-open big-icon d-block mx-auto"></i>
             </div>
         </div>
     </div>

@@ -67,8 +67,21 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="#insegnamenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                            class="fas fa-graduation-cap"></i> Insegnamenti</a>
+                    <ul class="collapse list-unstyled" id="insegnamenti">
+                        <li>
+                            <a href="insegnamenti.jsp">Elenco insegnamenti</a>
+                        </li>
+                        <li>
+                            <a href="ins_insegnamento.jsp">Inserisci insegnamento</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                <li>
                     <a href="#corsi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                            class="fa fa-book"></i> Corsi</a>
+                            class="fa fa-book-open"></i> Corsi</a>
                     <ul class="collapse list-unstyled" id="corsi">
                         <li>
                             <a href="Amministratore/corsi.jsp">Elenco corsi</a>
