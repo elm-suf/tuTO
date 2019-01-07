@@ -8,11 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("ALL")
 public class StudenteDAO {
 
-    public static ArrayList<Studente> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
+    public static List<Studente> getAll() throws SQLException { //todo non capisco perche sta select torna anche gli id
         String getAll = "SELECT username, password, nome, cognome FROM studente";
         PreparedStatement st = null;
         Connection conn = DBConnection.getInstance();
@@ -38,9 +39,10 @@ public class StudenteDAO {
         try {
             st = conn.prepareStatement(getOne);
             st.setString(1, username);
+            Studente stud = new Studente();
             ResultSet rs = st.executeQuery();
             rs.next();
-            Studente stud = new Studente(rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
+            stud = new Studente(rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
             return stud;
         } finally {
             if (st != null) st.close();

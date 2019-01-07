@@ -20,14 +20,16 @@ public class Controller extends HttpServlet {
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
-        String nome, cognome, titolo, docente, data, stato, slot, corso;
+        String username = null, password, nome, cognome, titolo, docente, data, stato, slot, corso;
         HttpSession s = req.getSession();
 
         switch (action) {
             case "login":
                 s = req.getSession(true);
-                String username = req.getParameter("username");
-                String password = req.getParameter("password");
+                username = req.getParameter("username");
+                //System.out.println("username: "+ username);
+                password = req.getParameter("password");
+                //System.out.println("password: "+ password);
                 s.setAttribute("username", username);
                 s.setAttribute("password", password);
                 try {
@@ -48,7 +50,7 @@ public class Controller extends HttpServlet {
 
             case "elenco_studenti":
                 try {
-                    res.setContentType("text/plain");
+                    res.setContentType("application/json");
                     gson.toJson(StudenteDAO.getAll(), out);
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
@@ -57,7 +59,7 @@ public class Controller extends HttpServlet {
 
             case "elenco_docenti":
                 try {
-                    res.setContentType("text/plain");
+                    res.setContentType("application/json");
                     gson.toJson(DocenteDAO.getAll(), out);
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
@@ -66,7 +68,7 @@ public class Controller extends HttpServlet {
 
             case "elenco_corsi":
                 try {
-                    res.setContentType("text/plain");
+                    res.setContentType("application/json");
                     gson.toJson(CorsoDAO.getAll(), out);
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
@@ -157,7 +159,6 @@ public class Controller extends HttpServlet {
                 break;
 
             case "prenotazione":
-
                 String studente = (String) s.getAttribute("username");
                 if (studente == null || studente.isEmpty()) {
                     System.out.println("studente is null:: non e possibile prenotare");
@@ -337,6 +338,23 @@ public class Controller extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                break;
+
+            case "profilo":
+                res.setContentType("application/json");
+                try {
+                    String us = (String) s.getAttribute("username");
+                    System.out.println(us);
+                    if(StudenteDAO.exists(us))
+                        out.println(gson.toJson(StudenteDAO.getOne(us)));
+                    else
+                        out.println(gson.toJson(AmministratoreDAO.getOne(us)));
+                } catch (SQLException e) {
+                    System.out.println("Errore catch dati di profilo");
+                }
+                break;
+
+            case "statistiche":
                 break;
         }
 

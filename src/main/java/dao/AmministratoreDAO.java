@@ -2,6 +2,8 @@ package dao;
 
 import connection.DBConnection;
 import pojo.Amministratore;
+import pojo.Studente;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,6 +70,24 @@ public class AmministratoreDAO {
             rs.next();
             return rs.getString(1);
         }finally {
+            if (st != null) st.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    public static Amministratore getOne(String username) throws SQLException {
+        String getOne = "SELECT * FROM amministratore WHERE username = ?";
+        PreparedStatement st = null;
+        Connection conn = DBConnection.getInstance();
+        try {
+            st = conn.prepareStatement(getOne);
+            st.setString(1, username);
+            Amministratore amm = new Amministratore();
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            amm = new Amministratore(rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
+            return amm;
+        } finally {
             if (st != null) st.close();
             if (conn != null) conn.close();
         }

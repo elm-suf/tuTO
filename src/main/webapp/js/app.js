@@ -9,7 +9,8 @@ studente.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'homepage.html'
             })
             .when('/profilo', {
-                templateUrl: '../profilo.html'
+                templateUrl: '../profilo.html',
+                controller: 'profilo_ctrl'
             })
             .when('/cerca', {
                 templateUrl: 'cerca-materia.html',
@@ -32,7 +33,8 @@ amministratore.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'dashboard.html'
             })
             .when('/profilo', {
-                templateUrl: '../profilo.html'
+                templateUrl: '../profilo.html',
+                controller: 'profilo_ctrl'
             })
             .when('/studenti', {
                 templateUrl: 'studenti.html',
@@ -77,14 +79,17 @@ amministratore.config(['$routeProvider', '$locationProvider',
 
 studente.controller("tabellaCtrl", tabellaCtrl);
 studente.controller("cercaMateriaCtrl", cercaMateriaCtrl);
+studente.controller("profilo_ctrl", profilo_ctrl);
 studente.controller("prenotaCtrl", prenotaCtrl);
 studente.controller("main", main);
 
+amministratore.controller('dashboard_ctrl', dashboard_ctrl);
 amministratore.controller('studenti_ctrl', studenti_ctrl);
 amministratore.controller('docenti_ctrl', docenti_ctrl);
 amministratore.controller('corsi_ctrl', corsi_ctrl);
 amministratore.controller('prenotazioni_ctrl', prenotazioni_ctrl);
 amministratore.controller('insegnamenti_ctrl', insegnamenti_ctrl);
+amministratore.controller("profilo_ctrl", profilo_ctrl);
 amministratore.controller("main", main);
 
 function main($scope, $http) {
@@ -447,4 +452,25 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
             console.log("Errore caricamento")
         });
     }
+}
+
+function profilo_ctrl($scope, $http){
+    $http.get("/controller", {params: {'action': 'profilo'}})
+        .then(function (response) {
+            console.log(response.data);
+            console.log(response.data["username"]);
+            $scope.data = response.data;
+            $scope.us_profilo = response.data["username"];
+            $scope.pas_profilo = response.data["password"];
+            $scope.nome_profilo = response.data["nome"];
+            $scope.cogn_profilo = response.data["cognome"];
+        });
+}
+
+function dashboard_ctrl($scope, $http){
+    $http.get("/controller", {params: {'action': 'statistiche'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.tabella = response.data;
+        });
 }
