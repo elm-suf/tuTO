@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.*;
 import pojo.*;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "Controller", urlPatterns = {"/controller"})
@@ -344,7 +346,6 @@ public class Controller extends HttpServlet {
                 res.setContentType("application/json");
                 try {
                     String us = (String) s.getAttribute("username");
-                    System.out.println(us);
                     if(StudenteDAO.exists(us))
                         out.println(gson.toJson(StudenteDAO.getOne(us)));
                     else
@@ -355,6 +356,18 @@ public class Controller extends HttpServlet {
                 break;
 
             case "statistiche":
+                res.setContentType("application/json");
+                try {
+                    ArrayList<Integer> tot = new ArrayList<>();
+                    tot.add(StudenteDAO.getN());
+                    tot.add(DocenteDAO.getN());
+                    tot.add(InsegnamentoDAO.getN());
+                    tot.add(CorsoDAO.getN());
+                    tot.add(PrenotazioneDAO.getN());
+                    out.println(gson.toJson(tot));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 

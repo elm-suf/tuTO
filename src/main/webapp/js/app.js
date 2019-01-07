@@ -458,8 +458,6 @@ function profilo_ctrl($scope, $http){
     $http.get("/controller", {params: {'action': 'profilo'}})
         .then(function (response) {
             console.log(response.data);
-            console.log(response.data["username"]);
-            $scope.data = response.data;
             $scope.us_profilo = response.data["username"];
             $scope.pas_profilo = response.data["password"];
             $scope.nome_profilo = response.data["nome"];
@@ -471,6 +469,10 @@ function dashboard_ctrl($scope, $http){
     $http.get("/controller", {params: {'action': 'statistiche'}})
         .then(function (response) {
             console.log(response.data);
-            $scope.tabella = response.data;
+            $scope.n_studenti = response.data[0];
+            $scope.n_docenti = response.data[1];
+            $scope.n_insegnamenti = response.data[2];
+            $scope.n_corsi = response.data[3];
+            $scope.n_prenotazioni = response.data[4];
         });
 }
