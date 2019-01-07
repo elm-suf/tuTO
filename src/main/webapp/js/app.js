@@ -1,14 +1,22 @@
 //++++++++++++++++++++++++MODULE++++++++++++++++++++++++++++++++++++++++++++++++++//
-var app = angular.module("myApp", ['ngRoute', 'ngMaterial']);
-app.config(['$routeProvider', '$locationProvider',
+var studente = angular.module("studente", ['ngRoute', 'ngMaterial']);
+var amministratore = angular.module("amministratore", ['ngRoute', 'ngMaterial']);
+
+studente.config(['$routeProvider', '$locationProvider',
     function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/cerca-materia.html',
+                templateUrl: 'homepage.html'
+            })
+            .when('/profilo', {
+                templateUrl: '../profilo.html'
+            })
+            .when('/cerca', {
+                templateUrl: 'cerca-materia.html',
                 controller: 'cercaMateriaCtrl'
             })
             .when('/tabella', {
-                templateUrl: 'views/tabella.html',
+                templateUrl: 'tabella.html',
                 controller: 'tabellaCtrl'
             })
             .when('/login', {
@@ -17,14 +25,67 @@ app.config(['$routeProvider', '$locationProvider',
             .otherwise({redirectTo: '/'});
     }]);
 
-app.controller("tabellaCtrl", tabellaCtrl);
-app.controller("main", main);
+amministratore.config(['$routeProvider', '$locationProvider',
+    function ($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'dashboard.html'
+            })
+            .when('/profilo', {
+                templateUrl: '../profilo.html'
+            })
+            .when('/studenti', {
+                templateUrl: 'studenti.html',
+                controller: 'studenti_ctrl'
+            })
+            .when('/corsi', {
+                templateUrl: 'corsi.html',
+                controller: 'corsi_ctrl'
+            })
+            .when('/docenti', {
+                templateUrl: 'docenti.html',
+                controller: 'docenti_ctrl'
+            })
+            .when('/insegnamenti', {
+                templateUrl: 'insegnamenti.html',
+                controller: 'insegnamenti_ctrl'
+            })
+            .when('/prenotazioni', {
+                templateUrl: 'prenotazioni.html',
+                controller: 'prenotazioni_ctrl'
+            })
+            .when('/inserisci_studente', {
+                templateUrl: 'inserisci_studente.html'
+            })
+            .when('/inserisci_corso', {
+                templateUrl: 'inserisci_corso.html'
+            })
+            .when('/inserisci_docente', {
+                templateUrl: 'inserisci_docente.html'
+            })
+            .when('/inserisci_insegnamento', {
+                templateUrl: 'inserisci_insegnamento.html'
+            })
+            .when('/inserisci_prenotazione', {
+                templateUrl: 'inserisci_prenotazione.html'
+            })
+            .when('/login', {
+                templateUrl: 'views/login-register.html'
+            })
+            .otherwise({redirectTo: '/'});
+    }]);
 
-app.controller('studenti_ctrl', studenti_ctrl);
-app.controller('docenti_ctrl', docenti_ctrl);
-app.controller('corsi_ctrl', corsi_ctrl);
-app.controller('prenotazioni_ctrl', prenotazioni_ctrl);
-app.controller('insegnamenti_ctrl', insegnamenti_ctrl);
+studente.controller("tabellaCtrl", tabellaCtrl);
+studente.controller("cercaMateriaCtrl", cercaMateriaCtrl);
+studente.controller("prenotaCtrl", prenotaCtrl);
+studente.controller("main", main);
+
+amministratore.controller('studenti_ctrl', studenti_ctrl);
+amministratore.controller('docenti_ctrl', docenti_ctrl);
+amministratore.controller('corsi_ctrl', corsi_ctrl);
+amministratore.controller('prenotazioni_ctrl', prenotazioni_ctrl);
+amministratore.controller('insegnamenti_ctrl', insegnamenti_ctrl);
+amministratore.controller("main", main);
 
 function main($scope, $http) {
 
@@ -61,7 +122,7 @@ function tabellaCtrl($scope, $http) {
         $scope.fakeData = response.data;
     }, function (reason) {
         console.log(reason);
-        window.location = '/views/login-register.html';
+        window.location = '../login-register.html';
     });
 
     $scope.delete = function (prenotazione) {
@@ -103,10 +164,6 @@ function tabellaCtrl($scope, $http) {
         return true;
     }
 }
-
-//***********************CONTROLLERS*********************************************//
-app.controller("cercaMateriaCtrl", cercaMateriaCtrl);
-app.controller("prenotaCtrl", prenotaCtrl);
 
 
 function cercaMateriaCtrl($scope, $http) {
@@ -180,7 +237,7 @@ function prenotaCtrl($scope, $http) {
         }, function (reason) {
             console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
-            window.location = '/views/login-register.html'
+            window.location = '../views/login-register.html'
         });
     };
 }

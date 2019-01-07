@@ -1,17 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lorenzo
-  Date: 04/11/2018
-  Time: 12:06
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/png" href="/img/admin.png"/>
     <link rel="stylesheet" href="../../css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <link rel="stylesheet" href="../../css/style.css">
@@ -21,34 +12,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-aria.js"></script>
-    <script src="../../js/app.js"></script>
-
-    <title>Inserisci Docente</title>
-
+    <script src="/js/app.js"></script>
+    <title>Pannello Amministratore</title>
 </head>
-<body ng-app="myApp">
-<%  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    if(session.getAttribute("username") == null) response.sendRedirect("/views/login-register.html"); %>
+<body ng-app="amministratore" ng-controller="main">
 <div class="wrapper">
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <a href="dashboard.jsp"><h3>Benvenuto <% out.print(session.getAttribute("username"));%>!</h3></a>
+            <a href="#/"><h3>Benvenuto!</h3></a>
         </div>
 
-        <ul class="list-unstyled components">
-            <li>
-                <a href="dashboard.jsp"><i class="fa fa-chart-pie"></i> Dashboard</a>
+        <ul class="list-unstyled components" ng-controller="main">
+            <li class="active">
+                <a href="#/"><i class="fa fa-chart-pie"></i> Dashboard</a>
             </li>
             <li>
                 <a href="#studenti" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                         class="fa fa-user"></i> Studenti</a>
                 <ul class="collapse list-unstyled" id="studenti">
                     <li>
-                        <a href="studenti.jsp">Elenco studenti</a>
+                        <a href="#/studenti">Elenco studenti</a>
                     </li>
                     <li>
-                        <a href="ins_studente.jsp">Inserisci studente</a>
+                        <a href="#/inserisci_studente">Inserisci studente</a>
                     </li>
                 </ul>
             </li>
@@ -57,10 +44,10 @@
                         class="fa fa-chalkboard-teacher"></i> Docenti</a>
                 <ul class="collapse list-unstyled" id="docenti">
                     <li>
-                        <a href="docenti.jsp">Elenco docenti</a>
+                        <a href="#/docenti">Elenco docenti</a>
                     </li>
-                    <li class="active">
-                        <a href="ins_docente.jsp">Inserisci docente</a>
+                    <li>
+                        <a href="#/inserisci_docente">Inserisci docente</a>
                     </li>
                 </ul>
             </li>
@@ -69,10 +56,10 @@
                         class="fas fa-graduation-cap"></i> Insegnamenti</a>
                 <ul class="collapse list-unstyled" id="insegnamenti">
                     <li>
-                        <a href="insegnamenti.jsp">Elenco insegnamenti</a>
+                        <a href="#/insegnamenti">Elenco insegnamenti</a>
                     </li>
                     <li>
-                        <a href="ins_insegnamento.jsp">Inserisci insegnamento</a>
+                        <a href="#/inserisci_insegnamento">Inserisci insegnamento</a>
                     </li>
                 </ul>
             </li>
@@ -81,22 +68,22 @@
                         class="fa fa-book-open"></i> Corsi</a>
                 <ul class="collapse list-unstyled" id="corsi">
                     <li>
-                        <a href="corsi.jsp">Elenco corsi</a>
+                        <a href="#/corsi">Elenco corsi</a>
                     </li>
                     <li>
-                        <a href="#">Inserisci corso</a>
+                        <a href="#/inserisci_corso">Inserisci corso</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="fa fa-clock"></i> Prenotazioni</a>
+                <a href="#prenotazioni" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="fa fa-clock"></i> Prenotazioni</a>
                 <ul class="collapse list-unstyled" id="prenotazioni">
                     <li>
-                        <a href="prenotazioni.jsp">Elenco prenotazioni</a>
+                        <a href="#/prenotazioni">Elenco prenotazioni</a>
                     </li>
                     <li>
-                        <a href="ins_prenotazione.jsp">Inserisci prenotazione</a>
+                        <a href="#/inserisci_prenotazione">Inserisci prenotazione</a>
                     </li>
                 </ul>
             </li>
@@ -104,7 +91,7 @@
     </nav>
 
     <!-- Page Content  -->
-    <div id="content">
+    <div id="content" ng-controller="main">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
 
@@ -122,35 +109,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent" ng-controller="main">
                     <ul class="nav navbar-nav ml-auto text-center">
                         <li class="nav-item">
-                            <a class="nav-link" href="/JSPs/profilo.jsp">Profilo <i class="fa fa-user"></i></a>
+                            <a class="nav-link" href="#/profilo">Profilo <i
+                                    class="fa fa-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i class="fas fa-sign-out-alt"></i></a>
+                            <a class="nav-link" ng-click="logout()" href="/views/login-register.html">Logout <i
+                                    class="fas fa-sign-out-alt"></i></a>
                         </li>
                     </ul>
                 </div>
 
             </div>
         </nav>
-        <h1 class="page-header">Inserisci Corso</h1>
-        <hr>
-        <br>
-        <div class="row">
-            <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
-                <div class="form-group">
-                    <label>Titolo</label>
-                    <input class="form-control" id="titolo">
-                </div>
-                <div class="form-group text-center">
-                    <button id="insert-student" onclick="insertCorso()" type="submit"
-                            class="btn btn-theme btn-lg btn-block">Inserisci
-                    </button>
-                </div>
-            </form>
-            <div class="col-lg-6 my-auto text-center d-none d-md-none d-lg-block">
-                <i class="fa fa-book-open big-icon d-block mx-auto"></i>
-            </div>
-        </div>
+
+        <div ng-view></div>
     </div>
 </div>
 
@@ -169,29 +141,6 @@
             $(this).toggleClass('active');
         });
     });
-</script>
-<script>
-    var xhr = new XMLHttpRequest();
-
-    function insertCorso() {
-        var url = "/controller?action=insert-corso&titolo=" + $('#titolo').val();
-        console.log(url);
-        console.log("WELCOME INSERT STUDENT");
-        xhr.open("post", url, false);
-        xhr.onreadystatechange = check;
-        xhr.send();
-    }
-
-    function check() {
-        //quando la response e' ready posso controllare lo status della response 200 -> success else -> error
-        if (xhr.readyState === 4) {
-            if (xhr.status !== 200) {
-                alert('error status ' + xhr.status);
-            } else {
-                alert("success");
-            }
-        }
-    }
 </script>
 </body>
 </html>
