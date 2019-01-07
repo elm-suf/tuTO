@@ -20,7 +20,7 @@ studente.config(['$routeProvider', '$locationProvider',
                 controller: 'tabellaCtrl'
             })
             .when('/login', {
-                templateUrl: 'views/login-register.html'
+                templateUrl: 'html/login-register.html'
             })
             .otherwise({redirectTo: '/'});
     }]);
@@ -237,7 +237,7 @@ function prenotaCtrl($scope, $http) {
         }, function (reason) {
             console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
-            window.location = '../views/login-register.html'
+            window.location = '../html/login-register.html'
         });
     };
 }
