@@ -108,6 +108,7 @@ function main($scope, $http) {
                 'Cache-Control': 'must-revalidate, no-cache, no-store'
             }
         }).then(function (value) {
+            location.replace("/html/login-register.html");
             console.log("value = " + value);
         })
 
@@ -127,7 +128,7 @@ function tabellaCtrl($scope, $http) {
         $scope.fakeData = response.data;
     }, function (reason) {
         console.log(reason);
-        window.location = '../login-register.html';
+        location.replace("/html/login-register.html");
     });
 
     $scope.delete = function (prenotazione) {
@@ -186,7 +187,10 @@ function cercaMateriaCtrl($scope, $http) {
             }
         }).then(function (response) {
             $scope.elenco = response.data;
-            console.log(response.data);
+            //console.log(response.data);
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     };
 }
@@ -213,6 +217,9 @@ function prenotaCtrl($scope, $http) {
             console.log(response.data);
             $scope.disponibili = response.data;
             console.log('scope' + $scope.disponibili);
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 
 
@@ -242,7 +249,7 @@ function prenotaCtrl($scope, $http) {
         }, function (reason) {
             console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
-            window.location = '../html/login-register.html'
+            location.replace("/html/login-register.html");
         });
     };
 }
@@ -252,6 +259,9 @@ function studenti_ctrl($scope, $http, $mdDialog) {
         .then(function (response) {
             console.log(response.data);
             $scope.tabella = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 
     $scope.elimina = function (x, ev) {
@@ -281,8 +291,9 @@ function studenti_ctrl($scope, $http, $mdDialog) {
                     $scope.tabella = response.data;
                 })
             });
-        }, function () {
-            console.log("Errore caricamento")
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     };
 
@@ -293,6 +304,9 @@ function docenti_ctrl($scope, $http, $mdDialog) {
         .then(function (response) {
             console.log(response.data);
             $scope.tabella = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 
     $scope.elimina = function (x, ev) {
@@ -322,8 +336,9 @@ function docenti_ctrl($scope, $http, $mdDialog) {
                     $scope.tabella = response.data;
                 })
             });
-        }, function () {
-            console.log("Errore caricamento")
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     };
 }
@@ -333,6 +348,9 @@ function corsi_ctrl($scope, $http, $mdDialog) {
         .then(function (response) {
             console.log(response.data);
             $scope.tabella = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 
     $scope.elimina = function (x, ev) {
@@ -362,8 +380,9 @@ function corsi_ctrl($scope, $http, $mdDialog) {
                     $scope.tabella = response.data;
                 })
             });
-        }, function () {
-            console.log("Errore caricamento")
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     }
 }
@@ -373,6 +392,9 @@ function prenotazioni_ctrl($scope, $http, $mdDialog) {
         .then(function (response) {
             console.log(response.data);
             $scope.tabella = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 
     $scope.elimina = function (x, ev) {
@@ -407,8 +429,9 @@ function prenotazioni_ctrl($scope, $http, $mdDialog) {
                     $scope.tabella = response.data;
                 })
             });
-        }, function () {
-            console.log("Errore caricamento")
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     }
 }
@@ -418,6 +441,9 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
         .then(function (response) {
             console.log(response.data);
             $scope.tabella = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 
     $scope.elimina = function (x, ev) {
@@ -448,8 +474,9 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
                     $scope.tabella = response.data;
                 })
             });
-        }, function () {
-            console.log("Errore caricamento")
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     }
 }
@@ -462,6 +489,9 @@ function profilo_ctrl($scope, $http){
             $scope.pas_profilo = response.data["password"];
             $scope.nome_profilo = response.data["nome"];
             $scope.cogn_profilo = response.data["cognome"];
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 }
 
@@ -474,5 +504,8 @@ function dashboard_ctrl($scope, $http){
             $scope.n_insegnamenti = response.data[2];
             $scope.n_corsi = response.data[3];
             $scope.n_prenotazioni = response.data[4];
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
 }

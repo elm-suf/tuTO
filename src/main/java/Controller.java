@@ -22,18 +22,24 @@ public class Controller extends HttpServlet {
         String action = req.getParameter("action");
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
-        String username = null, password, nome, cognome, titolo, docente, data, stato, slot, corso;
+        String username, password, nome, cognome, titolo, docente, data, stato, slot, corso;
         HttpSession s = req.getSession();
+
+        if(!action.equals("login")){
+            String tmp = (String) s.getAttribute("username");
+            if (tmp == null || tmp.isEmpty()) {
+                res.sendError(503, "not logged in");
+                return;
+            }
+        }
 
         switch (action) {
             case "login":
                 s = req.getSession(true);
                 username = req.getParameter("username");
-                //System.out.println("username: "+ username);
                 password = req.getParameter("password");
-                //System.out.println("password: "+ password);
-                s.setAttribute("username", username);
-                s.setAttribute("password", password);
+                s.setAttribute("username", req.getParameter("username"));
+                s.setAttribute("password", req.getParameter("password"));
                 try {
                     if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password)) {
                         res.sendRedirect("/html/Amministratore/index.html");
@@ -366,7 +372,7 @@ public class Controller extends HttpServlet {
                     tot.add(PrenotazioneDAO.getN());
                     out.println(gson.toJson(tot));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    System.out.println("Errore catch statistiche");
                 }
                 break;
         }
