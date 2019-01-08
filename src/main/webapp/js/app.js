@@ -173,22 +173,98 @@ function tabellaCtrl($scope, $http) {
 
 
 function cercaMateriaCtrl($scope, $http) {
+    $scope.inputcorso;
+    $scope.detail = false;
+    console.log("inside controller");
+    var init = function () {
+        $http({
+            method: 'GET',
+            url: '/controller',
+            params: {
+                'action': 'elenco_corsi'
+            }
+        }).then(function (response) {
+            $scope.courses = response.data;
+            console.log(response.data);
+        })
+    };
+    init();
 
     //essenzialmente aggiorno il valore di elenco su cui faccio li
-    $scope.getInsegnanti = function () {
-        console.log("fammi vedere gli insegnanti che insegnano " + $scope.inputcorso);
+    $scope.getInsegnanti = function (course) {
+        $scope.inputcorso = course;
+        $scope.detail = true;
+        // console.log("fammi vedere gli insegnanti che insegnano " + course.titolo);
+        console.log("titolto" + course);
+        console.log("iTHISnputcorso = " + this.inputcorso);
+        console.log("Scopenputcorso = " + $scope.inputcorso);
 
         $http({
             method: 'GET',
             url: '/controller',
             params: {
                 'action': 'insegnamenti',
-                'subject': $scope.inputcorso
+                'subject': course//.titolo
             }
         }).then(function (response) {
             $scope.elenco = response.data;
             //console.log(response.data);
         }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
+        });
+    };
+
+    $scope.mostraDisponibilita = function (docente, inputdata) {
+        console.log("mostro disponibilita input ");
+        console.log(inputdata);
+
+        var date = inputdata.getFullYear() + '-' + (inputdata.getMonth() + 1) + '-' + inputdata.getDate();
+        console.log('date = ' + date);
+
+        $http({
+            method: 'GET',
+            url: '/controller',
+            params: {
+                'action': 'disponibilita',
+                'docente': docente.username,
+                'data': date
+            }
+        }).then(function (response) {
+            // $scope.elenco = response.data;
+            console.log(response.data);
+            $scope.disponibili = response.data;
+            console.log('scope' + $scope.disponibili);
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
+        });
+    };
+
+    $scope.effettuaPrenotazione = function (slot, inputdata, docente) {
+        console.log(slot);
+        console.log("thisinput " + this.inputcorso);
+        console.log("Scopenputcorso = " + $scope.inputcorso);
+
+        var date = inputdata.getFullYear() + '-' + (inputdata.getMonth() + 1) + '-' + inputdata.getDate();
+
+        $http({
+            method: 'post',
+            url: '/controller',
+            params: {
+                'action': 'prenotazione',
+                'slot': slot,
+                'docente': docente.username,  //todo-done sistemare qui
+                'corso': this.inputcorso,      //todo sistema qui
+                'data': date,
+                'stato': 'attiva'
+            }
+        }).then(function (response) {
+            console.log(response);
+            console.log("splice " + $scope.disponibili.indexOf(slot));
+            $scope.disponibili.splice($scope.disponibili.indexOf(slot), 1);
+        }, function (reason) {
+            console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
             location.replace("/html/login-register.html");
         });
@@ -245,7 +321,7 @@ function prenotaCtrl($scope, $http) {
         }).then(function (response) {
             console.log(response);
             console.log("splice " + $scope.disponibili.indexOf(slot));
-            $scope.disponibili.splice($scope.disponibili.indexOf(slot),1);
+            $scope.disponibili.splice($scope.disponibili.indexOf(slot), 1);
         }, function (reason) {
             console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
@@ -481,7 +557,7 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
     }
 }
 
-function profilo_ctrl($scope, $http){
+function profilo_ctrl($scope, $http) {
     $http.get("/controller", {params: {'action': 'profilo'}})
         .then(function (response) {
             console.log(response.data);
@@ -495,7 +571,7 @@ function profilo_ctrl($scope, $http){
         });
 }
 
-function dashboard_ctrl($scope, $http){
+function dashboard_ctrl($scope, $http) {
     $http.get("/controller", {params: {'action': 'statistiche'}})
         .then(function (response) {
             console.log(response.data);

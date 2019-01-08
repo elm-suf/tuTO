@@ -188,6 +188,7 @@ public class Controller extends HttpServlet {
                         int status = PrenotazioneDAO.insert(p);
                         if (status < 1) res.sendError(500, "0 rows affected");
                     } catch (SQLException e) {
+                        res.sendError(500, e.getSQLState());
                         e.getMessage();
                     }
                 }
