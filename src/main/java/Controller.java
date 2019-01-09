@@ -332,6 +332,7 @@ public class Controller extends HttpServlet {
                 break;
 
             case "register":
+                res.setContentType("application/json");
                 System.out.println("registraaaaaaaa");
                 username = req.getParameter("username");
                 password = req.getParameter("password");
@@ -339,6 +340,7 @@ public class Controller extends HttpServlet {
                 cognome = req.getParameter("cognome");
                 try {
                     if (StudenteDAO.insert(new Studente(username, password, nome, cognome)) > 0) {
+                        res.setStatus(200);
                         out.println(gson.toJson(StudenteDAO.getOne(username)));
 //                        res.sendRedirect("/index.html");
                     } else {

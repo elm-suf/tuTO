@@ -108,6 +108,7 @@ studente.controller("homepage_ctrl", homepage_ctrl);
 studente.controller("profilo_ctrl", profilo_ctrl);
 studente.controller("prenotaCtrl", prenotaCtrl);
 studente.controller("login_ctrl", login_ctrl);
+studente.controller("register_ctrl", register_ctrl);
 studente.controller("main", main);
 
 amministratore.controller('dashboard_ctrl', dashboard_ctrl);
@@ -153,6 +154,36 @@ function main($scope, $http, $rootScope) {
             window.location.href = "/#login";
         })
 
+    }
+}
+
+function register_ctrl($scope, $http, $mdDialog){
+    $scope.register = function() {
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'register',
+                nome: $scope.nome,
+                cognome: $scope.cognome,
+                username: $scope.username,
+                password: $scope.password
+            }
+        }).then(function (response){
+            if(response.status === 200) {
+                var success = $mdDialog.alert()
+                    .title('Registrazione avvenuta come:  ' + response.data["username"])
+                    .targetEvent(ev)
+                    .ok('OK!');
+                $mdDialog.show(success);
+            }else{
+                var insuccess = $mdDialog.alert()
+                    .title('Registrazione avvenuta')
+                    .targetEvent(ev)
+                    .ok('OK!');
+                $mdDialog.show(insuccess);
+            }
+        })
     }
 }
 
