@@ -5,8 +5,7 @@ var amministratore = angular.module("amministratore", ['ngRoute', 'ngMaterial'])
 studente.run(function ($rootScope) {
     $rootScope.logged = "false";
     $rootScope.$watch('logged', function () {
-        console.log("logged is ");
-        console.log($rootScope.logged); //stampa true dopo il cambio ma poi torna false
+        console.log("logged is " + $rootScope.logged); //stampa true dopo il cambio ma poi torna false
     })
 });
 
@@ -150,7 +149,6 @@ function login_ctrl($scope, $http, $rootScope) {
         }).then(function (response) {
             if (response.data[0] === 'success') {
                 $rootScope.logged = "true";
-                $rootScope.$watch()
                 if (response.data[1] === 'student') {
                     window.location = "/#";
                 } else {
