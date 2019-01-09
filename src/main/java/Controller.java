@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dao.*;
 import pojo.*;
 
@@ -33,26 +32,25 @@ public class Controller extends HttpServlet {
                 password = req.getParameter("password");
                 session.setAttribute("username", req.getParameter("username"));
                 session.setAttribute("password", req.getParameter("password"));
-                ArrayList<String> resp = new ArrayList<>();
                 try {
                     if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password)) {
                         System.out.println("admin");
-                        res.addCookie(new Cookie("logged","true"));
+                        res.addCookie(new Cookie("logged", "true"));
+                        res.addCookie(new Cookie("isAdmin", "true"));
                         session.setAttribute("isAdmin", "true");
                         out.println(gson.toJson(AmministratoreDAO.getOne(username)));
-                    }else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password)) {
+                    } else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password)) {
                         System.out.println("studente");
-                        res.addCookie(new Cookie("logged","true"));
+                        res.addCookie(new Cookie("logged", "true"));
+                        res.addCookie(new Cookie("isAdmin", "false"));
                         session.setAttribute("isAdmin", "false");
                         out.println(gson.toJson(StudenteDAO.getOne(username)));
-                    }else {
-                        res.addCookie(new Cookie("logged","false"));
-                        resp.add("denied");
-                        out.println(gson.toJson(resp));
+                    } else {
+                        res.addCookie(new Cookie("logged", "false"));
+                        res.sendError(401, "not logged in");
                     }
                 } catch (SQLException e) {
-                    res.addCookie(new Cookie("logged","false"));
-                    res.sendError(500,e.getSQLState());
+                    res.sendError(500, e.getSQLState());
                     System.out.println(e.getMessage());
                 }
                 break;
@@ -202,7 +200,7 @@ public class Controller extends HttpServlet {
                 corso = req.getParameter("corso");
                 data = req.getParameter("data");
                 stato = req.getParameter("stato");
-                System.out.println("slot: " +slot+ " data: " +data);
+                System.out.println("slot: " + slot + " data: " + data);
 
                 try {
                     int idInsegnamento = InsegnamentoDAO.getIdInsegnamento(corso, docente);
@@ -340,7 +338,7 @@ public class Controller extends HttpServlet {
                 nome = req.getParameter("nome");
                 cognome = req.getParameter("cognome");
                 try {
-                    if(StudenteDAO.insert(new Studente(username,password,nome,cognome))>0){
+                    if (StudenteDAO.insert(new Studente(username, password, nome, cognome)) > 0) {
                         out.println(gson.toJson(StudenteDAO.getOne(username)));
 //                        res.sendRedirect("/index.html");
                     } else {
@@ -355,7 +353,7 @@ public class Controller extends HttpServlet {
                 res.setContentType("application/json");
                 try {
                     String us = (String) session.getAttribute("username");
-                    if(StudenteDAO.exists(us))
+                    if (StudenteDAO.exists(us))
                         out.println(gson.toJson(StudenteDAO.getOne(us)));
                     else
                         out.println(gson.toJson(AmministratoreDAO.getOne(us)));
@@ -383,7 +381,7 @@ public class Controller extends HttpServlet {
     }
 
     private boolean chechLoginAdmin(HttpServletResponse res, String action, HttpSession s) throws IOException {
-        if(!action.equals("login") && s.getAttribute("user_type").equals("admin")){
+        if (!action.equals("login") && s.getAttribute("user_type").equals("admin")) {
             String tmpUsername = (String) s.getAttribute("username");
             if (tmpUsername == null || tmpUsername.isEmpty()) {
                 res.sendError(503, "not logged in");

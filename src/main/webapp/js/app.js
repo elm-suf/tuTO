@@ -150,36 +150,31 @@ function login_ctrl($scope, $http, $rootScope) {
         }).then(function (response) {
             console.log(response);
             console.log($rootScope.logged);
-            console.log(response);
-            checkCookie();
-            if (response.status === 200) {
-                $rootScope.userlogged = response.body;
-                window.location = "/#";
-            } else {
-                window.location = "/html/Amministratore/index.html";
-                console.log("amministratore");
+            console.log(response.data);
+            if (response.status == 200) {
+                $rootScope.userlogged = response.data;
+                $rootScope.logged = true;
+                if (getCookie("isAdmin") == true) {
+                    window.location = "/html/Amministratore/index.html";
+                    console.log("amministratore");
+                } else {
+                    window.location = "/#";
+                }
             }
         }, function (reason) {
             console.log(reason);
             $rootScope.logged = "false";
-            console.log(response.data);
+            console.log(reason.data);
+            alert(statusText);
             window.href.replace("/login");
         });
     };
 
-    function checkCookie() {
-        var username = getCookie("logged");
-        if (username === true) {
-            alert("Welcome again " + username);
-        } else {
-            prompt("Please enter your name:", username);
-        }
-    }
 
     function getCookie(cname) {
         var name = cname + "=";
         var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
+        for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -193,8 +188,8 @@ function login_ctrl($scope, $http, $rootScope) {
 
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+ d.toUTCString();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 }
@@ -214,7 +209,7 @@ function homepage_ctrl($scope, $rootScope, $http) {
     };
     init();
 
-    console.log("init rootscope = " + $rootScope.logged);
+    console.log("init rootscope = " + $rootScope.userlogged.username);
     if ($rootScope.logged === false)
         window.location.href = "/#cerca";
 
