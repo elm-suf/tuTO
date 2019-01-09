@@ -3,10 +3,10 @@ var studente = angular.module("studente", ['ngRoute', 'ngMaterial']);
 var amministratore = angular.module("amministratore", ['ngRoute', 'ngMaterial']);
 
 studente.run(function ($rootScope) {
-    $rootScope.logged = "false";
-    $rootScope.$watch('logged', function () {
-        console.log("logged is " + $rootScope.logged); //stampa true dopo il cambio ma poi torna false
-    })
+    console.log("studente.run");
+    console.log($rootScope.logged);
+    $rootScope.logged = false;
+    console.log($rootScope.logged);
 });
 
 studente.config(['$routeProvider', '$locationProvider',
@@ -29,7 +29,8 @@ studente.config(['$routeProvider', '$locationProvider',
                 controller: 'tabellaCtrl'
             })
             .when('/login', {
-                templateUrl: 'html/login-register.html'
+                templateUrl: 'html/login-register.html',
+                controller: 'login_ctrl'
             })
             .otherwise({redirectTo: '/'});
     }]);
@@ -122,13 +123,13 @@ function main($scope, $http, $rootScope) {
             url: '/controller',
             params: {
                 action: 'logout'
-            },
-            headers: {
-                'Cache-Control': 'must-revalidate, no-cache, no-store'
             }
         }).then(function (value) {
-            location.replace("/html/login-register.html");
             console.log("value = " + value);
+            window.location.href = "/#login";
+        }, function (reason) {
+            console.log(reason);
+            window.location.href = "/#login";
         })
 
     }
@@ -147,25 +148,74 @@ function login_ctrl($scope, $http, $rootScope) {
                 password: $scope.password
             }
         }).then(function (response) {
-            if (response.data[0] === 'success') {
-                $rootScope.logged = "true";
-                if (response.data[1] === 'student') {
-                    window.location = "/#";
-                } else {
-                    window.location = "/html/Amministratore/index.html";
-                    console.log("amministratore");
-                }
+            console.log(response);
+            console.log($rootScope.logged);
+            console.log(response);
+            checkCookie();
+            if (response.status === 200) {
+                $rootScope.userlogged = response.body;
+                window.location = "/#";
             } else {
-                $rootScope.logged = "false";
-                console.log(response.data[0]);
-                location.replace("/html/login-register.html");
+                window.location = "/html/Amministratore/index.html";
+                console.log("amministratore");
             }
+        }, function (reason) {
+            console.log(reason);
+            $rootScope.logged = "false";
+            console.log(response.data);
+            window.href.replace("/login");
         });
+    };
+
+    function checkCookie() {
+        var username = getCookie("logged");
+        if (username === true) {
+            alert("Welcome again " + username);
+        } else {
+            prompt("Please enter your name:", username);
+        }
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 }
 
-function homepage_ctrl($scope, $rootScope) {
-    if ($rootScope.logged === "false")
+function homepage_ctrl($scope, $rootScope, $http) {
+    var init = function () {
+        $http({
+            method: 'GET',
+            url: '/controller',
+            params: {
+                'action': 'elenco_corsi'
+            }
+        }).then(function (response) {
+            $scope.courses = response.data;
+            console.log(response.data);
+        })
+    };
+    init();
+
+    console.log("init rootscope = " + $rootScope.logged);
+    if ($rootScope.logged === false)
         window.location.href = "/#cerca";
 
 }
@@ -183,7 +233,8 @@ function tabellaCtrl($scope, $http) {
         $scope.fakeData = response.data;
     }, function (reason) {
         console.log(reason);
-        location.replace("/html/login-register.html");
+        window.location.href = "/#login";
+        // location.replace("/html/-register.html");
     });
 
     $scope.delete = function (prenotazione) {
@@ -321,7 +372,7 @@ function cercaMateriaCtrl($scope, $http) {
         }, function (reason) {
             console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
-            location.replace("/html/login-register.html");
+            window.location.href = "/#login";
         });
     };
 }

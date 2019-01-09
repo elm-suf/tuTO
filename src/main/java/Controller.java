@@ -4,10 +4,7 @@ import dao.*;
 import pojo.*;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -23,44 +20,39 @@ public class Controller extends HttpServlet {
         PrintWriter out = res.getWriter();
         Gson gson = new Gson();
         String username, password, nome, cognome, titolo, docente, data, stato, slot, corso;
-        HttpSession s = req.getSession();
+        HttpSession session = req.getSession();
 
-        if(!action.equals("login") && s.getAttribute("user_type").equals("admin")){
-            String tmp = (String) s.getAttribute("username");
-            if (tmp == null || tmp.isEmpty()) {
-                res.sendError(503, "not logged in");
-                return;
-            }
-        }
+//        if (chechLoginAdmin(res, action, session)) return;
 
         switch (action) {
             case "login":
                 System.out.println("sono in login");
                 res.setContentType("application/json");
-                s = req.getSession(true);
+                session = req.getSession(true);
                 username = req.getParameter("username");
                 password = req.getParameter("password");
-                s.setAttribute("username", req.getParameter("username"));
-                s.setAttribute("password", req.getParameter("password"));
+                session.setAttribute("username", req.getParameter("username"));
+                session.setAttribute("password", req.getParameter("password"));
                 ArrayList<String> resp = new ArrayList<>();
                 try {
                     if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password)) {
                         System.out.println("admin");
-                        s.setAttribute("user_type", "admin");
-                        resp.add("success");
-                        resp.add("admin");
-                        out.println(gson.toJson(resp));
+                        res.addCookie(new Cookie("logged","true"));
+                        session.setAttribute("isAdmin", "true");
+                        out.println(gson.toJson(AmministratoreDAO.getOne(username)));
                     }else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password)) {
                         System.out.println("studente");
-                        s.setAttribute("user_type", "student");
-                        resp.add("success");
-                        resp.add("student");
-                        out.println(gson.toJson(resp));
+                        res.addCookie(new Cookie("logged","true"));
+                        session.setAttribute("isAdmin", "false");
+                        out.println(gson.toJson(StudenteDAO.getOne(username)));
                     }else {
+                        res.addCookie(new Cookie("logged","false"));
                         resp.add("denied");
                         out.println(gson.toJson(resp));
                     }
                 } catch (SQLException e) {
+                    res.addCookie(new Cookie("logged","false"));
+                    res.sendError(500,e.getSQLState());
                     System.out.println(e.getMessage());
                 }
                 break;
@@ -176,7 +168,7 @@ public class Controller extends HttpServlet {
                 break;
 
             case "prenotazione":
-                String studente = (String) s.getAttribute("username");
+                String studente = (String) session.getAttribute("username");
                 if (studente == null || studente.isEmpty()) {
                     System.out.println("studente is null:: non e possibile prenotare");
                     res.sendError(503, "not logged in");
@@ -294,10 +286,10 @@ public class Controller extends HttpServlet {
 
             case "lista-prenotazioni":
 //                studente = req.getParameter("studente");
-//                String sessionUname = s.getAttribute("username").toString();
+//                String sessionUname = session.getAttribute("username").toString();
 //                System.out.println("session user name = " + sessionUname);
                 //todo prendere dato da sessione utente
-                studente = (String) s.getAttribute("username");
+                studente = (String) session.getAttribute("username");
 
                 if (studente == null || studente.isEmpty()) {
                     System.out.println("studente is null:: non e possibile prenotare");
@@ -316,7 +308,7 @@ public class Controller extends HttpServlet {
                 docente = req.getParameter("docente");
                 data = req.getParameter("data");
                 slot = req.getParameter("slot");
-//                String sessionUname = s.getAttribute("username").toString();
+//                String sessionUname = session.getAttribute("username").toString();
 //                System.out.println("session user name = " + sessionUname);
                 try {
                     status = PrenotazioneDAO.disdisci(docente, data, slot);
@@ -332,13 +324,13 @@ public class Controller extends HttpServlet {
                     //todo redirect to login page
                     out.println("NOT OK");
                     res.setStatus(500);
-                    res.sendRedirect("/login-register.html");
+//                    res.sendRedirect("/login-register.html");
                 }
                 break;
 
             case "logout":
-                s.invalidate();
-                System.out.println("session = " + s);
+                session.invalidate();
+                System.out.println("session = " + session);
                 break;
 
             case "register":
@@ -349,7 +341,8 @@ public class Controller extends HttpServlet {
                 cognome = req.getParameter("cognome");
                 try {
                     if(StudenteDAO.insert(new Studente(username,password,nome,cognome))>0){
-                        res.sendRedirect("/index.html");
+                        out.println(gson.toJson(StudenteDAO.getOne(username)));
+//                        res.sendRedirect("/index.html");
                     } else {
                         res.sendError(503, "try again");
                     }
@@ -361,7 +354,7 @@ public class Controller extends HttpServlet {
             case "profilo":
                 res.setContentType("application/json");
                 try {
-                    String us = (String) s.getAttribute("username");
+                    String us = (String) session.getAttribute("username");
                     if(StudenteDAO.exists(us))
                         out.println(gson.toJson(StudenteDAO.getOne(us)));
                     else
@@ -387,6 +380,17 @@ public class Controller extends HttpServlet {
                 break;
         }
 
+    }
+
+    private boolean chechLoginAdmin(HttpServletResponse res, String action, HttpSession s) throws IOException {
+        if(!action.equals("login") && s.getAttribute("user_type").equals("admin")){
+            String tmpUsername = (String) s.getAttribute("username");
+            if (tmpUsername == null || tmpUsername.isEmpty()) {
+                res.sendError(503, "not logged in");
+                return true;
+            }
+        }
+        return false;
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) {
