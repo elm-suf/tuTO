@@ -2,22 +2,27 @@
 var studente = angular.module("studente", ['ngRoute', 'ngMaterial']);
 var amministratore = angular.module("amministratore", ['ngRoute', 'ngMaterial']);
 
+studente.run(function ($rootScope) {
+    $rootScope.logged = "false";
+});
+
 studente.config(['$routeProvider', '$locationProvider',
     function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'homepage.html'
+                templateUrl: 'html/Studente/homepage.html',
+                controller: 'homepage_ctrl'
             })
             .when('/profilo', {
-                templateUrl: '../profilo.html',
+                templateUrl: 'html/profilo.html',
                 controller: 'profilo_ctrl'
             })
             .when('/cerca', {
-                templateUrl: 'cerca-materia.html',
+                templateUrl: 'html/Studente/cerca-materia.html',
                 controller: 'cercaMateriaCtrl'
             })
             .when('/tabella', {
-                templateUrl: 'tabella.html',
+                templateUrl: 'html/Studente/tabella.html',
                 controller: 'tabellaCtrl'
             })
             .when('/login', {
@@ -79,8 +84,10 @@ amministratore.config(['$routeProvider', '$locationProvider',
 
 studente.controller("tabellaCtrl", tabellaCtrl);
 studente.controller("cercaMateriaCtrl", cercaMateriaCtrl);
+studente.controller("homepage_ctrl", homepage_ctrl);
 studente.controller("profilo_ctrl", profilo_ctrl);
 studente.controller("prenotaCtrl", prenotaCtrl);
+studente.controller("login_ctrl", login_ctrl);
 studente.controller("main", main);
 
 amministratore.controller('dashboard_ctrl', dashboard_ctrl);
@@ -92,12 +99,21 @@ amministratore.controller('insegnamenti_ctrl', insegnamenti_ctrl);
 amministratore.controller("profilo_ctrl", profilo_ctrl);
 amministratore.controller("main", main);
 
-function main($scope, $http) {
+function main($scope, $http, $rootScope) {
+    window.onload = function () {
+        if ($rootScope.logged === "false") {
+            document.getElementById('home').style.visibility = "hidden";
+            document.getElementById("cerca").style.visibility = "hidden";
+            document.getElementById("tabella").style.visibility = "hidden";
+            document.getElementById("profilo").style.visibility = "hidden";
+            document.getElementById("logout").innerHTML = "Iscriviti <i class=\"fas fa-sign-out-alt\"></i>";
+        }
+        console.log($rootScope.logged);
+    };
 
     $scope.logout = function () {
-
         console.log("logout");
-
+        $rootScope.logged = "false";
         $http({
             method: 'POST',
             url: '/controller',
@@ -113,6 +129,42 @@ function main($scope, $http) {
         })
 
     }
+}
+
+
+function login_ctrl($scope, $http, $rootScope) {
+    $scope.login = function () {
+        console.log($scope.username, $scope.password);
+        $http({
+            method: 'get',
+            url: '/controller',
+            params: {
+                action: 'login',
+                username: $scope.username,
+                password: $scope.password
+            }
+        }).then(function (response) {
+            if (response.data[0] === 'success') {
+                $rootScope.logged = "true";
+                if (response.data[1] === 'student') {
+                    window.location = "/#";
+                } else {
+                    window.location = "/html/Amministratore/index.html";
+                    console.log("amministratore");
+                }
+            } else {
+                $rootScope.logged = "false";
+                console.log(response.data[0]);
+                location.replace("/html/login-register.html");
+            }
+        });
+    }
+}
+
+function homepage_ctrl($scope, $rootScope) {
+    if ($rootScope.logged === "false")
+        window.location.href = "/#cerca";
+
 }
 
 function tabellaCtrl($scope, $http) {

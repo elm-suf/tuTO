@@ -25,7 +25,7 @@ public class Controller extends HttpServlet {
         String username, password, nome, cognome, titolo, docente, data, stato, slot, corso;
         HttpSession s = req.getSession();
 
-        if(!action.equals("login")){
+        if(!action.equals("login") && s.getAttribute("user_type").equals("admin")){
             String tmp = (String) s.getAttribute("username");
             if (tmp == null || tmp.isEmpty()) {
                 res.sendError(503, "not logged in");
@@ -35,22 +35,31 @@ public class Controller extends HttpServlet {
 
         switch (action) {
             case "login":
+                System.out.println("sono in login");
+                res.setContentType("application/json");
                 s = req.getSession(true);
                 username = req.getParameter("username");
                 password = req.getParameter("password");
                 s.setAttribute("username", req.getParameter("username"));
                 s.setAttribute("password", req.getParameter("password"));
+                ArrayList<String> resp = new ArrayList<>();
                 try {
                     if (AmministratoreDAO.exists(username) && AmministratoreDAO.checkPassword(username, password)) {
-                        res.sendRedirect("/html/Amministratore/index.html");
-                        s.setAttribute("nome", AmministratoreDAO.getName(username));
-                        s.setAttribute("cognome", AmministratoreDAO.getSurname(username));
+                        System.out.println("admin");
+                        s.setAttribute("user_type", "admin");
+                        resp.add("success");
+                        resp.add("admin");
+                        out.println(gson.toJson(resp));
                     }else if (StudenteDAO.exists(username) && StudenteDAO.checkPassword(username, password)) {
-                        res.sendRedirect("/html/Studente/index.html");
-                        s.setAttribute("nome", StudenteDAO.getName(username));
-                        s.setAttribute("cognome", StudenteDAO.getSurname(username));
-                    }else
-                        res.sendRedirect("/html/login-register.html");
+                        System.out.println("studente");
+                        s.setAttribute("user_type", "student");
+                        resp.add("success");
+                        resp.add("student");
+                        out.println(gson.toJson(resp));
+                    }else {
+                        resp.add("denied");
+                        out.println(gson.toJson(resp));
+                    }
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }

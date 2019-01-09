@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-          crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/png" href="/img/student.png"/>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/angular-material.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.10/angular-material.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-aria.js"></script>
+    <script src="/js/app.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/css/fontawesome.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
     <title>Register</title>
 </head>
 
-<body>
+<body ng-app="studente">
 <header id="main-header" class="bg-dark text-info p-4 mb-3">
     <div class="container">
-        <h1 id="header-title">Login / Registrazione
-            <span style="display:none">123</span>
-        </h1>
+        <h1 id="header-title">Login / Registrazione</h1>
     </div>
 </header>
 
-<div class="row">
+<div class="row" ng-controller="login_ctrl">
     <div class="col-sm-12 col-md-5 float-left">
         <h1 class="page-header text-center">Login</h1>
         <br>
         <div class="container mt-auto">
             <div id="main_login" class="card card-body bg-light m-2">
-                <form action="/controller" method="post">
-                    <input name="username" required="" type="text" class="form-control mt-3" placeholder="Username">
-                    <input name="password" required="" type="password" class="form-control my-4" placeholder="Password">
-                    <button type="submit" name="action" value="login" class="btn btn-primary bg-success form-control">
+                <form>
+                    <input name="username" ng-model="username" required="" type="text" class="form-control mt-3"
+                           placeholder="Username">
+                    <input name="password" ng-model="password" required="" type="password" class="form-control my-4"
+                           placeholder="Password">
+                    <button type="submit" ng-click="login()"
+                            class="btn btn-primary bg-success form-control">
                         Login
                     </button>
                 </form>
@@ -55,12 +69,23 @@
                     <input type="password" class="form-control mb-3" placeholder="Re-Password">
                     <!--todo validation password & repassword-->
                     <!-- <select type="text" class="form-control mb-3" required> -->
-                    <button id="buttonRegister" type="submit" name="action" value="register" class="btn btn-primary form-control">Registrazione</button>
+                    <button id="buttonRegister" type="submit" name="action" value="register"
+                            class="btn btn-primary form-control">Registrazione
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/js/fontawesome.min.js"></script>
 </body>
 
 </html>
