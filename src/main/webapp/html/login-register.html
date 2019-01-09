@@ -5,7 +5,7 @@
         </div>
     </header>
 
-    <div class="row" ng-controller="register_ctrl">
+    <div class="row" ng-controller="login_ctrl">
         <div class="col-sm-12 col-md-5 float-left">
             <h1 class="page-header text-center">Login</h1>
             <br>
@@ -24,10 +24,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-7 m-auto float-right">
+        <div class="col-sm-12 col-md-7 m-auto float-right" ng-controller="register_ctrl">
             <h1 class="page-header text-center">Registrazione</h1>
             <br>
-            <div class="container mt-auto ">
+            <div class="container mt-auto">
                 <div id="main_register" class="card card-body bg-secondary m-2">
                     <form>
                         <div class="row mb-3">
@@ -38,8 +38,8 @@
                                 <input ng-model="cognome" type="text" class="form-control" placeholder="Cognome">
                             </div>
                         </div>
-                        <input ng-model="username" type="text" class="form-control mb-3" placeholder="Username">
-                        <input ng-model="password" type="password" class="form-control mb-3" placeholder="Password">
+                        <input ng-model="usernamep" type="text" class="form-control mb-3" placeholder="Username">
+                        <input ng-model="passwordp" type="password" class="form-control mb-3" placeholder="Password">
                         <input type="password" class="form-control mb-3" placeholder="Re-Password">
                         <!--todo validation password & repassword-->
                         <!-- <select type="text" class="form-control mb-3" required> -->

@@ -340,7 +340,7 @@ public class Controller extends HttpServlet {
                 cognome = req.getParameter("cognome");
                 try {
                     if (StudenteDAO.insert(new Studente(username, password, nome, cognome)) > 0) {
-                        res.setStatus(200);
+                        res.setStatus(201);
                         out.println(gson.toJson(StudenteDAO.getOne(username)));
 //                        res.sendRedirect("/index.html");
                     } else {

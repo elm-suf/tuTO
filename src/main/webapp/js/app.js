@@ -170,19 +170,17 @@ function register_ctrl($scope, $http, $mdDialog){
                 password: $scope.password
             }
         }).then(function (response){
-            if(response.status === 200) {
+            if(response.status === 201) {
                 var success = $mdDialog.alert()
                     .title('Registrazione avvenuta come:  ' + response.data["username"])
-                    .targetEvent(ev)
                     .ok('OK!');
                 $mdDialog.show(success);
-            }else{
-                var insuccess = $mdDialog.alert()
-                    .title('Registrazione avvenuta')
-                    .targetEvent(ev)
-                    .ok('OK!');
-                $mdDialog.show(insuccess);
             }
+        }, function(){
+            var insuccess = $mdDialog.alert()
+                .title('Registrazione non avvenuta')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
         })
     }
 }
