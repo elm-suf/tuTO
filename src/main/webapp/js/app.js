@@ -3,7 +3,23 @@ var studente = angular.module("studente", ['ngRoute', 'ngMaterial']);
 var amministratore = angular.module("amministratore", ['ngRoute', 'ngMaterial']);
 
 studente.run(function ($rootScope) {
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
     console.log("studente.run");
+    console.log("cookie : "+ getCookie('logged'));
     console.log($rootScope.logged);
     $rootScope.logged = false;
     console.log($rootScope.logged);
@@ -103,21 +119,26 @@ amministratore.controller('insegnamenti_ctrl', insegnamenti_ctrl);
 amministratore.controller("profilo_ctrl", profilo_ctrl);
 amministratore.controller("main", main);
 
-function main($scope, $http, $rootScope) {
-    window.onload = function () {
-        if ($rootScope.logged === "false") {
-            document.getElementById('home').style.visibility = "hidden";
-            document.getElementById("cerca").style.visibility = "hidden";
-            document.getElementById("tabella").style.visibility = "hidden";
-            document.getElementById("profilo").style.visibility = "hidden";
-            document.getElementById("logout").innerHTML = "Iscriviti <i class=\"fas fa-sign-out-alt\"></i>";
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
         }
-        console.log($rootScope.logged);
-    };
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function main($scope, $http, $rootScope) {
 
     $scope.logout = function () {
         console.log("logout");
-        $rootScope.logged = "false";
+        $rootScope.logged = false;
         $http({
             method: 'POST',
             url: '/controller',
@@ -151,12 +172,14 @@ function login_ctrl($scope, $http, $rootScope) {
             console.log(response);
             console.log($rootScope.logged);
             console.log(response.data);
-            if (response.status == 200) {
+            console.log(getCookie('isAdmin'));
+            if (response.status === 200) {
+
                 $rootScope.userlogged = response.data;
                 $rootScope.logged = true;
-                if (getCookie("isAdmin") == true) {
+                if (getCookie('isAdmin') == 'true') {
+                    console.log("amsssministratore");
                     window.location = "/html/Amministratore/index.html";
-                    console.log("amministratore");
                 } else {
                     window.location = "/#";
                 }
@@ -165,8 +188,7 @@ function login_ctrl($scope, $http, $rootScope) {
             console.log(reason);
             $rootScope.logged = "false";
             console.log(reason.data);
-            alert(statusText);
-            window.href.replace("/login");
+            alert(reason.statusText);
         });
     };
 
@@ -196,6 +218,7 @@ function login_ctrl($scope, $http, $rootScope) {
 
 function homepage_ctrl($scope, $rootScope, $http) {
     var init = function () {
+        console.log("init cookie: " + getCookie('logged'));
         $http({
             method: 'GET',
             url: '/controller',
@@ -209,7 +232,7 @@ function homepage_ctrl($scope, $rootScope, $http) {
     };
     init();
 
-    console.log("init rootscope = " + $rootScope.userlogged.username);
+    console.log("rootscope logged = " + $rootScope.logged);
     if ($rootScope.logged === false)
         window.location.href = "/#cerca";
 

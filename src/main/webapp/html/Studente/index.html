@@ -31,23 +31,31 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent" ng-controller="main">
-                    <ul class="nav navbar-nav mr-auto text-center">
+                    <ul class="nav navbar-nav mr-auto text-center" ng-show="logged">
                         <li class="nav-item">
                             <a class="nav-link" href="#/" id="home">Home <i class="fas fa-home"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#/cerca" id="cerca">Cerca Ripetizione <i class="fas fa-search"></i></a>
+                            <a class="nav-link" href="#/cerca" id="cerca">Cerca Ripetizione <i
+                                    class="fas fa-search"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#/tabella" id="tabella">Gestisci Ripetizioni <i class="fas fa-book-open"></i></a>
+                            <a class="nav-link" href="#/tabella" id="tabella">Gestisci Ripetizioni <i
+                                    class="fas fa-book-open"></i></a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav ml-auto text-center">
+                    <ul class="nav navbar-nav ml-auto text-center" ng-show="logged">
                         <li class="nav-item">
                             <a class="nav-link" href="#/profilo" id="profilo">Profilo <i class="fa fa-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" ng-click="logout()" id="logout" href="#">Logout <i class="fas fa-sign-out-alt"></i></a>
+                            <a class="nav-link" ng-click="logout()" id="logout" href="#">Logout <i
+                                    class="fas fa-sign-out-alt"></i></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto text-center" ng-hide="logged">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#/login">Login <i class="fas fa-sign-out-alt"></i></a>
                         </li>
                     </ul>
                 </div>
