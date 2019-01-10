@@ -202,14 +202,18 @@ public class Controller extends HttpServlet {
                 slot = req.getParameter("slot");
                 docente = req.getParameter("docente");
                 corso = req.getParameter("corso");
-                data = req.getParameter("data");
+                data = req.getParameter("data").substring(0, 9);
                 stato = req.getParameter("stato");
                 System.out.println("slot: " + slot + " data: " + data);
 
                 try {
                     int idInsegnamento = InsegnamentoDAO.getIdInsegnamento(corso, docente);
                     int status = PrenotazioneDAO.insert(new Prenotazione(studente, docente, corso, idInsegnamento, slot, stato, data));
-                    if (status < 1) res.sendError(500, "0 rows affected");
+                    if (status < 1)
+                        res.sendError(500, "0 rows affected");
+                    else {
+                        res.setStatus(200);
+                    }
                 } catch (SQLException e) {
                     e.getMessage();
                 }

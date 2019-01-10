@@ -49,6 +49,7 @@ public class PrenotazioneDAO {
             return st.executeUpdate();
 
         } catch (SQLException e) {
+            System.out.println("Eccezione catturata " + e.getMessage());
             return -1;
         } finally {
             if (st != null) st.close();
