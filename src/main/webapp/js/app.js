@@ -187,6 +187,7 @@ function inserisci_studente_ctrl($scope, $http, $mdDialog) {
                 .title('Studente inserito')
                 .ok('OK!');
             $mdDialog.show(success);
+            $scope.username = $scope.password = $scope.nome = $scope.cognome = ''
 
         }, function (reason) {
             console.log(reason);
@@ -216,6 +217,7 @@ function inserisci_docente_ctrl($scope, $http, $mdDialog) {
                 .title('Docente inserito')
                 .ok('OK!');
             $mdDialog.show(success);
+            $scope.username = $scope.password = $scope.nome = $scope.cognome = ''
 
         }, function (reason) {
             console.log(reason);
@@ -242,6 +244,7 @@ function inserisci_corso_ctrl($scope, $http, $mdDialog) {
                 .title('Corso inserito')
                 .ok('OK!');
             $mdDialog.show(success);
+            $scope.titolo = ''
 
         }, function (reason) {
             console.log(reason);
@@ -306,6 +309,7 @@ function inserisci_prenotazione_ctrl($scope, $http, $mdDialog) {
                 .title('Prenotazione inserita')
                 .ok('OK!');
             $mdDialog.show(success);
+            $scope.stato = $scope.studente = $scope.docente = $scope.corso = $scope.slot = $scope.data = ''
 
         }, function (reason) {
             console.log(reason);
@@ -351,6 +355,7 @@ function inserisci_insegnamento_ctrl($scope, $http, $mdDialog) {
                 .title('Insegnamento inserito')
                 .ok('OK!');
             $mdDialog.show(success);
+            $scope.corso = $scope.docente = ''
 
         }, function (reason) {
             console.log(reason);
@@ -389,6 +394,7 @@ function register_ctrl($scope, $http, $mdDialog) {
                     .title('Registrazione avvenuta come:  ' + response.data["username"])
                     .ok('OK!');
                 $mdDialog.show(success);
+                $scope.nome = $scope.cognome = $scope.username =  $scope.password =  $scope.passwordp = ''
             }
         }, function () {
             var insuccess = $mdDialog.alert()

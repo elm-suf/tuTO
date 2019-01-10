@@ -132,6 +132,7 @@ public class DocenteDAO {
                     rs.getString(4)));
 
         }
+
         return list;
     }
 
