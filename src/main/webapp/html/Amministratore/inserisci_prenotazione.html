@@ -6,28 +6,58 @@
         <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
 
             <div class="form-group">
-                <label>Stato</label>
-                <input ng-model="stato" type="text" class="form-control">
+                <md-input-container style="width: -moz-available">
+                    <label>Stato</label>
+                    <md-select ng-model="stato">
+                        <md-option ng-value="'attiva'">attiva</md-option>
+                        <md-option ng-value="'disdetta'">disdetta</md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
             <div class="form-group">
-                <label>Studente</label>
-                <input class="form-control" ng-model="studente">
+                <md-input-container style="width: -moz-available">
+                    <label>Studente</label>
+                    <md-select ng-model="studente">
+                        <md-option ng-repeat="x in studenti" ng-value="x.username">
+                            {{x.username}} - {{x.nome}} {{x.cognome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
             <div class="form-group">
-                <label>Docente</label>
-                <input class="form-control" ng-model="docente">
+                <md-input-container style="width: -moz-available">
+                    <label>Corso</label>
+                    <md-select ng-model="corso" ng-change="getDocenti()">
+                        <md-option ng-repeat="x in corsi" ng-value="x.titolo">
+                            {{x.titolo}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
             <div class="form-group">
-                <label>Corso</label>
-                <input class="form-control" ng-model="corso">
+                <md-input-container style="width: -moz-available">
+                    <label>Docente</label>
+                    <md-select ng-model="docente">
+                        <md-option ng-repeat="x in docenti" ng-value="x.username">
+                            {{x.username}} - {{x.nome}} {{x.cognome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
             <div class="form-group">
-                <label>Slot</label>
-                <input class="form-control" ng-model="slot">
+                <md-input-container style="width: -moz-available">
+                    <label>Slot</label>
+                    <md-select ng-model="slot">
+                        <md-option ng-value="1">1</md-option>
+                        <md-option ng-value="2">2</md-option>
+                        <md-option ng-value="3">3</md-option>
+                        <md-option ng-value="4">4</md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
             <div class="form-group">

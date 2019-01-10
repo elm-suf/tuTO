@@ -105,6 +105,7 @@ public class Controller extends HttpServlet {
                 break;
 
             case "insegnamenti":
+                res.setContentType("application/json");
                 try {
                     List<Docente> list = DocenteDAO.getAllInsegnaMateria
                             (req.getParameter("subject"));
