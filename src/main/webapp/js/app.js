@@ -6,7 +6,7 @@ studente.run(function ($rootScope) {
     function getCookie(cname) {
         var name = cname + "=";
         var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
+        for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -19,7 +19,7 @@ studente.run(function ($rootScope) {
     }
 
     console.log("studente.run");
-    console.log("cookie : "+ getCookie('logged'));
+    console.log("cookie : " + getCookie('logged'));
     console.log($rootScope.logged);
     $rootScope.logged = false;
     console.log($rootScope.logged);
@@ -157,8 +157,8 @@ function main($scope, $http, $rootScope) {
     }
 }
 
-function register_ctrl($scope, $http, $mdDialog){
-    $scope.register = function() {
+function register_ctrl($scope, $http, $mdDialog) {
+    $scope.register = function () {
         $http({
             method: 'POST',
             url: '/controller',
@@ -169,14 +169,14 @@ function register_ctrl($scope, $http, $mdDialog){
                 username: $scope.username,
                 password: $scope.password
             }
-        }).then(function (response){
-            if(response.status === 201) {
+        }).then(function (response) {
+            if (response.status === 201) {
                 var success = $mdDialog.alert()
                     .title('Registrazione avvenuta come:  ' + response.data["username"])
                     .ok('OK!');
                 $mdDialog.show(success);
             }
-        }, function(){
+        }, function () {
             var insuccess = $mdDialog.alert()
                 .title('Registrazione non avvenuta')
                 .ok('OK!');

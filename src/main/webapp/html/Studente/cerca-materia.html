@@ -1,56 +1,109 @@
 <div class="container" style="overflow: auto" ng-cloak>
-    <h1 class="page-header">Cerca Ripetizione</h1>
-    <hr>
-    <br>
-    <div>
-        <div ng-controller="cercaMateriaCtrl">
+    <!--<div>-->
+    <!--<div >-->
+    <div class="row my-4" ng-controller="cercaMateriaCtrl">
+        <div class="col">
+            <div class="jumbotron" ng-hide="detail">
+                <h1 class="page-header">Cerca Ripetizione</h1>
 
-            <div class="row mb-5 ml-2 mr-2">
-                <input class="form-control col-8" ng-model="inputcorso" type="text"
-                       placeholder="corso di interesse">
-                <input class="form-control col-4" type="button" ng-click="getInsegnanti(inputcorso)" value="Cerca">
-            </div>
-
-            <hr class="my-4">
-
-            <div class="row">
-                <div class="card col-sm-6 col-md-4 col-lg-3" ng-repeat="course in courses | filter:inputcorso" ng-hide="detail">
-                    <img class="card-img-top" src="/img/course.png" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{course.titolo}}</h5>
-                        <p class="card-text">e' uno dei tanti corsi che offriamo</p>
-                        <button class="btn btn-primary col" ng-click="getInsegnanti(course.titolo)">
-                            Mostra disponibili
-                        </button>
-                    </div>
+                <p class="lead">Seleziona il corso che ti interessa</p>
+                <hr>
+                <br>
+                <!--getInsegnanti(titolo_corso)-->
+                <div class="row mb-5 ml-2 mr-2">
+                    <input class="form-control col-8" ng-model="inputcorso" type="text"
+                           placeholder="corso di interesse">
+                    <input class="form-control col-4" type="button" ng-click="getInsegnanti(inputcorso)"
+                           value="Cerca">
                 </div>
-            </div>
+                <!--qui ci sta la parte sui corsi-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <!--mostra card per ogni corso disponibile-->
+                        <div ng-repeat="course in courses | filter:inputcorso"
+                             class="col-xs-6 col-sm-6 col-md-4 col-lg-3 d-flex">
+                            <div class="card flex-fill bg-light" style="text-align: center;">
+                                <div class="card-body">
+                                    <img class="card-img-top" src="/img/course.png" alt="Card image cap">
+                                    <h5 class="card-title">{{course.titolo}}</h5>
+                                    <p class="card-text">e' uno dei tanti corsi che offriamo</p>
+                                    <button class="btn btn-primary"
+                                            style="margin: auto; vertical-align: bottom; display: flex; border-radius: 32px;"
+                                            ng-click="getInsegnanti(course.titolo)">
+                                        Mostra disponibili
+                                    </button>
 
-            <div class="card" ng-repeat="docente in elenco" ng-show="detail">
-                <div class="col-md-12 bg-light">
-                    <div class="row my-3">
-                        <input ng-model="inputdata" placeholder="selezionare data" class="col" type="date">
-                        <button class="btn btn-primary float-right col"
-                                ng-click="mostraDisponibilita(docente, inputdata)">
-                            Mostra
-                            disponibilita
-                        </button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="col-md-12 bg-light">
-                        <div class="row my-3">
-                            <img class="rounded-circle d-sm-none d-md-block ml-3 mt-3"
-                                 src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.sammilanimahavidyalaya.org%2Fwp-content%2Fuploads%2F2016%2F01%2Fstudent-icon.png&f=1"
-                                 alt="Generic placeholder image" width="140" height="140">
-                            <h2 class="my-auto mx-auto ml-6">{{docente.username}}</h2>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            <button ng-repeat="item in disponibili" ng-click="effettuaPrenotazione(item,inputdata,docente)"
-                                    type="button" class="btn btn-success col-sm-6 col-md-3  my-3 mx-auto p-1">
-                                {{item}}
-                            </button>
+                        <!--<div class="col-sm d-flex">-->
+                        <!--<div class="card card-body flex-fill">-->
+                        <!--A small card content.-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm d-flex">-->
+                        <!--<div class="card card-body flex-fill">-->
+                        <!--"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod-->
+                        <!--tempor-->
+                        <!--incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis-->
+                        <!--nostrud-->
+                        <!--exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis-->
+                        <!--aute-->
+                        <!--irure dolor-->
+                        <!--in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla-->
+                        <!--pariatur.-->
+                        <!--Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia-->
+                        <!--deserunt-->
+                        <!--mollit anim id est laborum."-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm d-flex">-->
+                        <!--<div class="card card-body flex-fill">-->
+                        <!--Another small card content.-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="jumbotron" ng-show="detail">
+                <h1 class="page-header">Seleziona Insegnante</h1>
+                <input ng-model="inputdata" placeholder="selezionare data" class="col" type="date">
+                <hr>
+                <br>
+                <!--mostra insegnanti che insegnano determinato corso-->
+                <div class="container-fluid">
+                    <div class="row" ng-repeat="docente in elenco">
+                        <!--mostra card per ogni docgente-->
+                            <div class="card">
+
+                                <div class="col-md-12 bg-light">
+                                    <div class="row my-3">
+                                        <button class="btn btn-primary float-right col"
+                                                ng-click="mostraDisponibilita(docente, inputdata)">
+                                            Mostra
+                                            disponibilita
+                                        </button>
+                                    </div>
+
+                                <div class="col-md-12 bg-light">
+                                    <div class="row my-3">
+                                        <img class="rounded-circle d-sm-none d-md-block ml-3 mt-3"
+                                             src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.sammilanimahavidyalaya.org%2Fwp-content%2Fuploads%2F2016%2F01%2Fstudent-icon.png&f=1"
+                                             alt="Generic placeholder image" width="140" height="140">
+                                        <h2 class="my-auto mx-auto ml-6">{{docente.username}}</h2>
+                                    </div>
+                                    <div class="row">
+                                        <button ng-repeat="item in disponibili"
+                                                ng-click="effettuaPrenotazione(item,inputdata,docente)"
+                                                type="button"
+                                                class="btn btn-success col-sm-6 col-md-3  my-3 mx-auto p-1">
+                                            {{item}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
