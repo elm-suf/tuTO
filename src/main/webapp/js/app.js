@@ -113,10 +113,15 @@ studente.controller("main", main);
 
 amministratore.controller('dashboard_ctrl', dashboard_ctrl);
 amministratore.controller('studenti_ctrl', studenti_ctrl);
+amministratore.controller('inserisci_studente_ctrl', inserisci_studente_ctrl);
 amministratore.controller('docenti_ctrl', docenti_ctrl);
+amministratore.controller('inserisci_docente_ctrl', inserisci_docente_ctrl);
 amministratore.controller('corsi_ctrl', corsi_ctrl);
+amministratore.controller('inserisci_corso_ctrl', inserisci_corso_ctrl);
 amministratore.controller('prenotazioni_ctrl', prenotazioni_ctrl);
+amministratore.controller('inserisci_prenotazione_ctrl', inserisci_prenotazione_ctrl);
 amministratore.controller('insegnamenti_ctrl', insegnamenti_ctrl);
+amministratore.controller('inserisci_insegnamento_ctrl', inserisci_insegnamento_ctrl);
 amministratore.controller("profilo_ctrl", profilo_ctrl);
 amministratore.controller("main", main);
 
@@ -154,6 +159,201 @@ function main($scope, $http, $rootScope) {
             window.location.href = "/#login";
         })
 
+    }
+}
+
+function register_ctrl($scope, $http, $mdDialog) {
+    $scope.register = function () {
+function inserisci_studente_ctrl($scope, $http, $mdDialog) {
+    $scope.inserisci_studente = function () {
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'insert_student',
+                username: $scope.username,
+                password: $scope.password,
+                nome: $scope.nome,
+                cognome: $scope.cognome
+            }
+        }).then(function (value) {
+            console.log("value = " + value);
+            var success = $mdDialog.alert()
+                .title('Studente inserito')
+                .ok('OK!');
+            $mdDialog.show(success);
+
+        }, function (reason) {
+            console.log(reason);
+            var insuccess = $mdDialog.alert()
+                .title('Studente non inserito')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
+        })
+    }
+}
+
+function inserisci_docente_ctrl($scope, $http, $mdDialog) {
+    $scope.inserisci_docente = function () {
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'insert_docente',
+                username: $scope.username,
+                password: $scope.password,
+                nome: $scope.nome,
+                cognome: $scope.cognome
+            }
+        }).then(function (value) {
+            console.log("value = " + value);
+            var success = $mdDialog.alert()
+                .title('Docente inserito')
+                .ok('OK!');
+            $mdDialog.show(success);
+
+        }, function (reason) {
+            console.log(reason);
+            var insuccess = $mdDialog.alert()
+                .title('Docente non inserito')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
+        })
+    }
+}
+
+function inserisci_corso_ctrl($scope, $http, $mdDialog) {
+    $scope.inserisci_corso = function () {
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'insert_corso',
+                titolo: $scope.titolo
+            }
+        }).then(function (value) {
+            console.log("value = " + value);
+            var success = $mdDialog.alert()
+                .title('Corso inserito')
+                .ok('OK!');
+            $mdDialog.show(success);
+
+        }, function (reason) {
+            console.log(reason);
+            var insuccess = $mdDialog.alert()
+                .title('Corso non inserito')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
+        })
+    }
+}
+
+function inserisci_prenotazione_ctrl($scope, $http, $mdDialog) {
+    $http.get("/controller", {params: {'action': 'elenco_corsi'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.corsi = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
+        });
+
+    $http.get("/controller", {params: {'action': 'elenco_studenti'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.studenti = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
+        });
+
+    $scope.getDocenti = function(){
+        console.log("cambiato");
+        $http.get("/controller",
+            {
+                params: {
+                    action: 'insegnamenti',
+                    subject: $scope.corso
+                }
+            })
+            .then(function (response) {
+                console.log(response.data);
+                $scope.docenti = response.data;
+            })
+    };
+
+    $scope.inserisci_prenotazione = function () {
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'insert_prenotazione',
+                stato: $scope.stato,
+                studente: $scope.studente,
+                docente: $scope.docente,
+                corso: $scope.corso,
+                slot: $scope.slot,
+                data: $scope.data
+            }
+        }).then(function (value) {
+            console.log("value = " + value);
+            var success = $mdDialog.alert()
+                .title('Prenotazione inserita')
+                .ok('OK!');
+            $mdDialog.show(success);
+
+        }, function (reason) {
+            console.log(reason);
+            var insuccess = $mdDialog.alert()
+                .title('Prenotazione non inserita')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
+        })
+    }
+}
+
+function inserisci_insegnamento_ctrl($scope, $http, $mdDialog) {
+    $http.get("/controller", {params: {'action': 'elenco_corsi'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.corsi = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
+        });
+
+    $http.get("/controller", {params: {'action': 'elenco_docenti'}})
+        .then(function (response) {
+            console.log(response.data);
+            $scope.docenti = response.data;
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
+        });
+
+    $scope.inserisci_insegnamento = function () {
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'insert_insegnamento',
+                corso: $scope.corso,
+                docente: $scope.docente
+            }
+        }).then(function (value) {
+            console.log("value = " + value);
+            var success = $mdDialog.alert()
+                .title('Insegnamento inserito')
+                .ok('OK!');
+            $mdDialog.show(success);
+
+        }, function (reason) {
+            console.log(reason);
+            var insuccess = $mdDialog.alert()
+                .title('Insegnamento non inserito')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
+        })
     }
 }
 
@@ -519,10 +719,10 @@ function studenti_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
+            }, function (reason) {
+                console.log(reason);
+                location.replace("/html/login-register.html");
             });
-        }, function (reason) {
-            console.log(reason);
-            location.replace("/html/login-register.html");
         });
     };
 
@@ -564,10 +764,10 @@ function docenti_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
+            }, function (reason) {
+                console.log(reason);
+                location.replace("/html/login-register.html");
             });
-        }, function (reason) {
-            console.log(reason);
-            location.replace("/html/login-register.html");
         });
     };
 }
@@ -608,10 +808,10 @@ function corsi_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
+            }, function (reason) {
+                console.log(reason);
+                location.replace("/html/login-register.html");
             });
-        }, function (reason) {
-            console.log(reason);
-            location.replace("/html/login-register.html");
         });
     }
 }
@@ -657,10 +857,10 @@ function prenotazioni_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
+            }, function (reason) {
+                console.log(reason);
+                location.replace("/html/login-register.html");
             });
-        }, function (reason) {
-            console.log(reason);
-            location.replace("/html/login-register.html");
         });
     }
 }
@@ -702,10 +902,10 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
+            }, function (reason) {
+                console.log(reason);
+                location.replace("/html/login-register.html");
             });
-        }, function (reason) {
-            console.log(reason);
-            location.replace("/html/login-register.html");
         });
     }
 }

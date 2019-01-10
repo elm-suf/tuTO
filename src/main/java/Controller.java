@@ -105,6 +105,7 @@ public class Controller extends HttpServlet {
                 break;
 
             case "insegnamenti":
+                res.setContentType("application/json");
                 try {
                     List<Docente> list = DocenteDAO.getAllInsegnaMateria
                             (req.getParameter("subject"));
@@ -122,7 +123,10 @@ public class Controller extends HttpServlet {
 
                 try {
                     int status = StudenteDAO.insert(new Studente(username, password, nome, cognome));
-                    if (status < 1) res.sendError(500, "0 rows affected");
+                    if (status < 1)
+                        res.sendError(500, "0 rows affected");
+                    else
+                        res.setStatus(201);
                 } catch (SQLException e) {
                     e.getMessage();
                 }

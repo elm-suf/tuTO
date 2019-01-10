@@ -1,20 +1,32 @@
-<div class="container" style="overflow: auto">
+<div class="container" style="overflow: auto" ng-controller="inserisci_insegnamento_ctrl">
     <h1 class="page-header">Inserisci Insegnamento</h1>
     <hr>
     <br>
     <div class="row">
         <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
             <div class="form-group">
-                <label>Corso</label>
-                <input class="form-control" id="corso">
+                <md-input-container style="width: -moz-available">
+                    <label>Corso</label>
+                    <md-select ng-model="corso" ng-change="getDocenti()">
+                        <md-option ng-repeat="x in corsi" ng-value="x.titolo">
+                            {{x.titolo}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
             <div class="form-group">
-                <label>Docente</label>
-                <input class="form-control" id="docente">
+                <md-input-container style="width: -moz-available">
+                    <label>Docente</label>
+                    <md-select ng-model="docente">
+                        <md-option ng-repeat="x in docenti" ng-value="x.username">
+                            {{x.username}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
             <div class="form-group text-center">
-                <button id="insert-insegnamento" onclick="insertInsegnamento()" type="submit"
+                <button ng-click="inserisci_insegnamento()" type="submit"
                         class="btn btn-theme btn-lg btn-block">Inserisci
                 </button>
             </div>
