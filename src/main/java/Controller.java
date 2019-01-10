@@ -311,6 +311,7 @@ public class Controller extends HttpServlet {
                 break;
 
             case "disdisci":
+                res.setContentType("application/json");
                 int status = 0;
                 docente = req.getParameter("docente");
                 data = req.getParameter("data");
