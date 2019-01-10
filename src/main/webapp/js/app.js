@@ -515,8 +515,7 @@ function tabellaCtrl($scope, $http, $mdDialog) {
         $scope.fakeData = response.data;
     }, function (reason) {
         console.log(reason);
-        window.location.href = "/#login";
-        // location.replace("/html/-register.html");
+        location.replace = "/#login";
     });
 
     $scope.elimina = function (prenotazione, ev) {
@@ -550,9 +549,6 @@ function tabellaCtrl($scope, $http, $mdDialog) {
                     .cancel('Chiudi');
                 error.show();
             });
-        }, function (reason) {
-            console.log(reason);
-            location.replace("/html/login-register.html");
         });
     };
 }
