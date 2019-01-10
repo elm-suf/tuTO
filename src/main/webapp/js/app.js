@@ -444,9 +444,11 @@ function login_ctrl($scope, $http, $rootScope, $mdDialog) {
                 $rootScope.userlogged = response.data;
                 $rootScope.logged = true;
                 if (getCookie('isAdmin') == 'true') {
+                    $rootScope.isAdmin = true;
                     console.log("amsssministratore");
                     window.location = "/html/Amministratore/index.html";
                 } else {
+                    $rootScope.isAdmin = false;
                     window.location = "/#";
                 }
             }
@@ -500,7 +502,7 @@ function homepage_ctrl($scope, $rootScope, $http) {
 
 }
 
-function tabellaCtrl($scope, $http) {
+function tabellaCtrl($scope, $http, $mdDialog) {
     $http({
         method: 'get',
         url: '/controller',
@@ -517,44 +519,42 @@ function tabellaCtrl($scope, $http) {
         // location.replace("/html/-register.html");
     });
 
-    $scope.delete = function (prenotazione) {
-        console.log("elimina prenotazione : " + prenotazione.data);
-        console.log("elimina fakedata =  : " + $scope.fakeData);
-        // if (confirm("sei sicuro?")) {
-        mscConfirm("Delete?", "Sicuro sicuro?", function () {
-            var bool = deleteEntry(prenotazione, $http);
-            if (bool) {
+    $scope.elimina = function (prenotazione, ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Sei sicuro?')
+            .targetEvent(ev)
+            .ok('OK!')
+            .cancel('Chiudi');
+
+        $mdDialog.show(confirm).then(function () {
+            $http({
+                method: 'GET',
+                url: "/controller",
+                params: {
+                    action: 'disdisci',
+                    docente: prenotazione.docente,
+                    data: prenotazione.data,
+                    slot: prenotazione.slot,
+                    studente: 'studente'
+
+                }
+            }).then(function () {
                 var index = $scope.fakeData.indexOf(prenotazione);
                 if (index > -1) {
                     $scope.fakeData[index].stato = 'disdetta';
                 }
-                alert("Deleted")
-            } else {
-                prompt("couldn't delete");
-            }
-        });
-
-    };
-
-    function deleteEntry(prenotazione, $http) {
-        $http({
-            method: 'get',
-            url: '/controller',
-            params: {
-                action: 'disdisci',
-                docente: prenotazione.docente,
-                data: prenotazione.data,
-                slot: prenotazione.slot,
-                studente: 'studente'  //todo SESSIONE
-            }
-        }).then(function (response) {
-            console.log(response.data);
+            }, function () {
+                var error = $mdDialog.confirm()
+                    .title('Disdetta non riuscita')
+                    .ok('OK!')
+                    .cancel('Chiudi');
+                error.show();
+            });
         }, function (reason) {
-            console.log("++++++Reason+++++++  " + reason);
-            return false;
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
-        return true;
-    }
+    };
 }
 
 
