@@ -277,11 +277,8 @@ function inserisci_prenotazione_ctrl($scope, $http, $mdDialog) {
             .then(function (response) {
                 console.log(response.data);
                 $scope.docenti = response.data;
-            }, function (reason) {
-                console.log(reason);
-                location.replace("/html/login-register.html");
-            });
-    }
+            })
+    };
 
     $scope.inserisci_prenotazione = function () {
         $http({
