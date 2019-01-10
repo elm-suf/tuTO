@@ -1,7 +1,7 @@
 <div class="container" ng-app="studente">
 
-    <div class="row" ng-controller="login_ctrl">
-        <div class="col-sm-12 col-md-5 float-left">
+    <div class="row">
+        <div class="col-sm-12 col-md-5 float-left" ng-controller="login_ctrl">
             <h1 class="page-header text-center">Login</h1>
             <br>
             <div class="container mt-auto">
@@ -33,9 +33,11 @@
                                 <input ng-model="cognome" type="text" class="form-control" placeholder="Cognome">
                             </div>
                         </div>
-                        <input ng-model="username" ng-change="check_availability()" type="text" ng-focus="focus = true" ng-blur="focus = false"
+                        <input ng-model="username" ng-change="check_availability()" type="text" ng-focus="focus = true"
+                               ng-blur="focus = false"
                                class="form-control mb-3" placeholder="Username">
-                        <div ng-show="username && focus || user_availability == 'non disponibile'" class="alert" role="alert"
+                        <div ng-show="username && focus || user_availability == 'non disponibile'" class="alert"
+                             role="alert"
                              ng-model="user_availability"
                              ng-style="{'text-align': 'center', 'background-color': user_availability == 'disponibile' ? '#d4edda' : '#f8d7da',
                              'color': user_availability == 'disponibile' ? '#155724' : '#721c24',
