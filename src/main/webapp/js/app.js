@@ -141,6 +141,12 @@ function getCookie(cname) {
 }
 
 function main($scope, $http, $rootScope) {
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
 
     $scope.logout = function () {
         console.log("logout");
@@ -154,6 +160,7 @@ function main($scope, $http, $rootScope) {
         }).then(function (value) {
             console.log("value = " + value);
             window.location.href = "/#login";
+            setCookie("logged", false, 1);
         }, function (reason) {
             console.log(reason);
             window.location.href = "/#login";
@@ -162,8 +169,6 @@ function main($scope, $http, $rootScope) {
     }
 }
 
-function register_ctrl($scope, $http, $mdDialog) {
-    $scope.register = function () {
 function inserisci_studente_ctrl($scope, $http, $mdDialog) {
     $scope.inserisci_studente = function () {
         $http({
@@ -267,7 +272,7 @@ function inserisci_prenotazione_ctrl($scope, $http, $mdDialog) {
             location.replace("/html/login-register.html");
         });
 
-    $scope.getDocenti = function(){
+    $scope.getDocenti = function () {
         console.log("cambiato");
         $http.get("/controller",
             {
@@ -384,8 +389,6 @@ function register_ctrl($scope, $http, $mdDialog) {
         })
     }
 }
-
-
 function login_ctrl($scope, $http, $rootScope) {
     $scope.login = function () {
         console.log($scope.username, $scope.password);
@@ -403,7 +406,6 @@ function login_ctrl($scope, $http, $rootScope) {
             console.log(response.data);
             console.log(getCookie('isAdmin'));
             if (response.status === 200) {
-
                 $rootScope.userlogged = response.data;
                 $rootScope.logged = true;
                 if (getCookie('isAdmin') == 'true') {
@@ -435,13 +437,6 @@ function login_ctrl($scope, $http, $rootScope) {
             }
         }
         return "";
-    }
-
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 }
 
@@ -525,8 +520,7 @@ function tabellaCtrl($scope, $http) {
 }
 
 
-function cercaMateriaCtrl($scope, $http) {
-    $scope.inputcorso;
+function cercaMateriaCtrl($scope, $rootScope, $http, $mdDialog, $anchorScroll, $location) {
     $scope.detail = false;
     console.log("inside controller");
     var init = function () {
@@ -545,12 +539,12 @@ function cercaMateriaCtrl($scope, $http) {
 
     //essenzialmente aggiorno il valore di elenco su cui faccio li
     $scope.getInsegnanti = function (course) {
-        $scope.inputcorso = course;
+
+        $scope.corso = course;
         $scope.detail = true;
-        // console.log("fammi vedere gli insegnanti che insegnano " + course.titolo);
         console.log("titolto" + course);
-        console.log("iTHISnputcorso = " + this.inputcorso);
-        console.log("Scopenputcorso = " + $scope.inputcorso);
+        console.log("iTHISnputcorso = " + this.corso);
+        console.log("Scopenputcorso = " + $scope.corso);
 
         $http({
             method: 'GET',
@@ -560,9 +554,20 @@ function cercaMateriaCtrl($scope, $http) {
                 'subject': course//.titolo
             }
         }).then(function (response) {
+            $anchorScroll("scroll_to_docenti");
             $scope.elenco = response.data;
+            if ($scope.elenco.length == 0){
+                var dialog = $mdDialog.alert()
+                    .title('Nessun docente disponibile')
+                    .ok('OK!');
+                $mdDialog.show(dialog);
+            }
             //console.log(response.data);
         }, function (reason) {
+            var dialog = $mdDialog.alert()
+                .title('Nessun docente disponibile')
+                .ok('OK!');
+            $mdDialog.show(dialog);
             console.log(reason);
             location.replace("/html/login-register.html");
         });
@@ -571,7 +576,12 @@ function cercaMateriaCtrl($scope, $http) {
     $scope.mostraDisponibilita = function (docente, inputdata) {
         console.log("mostro disponibilita input ");
         console.log(inputdata);
-
+        if (inputdata == undefined) {
+            var dialog = $mdDialog.alert()
+                .title('Seleziona una data')
+                .ok('OK!');
+            $mdDialog.show(dialog);
+        }
         var date = inputdata.getFullYear() + '-' + (inputdata.getMonth() + 1) + '-' + inputdata.getDate();
         console.log('date = ' + date);
 
@@ -585,10 +595,19 @@ function cercaMateriaCtrl($scope, $http) {
             }
         }).then(function (response) {
             // $scope.elenco = response.data;
-            console.log(response.data);
-            $scope.disponibili = response.data;
-            console.log('scope' + $scope.disponibili);
+            if (response.data.length == 0) {
+                var dialog = $mdDialog.alert()
+                    .title("Nessun slot diponibile in questa data")
+                    .ok('OK!');
+                $mdDialog.show(dialog);
+            }
+            docente.disponibili = response.data;
+            console.log('scope docente.disponibili' + docente.disponibili);
         }, function (reason) {
+            var dialog = $mdDialog.alert()
+                .title(reason.data)
+                .ok('OK!');
+            $mdDialog.show(dialog);
             console.log(reason);
             location.replace("/html/login-register.html");
         });
@@ -596,10 +615,18 @@ function cercaMateriaCtrl($scope, $http) {
 
     $scope.effettuaPrenotazione = function (slot, inputdata, docente) {
         console.log(slot);
-        console.log("thisinput " + this.inputcorso);
-        console.log("Scopenputcorso = " + $scope.inputcorso);
+
+        console.log("thisinput " + this.corso);
+        console.log("Scopenputcorso = " + $scope.corso);
 
         var date = inputdata.getFullYear() + '-' + (inputdata.getMonth() + 1) + '-' + inputdata.getDate();
+
+        var confirm = $mdDialog.confirm()
+            .title('Controlla stato del login')
+            .ok('OK!');
+        if (!$rootScope.logged) {
+            $mdDialog.show(confirm);
+        }
 
         $http({
             method: 'post',
@@ -607,17 +634,20 @@ function cercaMateriaCtrl($scope, $http) {
             params: {
                 'action': 'prenotazione',
                 'slot': slot,
-                'docente': docente.username,  //todo-done sistemare qui
-                'corso': this.inputcorso,      //todo sistema qui
+                'docente': docente.username,
+                'corso': this.corso,
                 'data': date,
                 'stato': 'attiva'
             }
         }).then(function (response) {
+            var confirm = $mdDialog.confirm()
+                .title("Prenotazione avvenuta con successo")
+                .ok('OK!');
+            $mdDialog.show(confirm);
             console.log(response);
-            console.log("splice " + $scope.disponibili.indexOf(slot));
-            $scope.disponibili.splice($scope.disponibili.indexOf(slot), 1);
+            console.log("splice " + docente.disponibili.indexOf(slot));
+            docente.disponibili.splice(docente.disponibili.indexOf(slot), 1);
         }, function (reason) {
-            console.log("~~~~~~~~~~~~~~~~");
             console.log(reason);
             window.location.href = "/#login";
         });
@@ -644,8 +674,8 @@ function prenotaCtrl($scope, $http) {
         }).then(function (response) {
             // $scope.elenco = response.data;
             console.log(response.data);
-            $scope.disponibili = response.data;
-            console.log('scope' + $scope.disponibili);
+            docente.disponibili = response.data;
+            console.log('scope' + docente.disponibili);
         }, function (reason) {
             console.log(reason);
             location.replace("/html/login-register.html");
@@ -656,7 +686,6 @@ function prenotaCtrl($scope, $http) {
 
     $scope.effettuaPrenotazione = function (slot) {
         console.log(slot);
-        console.log($scope.inputcorso);
 
         var date = $scope.inputdata.getFullYear() + '-' + ($scope.inputdata.getMonth() + 1) + '-' + $scope.inputdata.getDate();
 
@@ -667,7 +696,7 @@ function prenotaCtrl($scope, $http) {
                 'action': 'prenotazione',
                 'slot': slot,
                 'docente': $scope.docente.username,  //todo-done sistemare qui
-                'corso': $scope.inputcorso,      //todo sistema qui
+                'corso': $scope.corso,      //todo sistema qui
                 'data': date,
                 'stato': 'attiva'
             }
@@ -719,10 +748,10 @@ function studenti_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
-            }, function (reason) {
-                console.log(reason);
-                location.replace("/html/login-register.html");
             });
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     };
 
@@ -764,10 +793,10 @@ function docenti_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
-            }, function (reason) {
-                console.log(reason);
-                location.replace("/html/login-register.html");
             });
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     };
 }
@@ -808,10 +837,10 @@ function corsi_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
-            }, function (reason) {
-                console.log(reason);
-                location.replace("/html/login-register.html");
             });
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     }
 }
@@ -857,10 +886,10 @@ function prenotazioni_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
-            }, function (reason) {
-                console.log(reason);
-                location.replace("/html/login-register.html");
             });
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     }
 }
@@ -902,10 +931,10 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
                     console.log(response.data);
                     $scope.tabella = response.data;
                 })
-            }, function (reason) {
-                console.log(reason);
-                location.replace("/html/login-register.html");
             });
+        }, function (reason) {
+            console.log(reason);
+            location.replace("/html/login-register.html");
         });
     }
 }

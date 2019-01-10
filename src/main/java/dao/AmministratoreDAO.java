@@ -100,6 +100,7 @@ public class AmministratoreDAO {
         try {
             st = conn.prepareStatement(exists);
             st.setString(1, username);
+            System.out.println(st.toString());
             ResultSet rs = st.executeQuery();
             return rs.next();
         }finally {
@@ -116,6 +117,7 @@ public class AmministratoreDAO {
             st = conn.prepareStatement(checkPassword);
             st.setString(1, username);
             st.setString(2, password);
+            System.out.println(st.toString());
             ResultSet rs = st.executeQuery();
             return rs.next();
         }finally {
