@@ -387,6 +387,19 @@ public class Controller extends HttpServlet {
                     System.out.println("Errore catch statistiche");
                 }
                 break;
+
+            case "check_availability":
+                res.setContentType("application/json");
+                username = req.getParameter("username");
+                try {
+                    if(AmministratoreDAO.exists(username) || StudenteDAO.exists(username))
+                      res.setStatus(401);
+                    else
+                        res.setStatus(200);
+                } catch (SQLException e) {
+                    res.sendError(401);
+                }
+                break;
         }
 
     }

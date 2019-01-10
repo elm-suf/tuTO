@@ -363,7 +363,16 @@ function inserisci_insegnamento_ctrl($scope, $http, $mdDialog) {
 }
 
 function register_ctrl($scope, $http, $mdDialog) {
+
     $scope.register = function () {
+        if($scope.password !== $scope.passwordp){
+            console.log("password1: " + $scope.password + " e password2: " + $scope.passwordp);
+            var insuccess = $mdDialog.alert()
+                .title('Le password inserite non corrispondono')
+                .ok('OK!');
+            $mdDialog.show(insuccess);
+            return;
+        }
         $http({
             method: 'POST',
             url: '/controller',
@@ -387,9 +396,29 @@ function register_ctrl($scope, $http, $mdDialog) {
                 .ok('OK!');
             $mdDialog.show(insuccess);
         })
-    }
+    };
+
+    $scope.check_availability = function(){
+        $http({
+            method: 'POST',
+            url: '/controller',
+            params: {
+                action: 'check_availability',
+                username: $scope.username
+            }
+        }).then(function () {
+            $scope.customStyle = {"color":"green"};
+            $scope.user_availability = 'disponibile';
+            console.log($scope.username + " è disponibile")
+        }, function(){
+            console.log("username" + $scope.username + " non disponibile");
+            $scope.customStyle = {"color":"red"};
+            $scope.user_availability = 'non disponibile'
+        });
+    };
+
 }
-function login_ctrl($scope, $http, $rootScope) {
+function login_ctrl($scope, $http, $rootScope, $mdDialog) {
     $scope.login = function () {
         console.log($scope.username, $scope.password);
         $http({
@@ -419,7 +448,10 @@ function login_ctrl($scope, $http, $rootScope) {
             console.log(reason);
             $rootScope.logged = "false";
             console.log(reason.data);
-            alert(reason.statusText);
+            var dialog = $mdDialog.alert()
+                .title('Utente non registrato')
+                .ok('OK!');
+            $mdDialog.show(dialog);
         });
     };
 
@@ -939,7 +971,9 @@ function insegnamenti_ctrl($scope, $http, $mdDialog) {
     }
 }
 
-function profilo_ctrl($scope, $http) {
+function profilo_ctrl($scope, $http, $rootScope) {
+    if ($rootScope.logged === false)
+        window.location.href = "/#cerca";
     $http.get("/controller", {params: {'action': 'profilo'}})
         .then(function (response) {
             console.log(response.data);
