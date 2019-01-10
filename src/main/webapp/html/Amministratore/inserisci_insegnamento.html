@@ -1,4 +1,4 @@
-<div class="container" style="overflow: auto">
+<div class="container" style="overflow: auto" ng-controller="inserisci_insegnamento_ctrl">
     <h1 class="page-header">Inserisci Insegnamento</h1>
     <hr>
     <br>
@@ -6,15 +6,15 @@
         <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
             <div class="form-group">
                 <label>Corso</label>
-                <input class="form-control" id="corso">
+                <input class="form-control" ng-model="corso">
             </div>
 
             <div class="form-group">
                 <label>Docente</label>
-                <input class="form-control" id="docente">
+                <input class="form-control" ng-model="docente">
             </div>
             <div class="form-group text-center">
-                <button id="insert-insegnamento" onclick="insertInsegnamento()" type="submit"
+                <button ng-click="inserisci_insegnamento()" type="submit"
                         class="btn btn-theme btn-lg btn-block">Inserisci
                 </button>
             </div>

@@ -1,4 +1,4 @@
-<div class="container" style="overflow: auto">
+<div class="container" style="overflow: auto" ng-controller="inserisci_prenotazione_ctrl">
     <h1 class="page-header">Inserisci Prenotazione</h1>
     <hr>
     <br>
@@ -6,37 +6,37 @@
         <form class="col-xs-12 col-sm-8 col-md-6 col-lg-6" role="form">
 
             <div class="form-group">
-                <label for="stato">Stato</label>
-                <input id="stato" type="text" class="form-control">
+                <label>Stato</label>
+                <input ng-model="stato" type="text" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="studente">Studente</label>
-                <input class="form-control" id="studente">
+                <label>Studente</label>
+                <input class="form-control" ng-model="studente">
             </div>
 
             <div class="form-group">
-                <label for="docente">Docente</label>
-                <input class="form-control" id="docente">
+                <label>Docente</label>
+                <input class="form-control" ng-model="docente">
             </div>
 
             <div class="form-group">
-                <label for="corso">Corso</label>
-                <input class="form-control" id="corso">
+                <label>Corso</label>
+                <input class="form-control" ng-model="corso">
             </div>
 
             <div class="form-group">
-                <label for="slot">Slot</label>
-                <input class="form-control" id="slot">
+                <label>Slot</label>
+                <input class="form-control" ng-model="slot">
             </div>
 
             <div class="form-group">
-                <label for="data">Data</label>
-                <input class="form-control" id="data" type="date">
+                <label>Data</label>
+                <input class="form-control" ng-model="data" type="date">
             </div>
 
             <div class="form-group text-center">
-                <button id="insert-prenotazione" onclick="insertPrenotazione()" type="submit"
+                <button ng-click="inserisci_prenotazione()" type="submit"
                         class="btn btn-theme btn-lg btn-block">Inserisci
                 </button>
             </div>
