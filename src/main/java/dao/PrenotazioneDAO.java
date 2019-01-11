@@ -92,9 +92,6 @@ public class PrenotazioneDAO {
             st.setString(3, slot);
             System.out.println(st.toString());
             return st.executeUpdate();
-        } catch (SQLException e){
-            e.getMessage();
-            return -1;
         }finally {
             if (st != null) st.close();
             if (conn != null) conn.close();

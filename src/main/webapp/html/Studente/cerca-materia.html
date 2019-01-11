@@ -4,25 +4,22 @@
     <div class="row my-4" ng-controller="cercaMateriaCtrl">
         <div class="col">
             <div class="jumbotron">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a href="#/"><h1 class="page-header">Cerca Ripetizione</h1></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span></button>
-
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <!--getInsegnanti(titolo_corso)-->
-                        <form class="form-inline my-2 my-lg-0 ml-auto">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                                   ng-model="inputcorso" type="text">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
-                                    ng-click="getInsegnanti(inputcorso)">Search
-                            </button>
-                        </form>
+                <!--getInsegnanti(titolo_corso)-->
+                <div class="row">
+                    <a class="col-12" href="#/"><h1 class="page-header">Cerca Ripetizione</h1></a>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col-md-7 mr-4">
+                        <input class="form-control" type="search" placeholder="Search"
+                               aria-label="Search"
+                               ng-model="inputcorso" type="text">
                     </div>
-                </nav>
+                    <div class="col col-sm-12 col-md-4 mt-1">
+                        <button class="btn btn-outline-success btn-lg btn-block " type="submit"
+                                ng-click="getInsegnanti(inputcorso)">Search
+                        </button>
+                    </div>
+                </div>
 
                 <hr>
                 <br>
@@ -34,7 +31,7 @@
                              class="col-xs-6 col-sm-6 col-md-4 col-lg-3 d-flex">
                             <div class="card flex-fill bg-light" style="text-align: center;">
                                 <div class="card-body">
-                                    <img class="card-img-top" src="/img/course.png" alt="Card image cap">
+                                    <img class="card-img-top d-none d-sm-block" src="/img/course.png" alt="Card image cap">
                                     <h5 class="card-title">{{course.titolo}}</h5>
                                     <p class="card-text">e' uno dei tanti corsi che offriamo</p>
                                     <button class="btn btn-primary"

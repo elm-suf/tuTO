@@ -321,18 +321,16 @@ public class Controller extends HttpServlet {
                 try {
                     status = PrenotazioneDAO.disdisci(docente, data, slot);
                 } catch (SQLException e) {
+                    res.sendError(500, e.getSQLState());
                     e.printStackTrace();
                 }
                 System.out.println("action disdisci terminata con status " + status);
 
                 if (status > 0) {
                     res.setStatus(200);
-                    out.println("OK");
                 } else {
                     //todo redirect to login page
-                    out.println("NOT OK");
-                    res.setStatus(500);
-//                    res.sendRedirect("/login-register.html");
+                    res.sendError(500);
                 }
                 break;
 
@@ -393,8 +391,8 @@ public class Controller extends HttpServlet {
                 res.setContentType("application/json");
                 username = req.getParameter("username");
                 try {
-                    if(AmministratoreDAO.exists(username) || StudenteDAO.exists(username))
-                      res.setStatus(401);
+                    if (AmministratoreDAO.exists(username) || StudenteDAO.exists(username))
+                        res.setStatus(401);
                     else
                         res.setStatus(200);
                 } catch (SQLException e) {

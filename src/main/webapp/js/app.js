@@ -188,7 +188,6 @@ function inserisci_studente_ctrl($scope, $http, $mdDialog) {
                 .ok('OK!');
             $mdDialog.show(success);
             $scope.username = $scope.password = $scope.nome = $scope.cognome = ''
-
         }, function (reason) {
             console.log(reason);
             var insuccess = $mdDialog.alert()
@@ -538,16 +537,23 @@ function tabellaCtrl($scope, $http, $mdDialog) {
 
                 }
             }).then(function () {
+                prenotazione.stato= 'disdetta';
+                var error = $mdDialog.confirm()
+                    .title('Disdetta riuscita' + prenotazione.stato)
+                    .ok('OK!');
                 var index = $scope.fakeData.indexOf(prenotazione);
-                if (index > -1) {
-                    $scope.fakeData[index].stato = 'disdetta';
-                }
+                $mdDialog.show(error);
+                console.log(index);
+                console.log( $scope.fakeData[index].stato);
+                // if (index > -1) {
+                //     $scope.fakeData[index].stato = 'disdetta';
+                // }
             }, function () {
                 var error = $mdDialog.confirm()
                     .title('Disdetta non riuscita')
                     .ok('OK!')
                     .cancel('Chiudi');
-                error.show();
+                $mdDialog.show(error);
             });
         });
     };
